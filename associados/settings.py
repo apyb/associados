@@ -140,7 +140,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     #extra
-    'django-compressor',
+    'compressor',
     'django_extensions',
     'sorl.thumbnail',
     'gravatar',
