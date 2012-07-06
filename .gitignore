@@ -36,3 +36,4 @@ nbproject
 node_modules
 
 settings_local.py
+associados/static/docs/*
