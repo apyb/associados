@@ -90,8 +90,11 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
 )
+
+# Controls the subfolder which compressor puts the LESS / Javascript files in
+COMPRESS_OUTPUT_DIR = 'cache'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'yc!+ii!psza0mi)&amp;vnn_rdsip5ipdyr(0w8hjllxw6p)!wgo1e'
@@ -137,6 +140,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     #extra
+    'django-compressor',
     'django_extensions',
     'sorl.thumbnail',
     'gravatar',

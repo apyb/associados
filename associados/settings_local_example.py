@@ -4,6 +4,11 @@ import sys
 
 INTERNAL_IPS = ('127.0.0.1',)
 
+# You've installed lessc, right?
+COMPRESS_PRECOMPILERS = (
+    ('text/less', '/opt/local/lib/node_modules/less/bin/lessc {infile} {outfile}'),
+)
+
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False
 }
