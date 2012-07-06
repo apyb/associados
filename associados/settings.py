@@ -90,8 +90,18 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
+
+
+PIPELINE_LESS_BINARY = (
+)
+
+PIPELINE_COMPILERS = (
+  'pipeline.compilers.less.LessCompiler',
+  'pipeline.compilers.stylus.StylusCompiler',
+)
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 # Controls the subfolder which compressor puts the LESS / Javascript files in
 COMPRESS_OUTPUT_DIR = 'cache'
@@ -114,6 +124,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'pipeline.middleware.MinifyHTMLMiddleware',
 )
 
 ROOT_URLCONF = 'associados.urls'
@@ -140,7 +152,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     #extra
-    'compressor',
+    'pipeline',
     'django_extensions',
     'sorl.thumbnail',
     'gravatar',
