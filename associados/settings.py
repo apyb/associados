@@ -177,6 +177,6 @@ LOGGING = {
 
 # Local settings
 try:
-    execfile('lead/settings_local.py')
+    execfile('associados/settings_local.py')
 except IOError:
     pass
