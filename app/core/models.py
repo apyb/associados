@@ -12,8 +12,7 @@ from managers import CanceledManager, ActiveManager
 
 class DefaultFields(models.Model):
     """
-    Class Abstract Fields with latitude (lat), longitude (lon)
-    created date (created_at), updated date (updated_at)
+    Class Abstract created date (created_at), updated date (updated_at)
     and active (active)
     """
     created_at = models.DateTimeField(auto_now_add=True)
@@ -27,21 +26,7 @@ class DefaultFields(models.Model):
         abstract = True
 
 
-class DefaultGeoFields(DefaultFields):
-    """
-    Class Abstract Fields with created date (created_at),
-    updated date (updated_at) and active
-    """
-    lat = models.FloatField(null=True, blank=True, db_index=True)
-    lon = models.FloatField(null=True, blank=True, db_index=True)
 
-    objects = ActiveManager()
-    canceleds = CanceledManager()
-
-    class Meta:
-        abstract = True
-
-
-class TestDefaultFields(DefaultGeoFields):
+class TestDefaultFields(DefaultFields):
     "just for test manager"
     pass
