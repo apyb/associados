@@ -9,7 +9,7 @@ rm .coverage
 PARMS=--omit='*migrations*'
 
 # run the tests and collect coverage, only for our applications
-coverage run manage.py test
+coverage run manage.py test --settings=associados.settings_test
 
 # generate plaintext and HTML report
 echo "----------------------------"
