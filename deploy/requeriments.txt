@@ -2,3 +2,4 @@ Django==1.4
 django-extensions==0.9
 sorl-thumbnail==11.12
 django-gravatar==0.1.
+django-pipeline==1.2.11
