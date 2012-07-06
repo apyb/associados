@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import sys
+from settings import *
 
 INTERNAL_IPS = ('127.0.0.1',)
 
@@ -35,5 +36,4 @@ INSTALLED_APPS.append(
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = '/tmp/lead-messages'  # change this to a proper location
 
-if 'test' in sys.argv:
-    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3', 'NAME': '::memory::'}
+

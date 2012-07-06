@@ -2,6 +2,7 @@
 # encoding: utf-8
 # Django settings for associados project.
 import os
+import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -17,7 +18,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(BASEDIR, 'db', 'associados.sqlite'), # Or path to database file if using sqlite3.
+        'NAME': os.path.join(BASEDIR, 'associados.sqlite'), # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -191,8 +192,6 @@ LOGGING = {
     }
 }
 
-# Local settings
-try:
-    execfile('associados/settings_local.py')
-except IOError:
-    pass
+if 'test' in sys.argv:
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3', 'NAME': '::memory::'}
+
