@@ -8,7 +8,7 @@ Copyright (c) 2012 valdergallo. All rights reserved.
 """
 
 from django.test import TestCase
-from models import TestDefaultFields
+from app.core.models import TestDefaultFields
 from django_dynamic_fixture import G
 
 
