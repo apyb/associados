@@ -10,7 +10,8 @@ BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.path.pardi
 
 ADMINS = (
     ('Valder Gallo', 'valdergallo@gmail.com'),
-)
+    ('Marcos Daniel Petry', 'marcospetry@gmail.com'),
+    )
 
 
 MANAGERS = ADMINS
@@ -167,7 +168,7 @@ INSTALLED_APPS = (
     #apps
     'associados',
     'app.core',
-    'app.auth',
+    'app.people',
 )
 
 # A sample logging configuration. The only tangible logging
