@@ -9,5 +9,5 @@ before_install:
 
 script: python manage.py test --settings=associados.settings_test --verbosity=2
 install: 
-  - pip install -r deploy/requirements-dev.txt --use-mirrors
+  - pip install -r deploy/requirements_test.txt --use-mirrors
   - pip install -r deploy/requirements.txt --use-mirrors
