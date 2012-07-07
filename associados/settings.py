@@ -161,6 +161,7 @@ INSTALLED_APPS = (
     #apps
     'associados',
     'app.core',
+    'app.auth',
 )
 
 # A sample logging configuration. The only tangible logging
