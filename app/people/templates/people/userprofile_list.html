@@ -1,10 +1,26 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Members{% endblock %}
 
-</body>
-</html>
+
+{% block content %}
+    <h1>Members</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for member in object_list %}
+            <tr>
+                <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
+                <td>{{ member.get_category_display }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
