@@ -1,16 +1,20 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+# -*- coding: utf-8 -*-
 
-Replace this with more appropriate tests for your application.
-"""
+from django.core.urlresolvers import reverse
 
 from django.test import TestCase
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class PeopleTest(TestCase):
+
+    def setUp(self):
+        super(PeopleTest, self).setUp()
+        url = reverse('people-members-list')
+        self.response = self.client.get(url)
+
+    def test_list_view_works(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_flatpage_render_custom_template(self):
+        templates = [template.name for template in self.response.templates]
+        self.assertIn('people/userprofile_list.html', templates)
