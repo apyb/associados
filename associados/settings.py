@@ -168,7 +168,7 @@ INSTALLED_APPS = (
     #apps
     'associados',
     'app.core',
-    'app.people',
+    'app.members',
 )
 
 # A sample logging configuration. The only tangible logging
