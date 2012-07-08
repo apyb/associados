@@ -35,26 +35,21 @@ def get_public_key_storage_path(instance, filename):
 
 
 class UserProfile(DefaultFields):
-    CATEGORY_CHOICE = ((1, _('Student')),
-                       (2, _('Member')))
+    CATEGORY_CHOICE = (('1', _('Student')),
+                       ('2', _('Member')))
 
     user = models.OneToOneField(User)
-    organization = models.ForeignKey(Organization, null=True)
-    cpf = models.CharField(_('CPF'), max_length=11, db_index=True, null=True)
-    fone = models.CharField(_('Fone'), max_length=50, null=True)
-    address = models.TextField(_('Address'), null=True)
-    city = models.ForeignKey(City, db_index=True, null=True)
+    organization = models.ForeignKey(Organization, null=True, blank=True)
+    cpf = models.CharField(_('CPF'), max_length=11, db_index=True)
+    fone = models.CharField(_('Fone'), max_length=50, null=True, blank=True)
+    address = models.TextField(_('Address'), null=True, blank=True)
+    city = models.ForeignKey(City, db_index=True)
     public_key = models.FileField(_('Public Key'), upload_to=get_public_key_storage_path,
-                                  null=True)
+                                  null=True, blank=True)
     category = models.CharField(_('Category'), max_length=1, choices=CATEGORY_CHOICE,
-                                db_index=True, null=True)
+                                db_index=True)
     relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
     malling = models.BooleanField(_('Malling'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
 
 
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
-post_save.connect(create_user_profile, sender=User)
