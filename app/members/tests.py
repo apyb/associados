@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from django.test import TestCase
-from app.members.models import UserProfile
+from app.members.models import Member
 
 from django_dynamic_fixture import G
 
@@ -22,7 +22,7 @@ class PeopleTest(TestCase):
 
     def test_flatpage_render_custom_template(self):
         templates = [template.name for template in self.response.templates]
-        self.assertIn('members/userprofile_list.html', templates)
+        self.assertIn('members/member_list.html', templates)
 
     def _create_user(self, first_name, last_name, category='1'):
         user = User.objects.create(
@@ -30,7 +30,7 @@ class PeopleTest(TestCase):
             last_name=last_name,
 
         )
-        G(UserProfile, user=user, category=category)
+        G(Member, user=user, category=category)
 
     def test_member_data_are_rendered_in_template(self):
         self.assertIn('test test', self.response.rendered_content)
