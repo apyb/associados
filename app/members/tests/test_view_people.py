@@ -17,10 +17,10 @@ class PeopleTest(TestCase):
         url = reverse('people-members-list')
         self.response = self.client.get(url)
 
-    def test_list_view_works(self):
+    def test_should_have_a_route(self):
         self.assertEqual(self.response.status_code, 200)
 
-    def test_flatpage_render_custom_template(self):
+    def test_should_render_the_correctly_template(self):
         templates = [template.name for template in self.response.templates]
         self.assertIn('members/member_list.html', templates)
 
@@ -32,7 +32,7 @@ class PeopleTest(TestCase):
         )
         G(Member, user=user, category=category)
 
-    def test_member_data_are_rendered_in_template(self):
+    def test_should_render_the_members(self):
         self.assertIn('test test', self.response.rendered_content)
         self.assertIn('Student', self.response.rendered_content)
 
