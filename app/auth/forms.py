@@ -6,7 +6,7 @@ from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField, 
 from app.auth.models import User, City, Organization
 
 
-class MemberForm(forms.Form):
+class MemberForm(forms.ModelForm):
     full_name = forms.CharField()
     organization = forms.CharField()
     cpf = BRCPFField()
@@ -20,6 +20,10 @@ class MemberForm(forms.Form):
     relationship = forms.CharField(widget=forms.Textarea(attrs={'style': 'width:70%'}), required=False)
     mailling = forms.BooleanField(widget=forms.CheckboxInput(attrs={'checked': 'checked'}), required=False)
     contact = forms.BooleanField(required=False)
+
+    class Meta:
+        model = User
+        fields = ()
 
     def clean_full_name(self):
         full_name = self.cleaned_data['full_name'].split(' ')
@@ -40,12 +44,11 @@ class MemberForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data
-        user = User.objects.create(
-                                   username=data.get('email'),
-                                   first_name=data.get('first_name'),
-                                   last_name=data.get('last_name'),
-                                   email=data.get('email')
-                                   )
+        self.instance.username = data.get('email')
+        self.instance.first_name = data.get('first_name')
+        self.instance.last_name = data.get('last_name')
+        self.instance.email = data.get('email')
+        user = super(MemberForm, self).save()
 
         user.profile.phone = data.get('phone')
         user.profile.address = data.get('address')
