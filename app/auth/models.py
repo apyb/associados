@@ -34,7 +34,7 @@ def get_public_key_storage_path(instance, filename):
         return '%s/public_key/%Y/%m/%d/%s/' % (settings.MEDIA_ROOT, instance.pk)
 
 
-class UserProfile(DefaultFields):
+class Profile(models.Model):
     CATEGORY_CHOICE = ((1, _('Student')),
                        (2, _('Member')))
 
@@ -55,6 +55,6 @@ class UserProfile(DefaultFields):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        Profile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
