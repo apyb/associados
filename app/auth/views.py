@@ -1,7 +1,9 @@
 # Create your views here.
 # encoding: utf-8
 from django.shortcuts import render
+from app.auth.models import Profile
 from app.auth.forms import MemberForm
+from django.views.generic.list import ListView
 
 
 def register(request):
@@ -17,3 +19,7 @@ def register(request):
                     'flatpage': {'title': u'Pedido de associação à APyB'},
                     'form': member_form,
                   })
+
+
+class MemberListView(ListView):
+    model = Profile
