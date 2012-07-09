@@ -1,13 +1,13 @@
 # Create your views here.
 # encoding: utf-8
 from django.shortcuts import render
-from app.auth.models import Profile
-from app.auth.forms import MemberForm
+from app.auth.forms import UserProfileForm
+from django.contrib.auth.models import User
 from django.views.generic.list import ListView
 
 
 def register(request):
-    member_form = MemberForm(request.POST or None)
+    member_form = UserProfileForm(request.POST or None)
 
     if request.method == 'POST' and member_form.is_valid():
         member_form.save()
@@ -21,5 +21,5 @@ def register(request):
                   })
 
 
-class MemberListView(ListView):
-    model = Profile
+class UserListView(ListView):
+    model = User

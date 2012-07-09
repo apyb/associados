@@ -6,7 +6,7 @@ from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField, 
 from app.auth.models import User, City, Organization
 
 
-class MemberForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):
     full_name = forms.CharField()
     organization = forms.CharField()
     cpf = BRCPFField()
@@ -48,7 +48,7 @@ class MemberForm(forms.ModelForm):
         self.instance.first_name = data.get('first_name')
         self.instance.last_name = data.get('last_name')
         self.instance.email = data.get('email')
-        user = super(MemberForm, self).save()
+        user = super(UserProfileForm, self).save()
 
         user.profile.phone = data.get('phone')
         user.profile.address = data.get('address')

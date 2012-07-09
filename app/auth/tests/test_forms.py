@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from django.test import TestCase
-from app.auth.forms import MemberForm
+from app.auth.forms import UserProfileForm
 from app.auth.models import Organization, City, User
 
 
@@ -21,7 +21,7 @@ class MemberFormTest(TestCase):
         'mailling': 1,
         'contact': 1,
         }
-        self.form = MemberForm(self.data)
+        self.form = UserProfileForm(self.data)
         self.form.is_valid()
 
     def test_clean_full_name_firstname(self):

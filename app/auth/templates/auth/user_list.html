@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Members{% endblock %}
+
+
+{% block content %}
+    <h1>Members</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in object_list %}
+            <tr>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>{{ user.profile.get_category_display }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+

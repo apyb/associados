@@ -31,12 +31,12 @@ class City(DefaultFields):
 
 
 def get_public_key_storage_path(instance, filename):
-        return '%s/public_key/%Y/%m/%d/%s/' % (settings.MEDIA_ROOT, instance.pk)
+        return 'public_key/%s/%s' % (instance.pk, filename)
 
 
 class Profile(models.Model):
-    CATEGORY_CHOICE = ((1, _('Student')),
-                       (2, _('Member')))
+    CATEGORY_CHOICE = (('1', _('Student')),
+                       ('2', _('Member')))
 
     user = models.OneToOneField(User)
     organization = models.ForeignKey(Organization, null=True)
