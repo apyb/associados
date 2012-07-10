@@ -4,23 +4,48 @@
 
 {% block content %}
     <h1>Members</h1>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Category</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for member in object_list %}
-            <tr>
-                <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
-                <td>{{ member.get_category_display }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    
+    <div class="row">
+        <div class="span9">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for member in object_list %}
+                    <tr>
+                        <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
+                        <td>{{ member.get_category_display }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="span3">
+            <div class="well">
+                <h3>Search members:</h3>
+                <form class="form-search">
+                  <input type="text" name="q" value= "{{ q }}" class="input-medium search-query">
+                  <button type="submit" class="btn">Search</button>
+                </form>
+    
+                <h3>Filter by category:</h3>
+                <ul>
+                    {% if q %}
+                    <li><a href="?q={{ q|urlencode }}">All</a></li>
+                    <li><a href="?q={{ q|urlencode }}&category=1">Student</a></li>
+                    <li><a href="?q={{ q|urlencode }}&category=2">Member</a></li>
+                    {% else %}
+                    <li><a href="?{{ q|urlencode:"=" }}">All</a></li>
+                    <li><a href="?category=1">Student</a></li>
+                    <li><a href="?category=2">Member</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-
