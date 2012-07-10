@@ -4,7 +4,6 @@ from django.db import models
 from app.core.models import DefaultFields
 from django.contrib.localflavor.br.br_states import STATE_CHOICES
 from django.utils.translation import ugettext as _
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
@@ -31,10 +30,10 @@ class City(DefaultFields):
 
 
 def get_public_key_storage_path(instance, filename):
-        return '%s/public_key/%Y/%m/%d/%s/' % (settings.MEDIA_ROOT, instance.pk)
+        return 'public_key/%s/%s' % (instance.pk, filename)
 
 
-class Member(DefaultFields):
+class Member(models.Model):
     CATEGORY_CHOICE = (('1', _('Student')),
                        ('2', _('Member')))
 
@@ -51,5 +50,4 @@ class Member(DefaultFields):
     relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
     malling = models.BooleanField(_('Malling'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
-
 

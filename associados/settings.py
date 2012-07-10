@@ -9,6 +9,7 @@ TEMPLATE_DEBUG = DEBUG
 BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 ADMINS = (
+    ('Marcos Daniel Petry', 'marcospetry@gmail.com'),
     ('Valder Gallo', 'valdergallo@gmail.com'),
     ('Marcos Daniel Petry', 'marcospetry@gmail.com'),
     )
@@ -201,4 +202,7 @@ LOGGING = {
 }
 
 #APPEND_SLASH = True
-
+try:
+    execfile(BASEDIR + 'associados/settings_local.py')
+except IOError:
+    pass

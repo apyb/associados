@@ -42,3 +42,4 @@ htmlcov/*
 
 # Database
 associados.sqlite
+test.py

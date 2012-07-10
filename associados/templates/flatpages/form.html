@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ flatpage.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ flatpage.title }}</h1>
+    <br>
+    <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
+        <fieldset>
+        {% csrf_token %}
+        <table class='table'>
+            {{ form.as_table }}
+        </table>
+        <div class='form-actions'>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+        </fieldset>
+    </form>
+    {{ flatpage.content }}
+{% endblock %}
