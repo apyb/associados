@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-from unittest.case import TestCase
+from django.test import TestCase
 from django.contrib import admin as django_admin
-
-
 from app.members.models import Member, Organization, City
 
 class AdminMemberTest(TestCase):
