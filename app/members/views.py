@@ -18,7 +18,7 @@ def register(request):
         member_form.save(user)
 
     return render(request,
-        'flatpages/form.html',
+        'members/member_register.html',
             {
             'flatpage': {'title': u'Pedido de associação à APyB'},
             'user_form': user_form,
