@@ -4,27 +4,16 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField, BRStateSelect
-from app.members.models import City, Organization
+from app.members.models import City, Organization, Member
 
 
-class MemberForm(forms.ModelForm):
-    full_name = forms.CharField()
-    organization = forms.CharField()
-    cpf = BRCPFField()
-    email = forms.EmailField()
-    phone = BRPhoneNumberField(required=False)
-    address = forms.CharField(widget=forms.Textarea(attrs={'style': 'width:70%'}), required=False)
-    city = forms.CharField(required=False)
-    state = forms.CharField(widget=BRStateSelect())
-    public_key = forms.FileField(required=False)
-    category = forms.ChoiceField(choices=((1, _('Student')), (2, _('Member'))))
-    relationship = forms.CharField(widget=forms.Textarea(attrs={'style': 'width:70%'}), required=False)
-    mailling = forms.BooleanField(widget=forms.CheckboxInput(attrs={'checked': 'checked'}), required=False)
-    contact = forms.BooleanField(required=False)
+class UserForm(forms.ModelForm):
+    full_name = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ()
+        fields = ('full_name', 'email')
 
     def clean_full_name(self):
         full_name = self.cleaned_data['full_name'].split(' ')
@@ -34,31 +23,49 @@ class MemberForm(forms.ModelForm):
         self.cleaned_data.update({'last_name': last_name})
         return self.cleaned_data['full_name']
 
-    def clean(self):
-        data = self.cleaned_data
-        city, _ = City.objects.get_or_create(name=data.get('city'), state=data.get('state'))
-        organization, _ = Organization.objects.get_or_create(name=data.get('organization'))
-        data['city'] = city
-        data['organization'] = organization
-        return data
+    def save(self, commit=True):
+        full_name = self.cleaned_data.get('full_name')
+        full_name_list = full_name.split(' ')
 
-    def save(self):
-        data = self.cleaned_data
-        self.instance.username = data.get('full_name').replace(' ', '').lower()
-        self.instance.first_name = data.get('first_name')
-        self.instance.last_name = data.get('last_name')
-        self.instance.email = data.get('email')
-        user = super(MemberForm, self).save()
+        username = full_name.replace(' ', '').lower()
 
-        user.member.phone = data.get('phone')
-        user.member.address = data.get('address')
-        user.member.organization = data.get('organization')
-        user.member.city = data.get('city')
-        user.member.public_key = data.get('public_key')
-        user.member.category = data.get('category')
-        user.member.realationship = data.get('relationship')
-        user.member.mailling = data.get('mailling')
-        user.member.contact = data.get('contact')
-        user.member.save()
+        self.instance.username = username
+        self.instance.last_name = full_name_list.pop(-1)
+        self.instance.first_name = ' '.join(full_name_list)
 
-        return user
+        return super(UserForm, self).save(commit)
+
+
+class MemberForm(forms.ModelForm):
+    phone = BRPhoneNumberField(required=False)
+    state = forms.CharField(widget=BRStateSelect())
+    organization = forms.CharField()
+    city = forms.CharField()
+
+    class Meta:
+        model = Member
+        exclude = ('user', )
+
+    def clean_organization(self):
+        organization =  self.cleaned_data['organization']
+        if organization:
+            organization_instance, created = Organization.objects.get_or_create(name=organization)
+            return organization_instance
+        return None
+
+    def clean_city(self):
+        city =  self.cleaned_data['city']
+        state = self.data.get('state')
+        if city:
+            city_instance, created = City.objects.get_or_create(name=city, state=state)
+            return city_instance
+        return None
+
+    def save(self, user, commit=True):
+        self.instance.user = user
+        return super(MemberForm, self).save(commit)
+
+
+#    def save(self, user):
+#        member = super(MemberForm, self).save()
+#        return member

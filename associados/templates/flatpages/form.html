@@ -8,7 +8,8 @@
         <fieldset>
         {% csrf_token %}
         <table class='table'>
-            {{ form.as_table }}
+            {{ user_form.as_table }}
+            {{ member_form.as_table }}
         </table>
         <div class='form-actions'>
             <button type="submit" class="btn btn-primary">Salvar</button>
