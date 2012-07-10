@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-# Create your views here.
 # encoding: utf-8
 from django.db.models import Q
 from django.shortcuts import render
@@ -15,7 +13,7 @@ def register(request):
         member_form.save(user)
 
     return render(request,
-        'flatpages/form.html',
+        'members/member_register.html',
             {
             'flatpage': {'title': u'Pedido de associação à APyB'},
             'user_form': user_form,

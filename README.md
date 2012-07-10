@@ -21,7 +21,7 @@ Rodando os testes
 Como contribuir?
 ----------------
 
-Reporte os bugs e compartilhe o patches baseada nas nossas `Issues <https://github.com/pythonbrasil/associados/issues>` ou simplesmente faça um fork do projeto, contribua com o que achar necessário e mande pra gente! :)
+Reporte os bugs e compartilhe o patches baseada nas nossas [Issues](https://github.com/pythonbrasil/associados/issues>) ou simplesmente faça um fork do projeto, contribua com o que achar necessário e mande pra gente! :)
 
 
 

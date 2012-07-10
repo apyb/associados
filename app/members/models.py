@@ -5,8 +5,6 @@ from app.core.models import DefaultFields
 from django.contrib.localflavor.br.br_states import STATE_CHOICES
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-
 
 class Organization(DefaultFields):
     name = models.CharField(_('Name'), max_length=250)
@@ -48,6 +46,6 @@ class Member(models.Model):
     category = models.CharField(_('Category'), max_length=1, choices=CATEGORY_CHOICE,
                                 db_index=True)
     relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
-    malling = models.BooleanField(_('Malling'), default=True)
+    mailing = models.BooleanField(_('Mailing'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
 
