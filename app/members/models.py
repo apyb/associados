@@ -48,6 +48,6 @@ class Member(models.Model):
     category = models.CharField(_('Category'), max_length=1, choices=CATEGORY_CHOICE,
                                 db_index=True)
     relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
-    malling = models.BooleanField(_('Malling'), default=True)
+    mailing = models.BooleanField(_('Mailing'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
 
