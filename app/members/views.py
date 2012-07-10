@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
-# Create your views here.
 # encoding: utf-8
 from django.shortcuts import render
 from app.members.forms import MemberForm, UserForm
 from django.views.generic.list import ListView
 from app.members.models import Member
-
-
-
 
 
 def register(request):

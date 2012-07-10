@@ -5,8 +5,6 @@ from app.core.models import DefaultFields
 from django.contrib.localflavor.br.br_states import STATE_CHOICES
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-
 
 class Organization(DefaultFields):
     name = models.CharField(_('Name'), max_length=250)
