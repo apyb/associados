@@ -11,7 +11,6 @@ BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.path.pardi
 ADMINS = (
     ('Marcos Daniel Petry', 'marcospetry@gmail.com'),
     ('Valder Gallo', 'valdergallo@gmail.com'),
-    ('Marcos Daniel Petry', 'marcospetry@gmail.com'),
     )
 
 
@@ -156,8 +155,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-
-
     'django.contrib.flatpages',
 
     #extra

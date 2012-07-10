@@ -38,7 +38,8 @@ class MemberFormTest(TestCase):
 
     def test_save(self):
         new_user = self.form.save()
-        self.assertIsInstance(new_user, Member)
+        self.assertIsInstance(new_user, User)
+        self.assertTrue(new_user.member)
 
     def test_created_object_city(self):
         self.form.save()

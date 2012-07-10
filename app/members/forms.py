@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField, BRStateSelect
-from app.members.models import City, Organization, Member
+from app.members.models import City, Organization
 
 
 class MemberForm(forms.ModelForm):
@@ -23,8 +23,8 @@ class MemberForm(forms.ModelForm):
     contact = forms.BooleanField(required=False)
 
     class Meta:
-        model = Member
-        exclude = ('user', )
+        model = User
+        fields = ()
 
     def clean_full_name(self):
         full_name = self.cleaned_data['full_name'].split(' ')
@@ -42,32 +42,23 @@ class MemberForm(forms.ModelForm):
         data['organization'] = organization
         return data
 
-
-#
     def save(self):
         data = self.cleaned_data
-#        self.instance.username = data.get('email')
-#        self.instance.first_name = data.get('first_name')
-#        self.instance.last_name = data.get('last_name')
-#        self.instance.email = data.get('email')
-        user = User.objects.create(
-            username = data.get('full_name').replace(' ', '').lower(),
-            first_name = data.get('first_name'),
-            last_name = data.get('last_name'),
-            email = data.get('email')
-        )
-        self.instance.user = user
-        member = super(MemberForm, self).save()
-#
-#        user.profile.phone = data.get('phone')
-#        user.profile.address = data.get('address')
-#        user.profile.organization = data.get('organization')
-#        user.profile.city = data.get('city')
-#        user.profile.public_key = data.get('public_key')
-#        user.profile.category = data.get('category')
-#        user.profile.realationship = data.get('relationship')
-#        user.profile.mailling = data.get('mailling')
-#        user.profile.contact = data.get('contact')
-#        user.profile.save()
-#
-        return member
+        self.instance.username = data.get('full_name').replace(' ', '').lower()
+        self.instance.first_name = data.get('first_name')
+        self.instance.last_name = data.get('last_name')
+        self.instance.email = data.get('email')
+        user = super(MemberForm, self).save()
+
+        user.member.phone = data.get('phone')
+        user.member.address = data.get('address')
+        user.member.organization = data.get('organization')
+        user.member.city = data.get('city')
+        user.member.public_key = data.get('public_key')
+        user.member.category = data.get('category')
+        user.member.realationship = data.get('relationship')
+        user.member.mailling = data.get('mailling')
+        user.member.contact = data.get('contact')
+        user.member.save()
+
+        return user

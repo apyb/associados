@@ -7,9 +7,6 @@ from django.views.generic.list import ListView
 from app.members.models import Member
 
 
-
-
-
 def register(request):
     member_form = MemberForm(request.POST or None)
 
