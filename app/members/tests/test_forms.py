@@ -15,7 +15,7 @@ class FormTest(TestCase):
 
             'cpf': '94463643104',
             'email': 'valdergallo@gmail.com',
-            'fone': '1199492911',
+            'phone': '1199492911',
             'city': 'Sao Paulo',
             'state': 'SP',
             'category': '1',
@@ -27,14 +27,17 @@ class FormTest(TestCase):
         }
 
 
-class UserFormTest(FormTest):
+class ValidUserFormTest(FormTest):
 
     def setUp(self):
-        super(UserFormTest, self).setUp()
+        super(ValidUserFormTest, self).setUp()
 
         self.user_form = UserForm(self.data)
         self.user_form.is_valid()
         self.new_user = self.user_form.save()
+
+    def test_form_must_be_valid(self):
+        self.assertTrue(self.user_form.is_valid())
 
     def test_save_user(self):
         self.assertIsInstance(self.new_user, User)
@@ -52,11 +55,25 @@ class UserFormTest(FormTest):
         self.assertEqual(self.new_user.username, 'valdergallojr')
 
 
-
-class MemberFormTest(FormTest):
+class InvalidUserFormTest(TestCase):
 
     def setUp(self):
-        super(MemberFormTest, self).setUp()
+        self.user_form = UserForm({})
+
+    def test_must_be_invalid(self):
+        self.assertFalse(self.user_form.is_valid())
+
+    def test_with_no_data_should_return_email_error(self):
+        self.assertTrue(self.user_form.errors.has_key('email'))
+
+    def test_with_no_data_should_return_full_name_error(self):
+        self.assertTrue(self.user_form.errors.has_key('full_name'))
+
+
+class ValidMemberFormTest(FormTest):
+
+    def setUp(self):
+        super(ValidMemberFormTest, self).setUp()
 
         self.user_form = UserForm(self.data)
         self.user_form.is_valid()
@@ -65,6 +82,9 @@ class MemberFormTest(FormTest):
         self.member_form.is_valid()
         self.user_instance = self.user_form.save()
         self.member_instance = self.member_form.save(self.user_instance)
+
+    def test_form_must_be_valid(self):
+        self.assertTrue(self.member_form.is_valid())
 
     def test_should_create_an_user(self):
         self.assertEqual(self.user_instance.get_full_name(), self.data.get('full_name'))
@@ -81,8 +101,8 @@ class MemberFormTest(FormTest):
     def test_should_store_cpf(self):
         self.assertEqual(self.member_instance.cpf, self.data.get('cpf'))
 
-    def test_should_store_fone(self):
-        self.assertEqual(self.member_instance.fone, self.data.get('fone'))
+    def test_should_store_phone(self):
+        self.assertEqual(self.member_instance.phone, '11-9949-2911')
 
     def test_should_store_address(self):
         self.assertEqual(self.member_instance.address, self.data.get('address'))
@@ -102,22 +122,27 @@ class MemberFormTest(FormTest):
     def test_should_store_partner(self):
         self.assertEqual(self.member_instance.partner, self.data.get('partner'))
 
-#
-#
-#CATEGORY_CHOICE = (('1', _('Student')),
-#                   ('2', _('Member')))
-#
-#user = models.OneToOneField(User)
-#organization = models.ForeignKey(Organization, null=True, blank=True)
-#cpf = models.CharField(_('CPF'), max_length=11, db_index=True)
-#fone = models.CharField(_('Fone'), max_length=50, null=True, blank=True)
-#address = models.TextField(_('Address'), null=True, blank=True)
-#city = models.ForeignKey(City, db_index=True)
-#public_key = models.FileField(_('Public Key'), upload_to=get_public_key_storage_path,
-#    null=True, blank=True)
-#category = models.CharField(_('Category'), max_length=1, choices=CATEGORY_CHOICE,
-#    db_index=True)
-#relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
-#malling = models.BooleanField(_('Malling'), default=True)
-#partner = models.BooleanField(_('Partner'), default=True)
-#
+
+class InvalidUserFormTest(TestCase):
+
+    def setUp(self):
+        super(InvalidUserFormTest, self).setUp()
+        self.member_form = MemberForm({})
+
+    def test_must_be_invalid(self):
+        self.assertFalse(self.member_form.is_valid())
+
+    def test_with_no_data_should_return_category_error(self):
+        self.assertTrue(self.member_form.errors.has_key('category'))
+
+    def test_with_no_data_should_return_organization_error(self):
+        self.assertTrue(self.member_form.errors.has_key('organization'))
+
+    def test_with_no_data_should_return_state_error(self):
+        self.assertTrue(self.member_form.errors.has_key('state'))
+
+    def test_with_no_data_should_return_cpf_error(self):
+        self.assertTrue(self.member_form.errors.has_key('cpf'))
+
+    def test_with_no_data_should_return_city_error(self):
+        self.assertTrue(self.member_form.errors.has_key('city'))

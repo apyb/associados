@@ -38,7 +38,7 @@ class Member(models.Model):
     user = models.OneToOneField(User)
     organization = models.ForeignKey(Organization, null=True, blank=True)
     cpf = models.CharField(_('CPF'), max_length=11, db_index=True)
-    fone = models.CharField(_('Fone'), max_length=50, null=True, blank=True)
+    phone = models.CharField(_('Phone'), max_length=50, null=True, blank=True)
     address = models.TextField(_('Address'), null=True, blank=True)
     city = models.ForeignKey(City, db_index=True)
     public_key = models.FileField(_('Public Key'), upload_to=get_public_key_storage_path,
