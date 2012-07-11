@@ -2,8 +2,9 @@
 {% block title %}{{ flatpage.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ flatpage.title }}</h1>
-    <br>
+    <h1>Pedido de associação à APyB</h1>
+
+    {% if not saved %}
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
         <fieldset>
             {% csrf_token %}
@@ -16,5 +17,7 @@
             </div>
         </fieldset>
     </form>
-    {{ flatpage.content }}
+    {% else %}
+        <h2>You are registered!</h2>
+    {% endif %}
 {% endblock %}

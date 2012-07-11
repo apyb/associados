@@ -18,7 +18,7 @@ class MemberListViewTest(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_should_render_the_correctly_template(self):
-        self.assertTemplateUsed('members/member_list.html')
+        self.assertTemplateUsed(self.response, 'members/member_list.html')
 
 
     def _create_user(self, first_name, last_name, category='1'):
@@ -38,16 +38,54 @@ class MemberRegisterView(TestCase):
     def setUp(self):
         super(MemberRegisterView, self).setUp()
 
-        url = reverse('people-member-register')
-        self.response = self.client.get(url)
+        self.url = reverse('people-member-register')
+
+        self.empty_data = {
+            u'category': u'',
+            u'city': u'',
+            u'organization': u'',
+            u'fone': u'',
+            u'cpf': u'',
+            u'phone': u'',
+            u'state': u'AC',
+            u'relation_with_community': u'',
+            u'full_name': u'',
+            u'address': u'',
+            u'partner': u'on',
+            u'mailing': u'on',
+            u'email': u''
+        }
+
+        self.data = {
+            u'category': u'1',
+            u'city': u'Rio de Janeiro',
+            u'organization': u'globo',
+            u'relation_with_community': u'',
+            u'phone': u'2184479744',
+            u'state': u'RJ',
+            u'cpf': u'48296130840',
+            u'full_name': u'john doe',
+            u'address': u'',
+            u'partner': u'on',
+            u'mailing': u'on',
+            u'email': u'john@doe.com'
+        }
+
 
     def test_should_have_a_route(self):
-        self.assertEqual(self.response.status_code, 200)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
 
     def test_should_render_the_correctly_template(self):
-        self.assertTemplateUsed('members/member_register.html')
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'members/member_register.html')
 
+    def test_post_with_blank_fields_should_return_error(self):
+        self.response = self.client.post(self.url, data=self.empty_data)
+        self.assertContains(self.response, u'Este campo é obrigatório.', count=6)
 
-
+    def test_post_with_correcly_data_should_return_sucessfull_message(self):
+        self.response = self.client.post(self.url, data=self.data)
+        self.assertContains(self.response, u'You are registered!', count=1)
 
 

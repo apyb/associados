@@ -8,14 +8,17 @@ from app.members.models import Member
 def register(request):
     member_form = MemberForm(request.POST or None)
     user_form = UserForm(request.POST or None)
+    saved = False
+
     if request.method == 'POST' and user_form.is_valid() and member_form.is_valid():
         user = user_form.save()
         member_form.save(user)
+        saved = True
 
     return render(request,
         'members/member_register.html',
             {
-            'flatpage': {'title': u'Pedido de associação à APyB'},
+            'saved': saved,
             'user_form': user_form,
             'member_form': member_form,
             })
