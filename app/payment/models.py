@@ -1,5 +1,5 @@
 from django.db import models
-from app.members.models import Member, Category
+from app.member.models import Member, Category
 
 
 PAYMENT_STATUS = (

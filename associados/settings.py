@@ -145,6 +145,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'app.monkey_patch',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -166,7 +167,7 @@ INSTALLED_APPS = (
     #apps
     'associados',
     'app.core',
-    'app.members',
+    'app.member',
 )
 
 # A sample logging configuration. The only tangible logging

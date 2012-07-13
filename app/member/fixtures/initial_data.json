@@ -1,0 +1,16 @@
+[
+  {
+    "pk": 1,
+    "model": "member.category",
+    "fields": {
+      "name": "Student"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "member.category",
+    "fields": {
+      "name": "Member"
+    }
+  }
+]

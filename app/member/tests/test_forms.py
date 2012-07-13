@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from django.test import TestCase
-from app.members.forms import MemberForm, UserForm
-from app.members.models import Organization, City, User, Member
+from app.member.forms import MemberForm, UserForm
+from app.member.models import Organization, City, User, Member
 
 
 class FormTest(TestCase):
@@ -14,11 +14,11 @@ class FormTest(TestCase):
             'address': 'Rua XXX',
 
             'cpf': '94463643104',
-            'email': 'valdergallo@gmail.com',
+            'email': 'valdergallo123123123123123123123123123123123123123123123123123123@gmail.com',
             'phone': '1199492911',
             'city': 'Sao Paulo',
             'state': 'SP',
-            'category': '1',
+            'category': 1,
             'relationship': 'think',
             'mailing': 1,
             'contact': 1,
@@ -52,7 +52,7 @@ class ValidUserFormTest(FormTest):
         self.assertEqual(self.new_user.email, self.data.get('email'))
 
     def test_should_store_username(self):
-        self.assertEqual(self.new_user.username, 'valdergallojr')
+        self.assertEqual(self.new_user.username, 'valdergallo123123123123123123123123123123123123123123123123123123@gmail.com')
 
 
 class InvalidUserFormTest(TestCase):
@@ -111,7 +111,7 @@ class ValidMemberFormTest(FormTest):
         self.assertEqual(self.member_instance.public_key, self.data.get('public_key'))
 
     def test_should_store_category(self):
-        self.assertEqual(self.member_instance.category, self.data.get('category'))
+        self.assertEqual(self.member_instance.category.id, self.data.get('category'))
 
     def test_should_store_relation_with_community(self):
         self.assertEqual(self.member_instance.relation_with_community, self.data.get('relation_with_community'))
