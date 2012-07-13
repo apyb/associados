@@ -2,21 +2,23 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from app.members.models import Member
+from app.members.models import Member, Category
 from django_dynamic_fixture import G
+
 
 class MemberListViewTest(TestCase):
 
     def setUp(self):
         super(MemberListViewTest, self).setUp()
-        self._create_user(first_name='test', last_name='test')
-        self._create_user(first_name='dolor', last_name='sit')
-        self._create_user(first_name='lorem', last_name='ipsum', category=2)
-        self._create_user(first_name='amet', last_name='consectetur', category=2)
+        student = Category.objects.get(name='Student')
+        member = Category.objects.get(name='Member')
+        self._create_user(first_name='test', last_name='test', category=student)
+        self._create_user(first_name='dolor', last_name='sit', category=student)
+        self._create_user(first_name='lorem', last_name='ipsum', category=member)
+        self._create_user(first_name='amet', last_name='consectetur', category=member)
 
         self.url = reverse('people-members-list')
         self.response = self.client.get(self.url)
-
 
     def test_should_have_a_route(self):
         self.assertEqual(self.response.status_code, 200)
@@ -24,7 +26,7 @@ class MemberListViewTest(TestCase):
     def test_should_render_the_correctly_template(self):
         self.assertTemplateUsed(self.response, 'members/member_list.html')
 
-    def _create_user(self, first_name, last_name, category='1'):
+    def _create_user(self, first_name, last_name, category=None):
         user = User.objects.create(
             first_name=first_name,
             last_name=last_name,
@@ -63,6 +65,7 @@ class MemberListViewTest(TestCase):
         self.assertIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
         self.assertNotIn('amet consectetur', response.rendered_content)
+
 
 class MemberRegisterView(TestCase):
     def setUp(self):
