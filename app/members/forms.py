@@ -27,9 +27,7 @@ class UserForm(forms.ModelForm):
         full_name = self.cleaned_data.get('full_name')
         full_name_list = full_name.split(' ')
 
-        username = full_name.replace(' ', '').lower()
-
-        self.instance.username = username
+        self.instance.username = self.instance.email
         self.instance.last_name = full_name_list.pop(-1)
         self.instance.first_name = ' '.join(full_name_list)
 
