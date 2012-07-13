@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from django.test import TestCase
-from app.members.forms import MemberForm, UserForm
-from app.members.models import Organization, City, User, Member
+from app.member.forms import MemberForm, UserForm
+from app.member.models import Organization, City, User, Member
 
 
 class FormTest(TestCase):

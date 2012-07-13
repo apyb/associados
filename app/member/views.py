@@ -1,9 +1,9 @@
 # encoding: utf-8
 from django.db.models import Q
 from django.shortcuts import render
-from app.members.forms import MemberForm, UserForm
+from app.member.forms import MemberForm, UserForm
 from django.views.generic.list import ListView
-from app.members.models import Member
+from app.member.models import Member
 
 
 def register(request):
@@ -17,7 +17,7 @@ def register(request):
         saved = True
 
     return render(request,
-        'members/member_register.html',
+        'member/member_register.html',
             {
             'saved': saved,
             'user_form': user_form,

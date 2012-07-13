@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField, BRStateSelect
-from app.members.models import City, Organization, Member
+from app.member.models import City, Organization, Member
 
 
 class UserForm(forms.ModelForm):

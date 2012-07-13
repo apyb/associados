@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from app.members.models import Member, Category
+from app.member.models import Member, Category
 from django_dynamic_fixture import G
 
 
@@ -24,7 +24,7 @@ class MemberListViewTest(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_should_render_the_correctly_template(self):
-        self.assertTemplateUsed(self.response, 'members/member_list.html')
+        self.assertTemplateUsed(self.response, 'member/member_list.html')
 
     def _create_user(self, first_name, last_name, category=None):
         user = User.objects.create(
@@ -111,7 +111,7 @@ class MemberRegisterView(TestCase):
 
     def test_should_render_the_correctly_template(self):
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'members/member_register.html')
+        self.assertTemplateUsed(response, 'member/member_register.html')
 
     def test_post_with_blank_fields_should_return_error(self):
         self.response = self.client.post(self.url, data=self.empty_data)
