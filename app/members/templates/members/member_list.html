@@ -3,7 +3,7 @@
 
 {% block content %}
     <h1>Members</h1>
-    
+
     <div class="row">
         <div class="span9">
             <table class="table table-striped">
@@ -17,21 +17,22 @@
                 {% for member in object_list %}
                     <tr>
                         <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
-                        <td>{{ member.get_category_display }}</td>
+                        <td>{{ member.category }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-        
+
         <div class="span3">
             <div class="well">
                 <h3>Search members:</h3>
                 <form class="form-search">
                   <input type="text" name="q" value= "{{ q }}" class="input-medium search-query">
+                  <input type="hidden" name="category" value= "{{ category }}" >
                   <button type="submit" class="btn">Search</button>
                 </form>
-    
+
                 <h3>Filter by category:</h3>
                 <ul>
                     {% if q %}
