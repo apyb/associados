@@ -1,25 +1,30 @@
+from django.conf import settings
 from django.db import models
 from app.members.models import Member, Category
 
 
-PAYMENT_STATUS = (
-    (1, 'waiting'),
-    (2, 'approved'),
-    (3, 'deny')
-)
-
 
 class PaymentType(models.Model):
     category = models.ForeignKey(Category)
-    value = models.FloatField()
-    duration = models.IntegerField(help_text='In days')
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    duration = models.IntegerField(help_text='In days', default=1)
 
 
 class Payment(models.Model):
     member = models.ForeignKey(Member)
-    payment_date = models.DateField(auto_now_add=True)
-    valid_until = models.DateField()
-    value = models.FloatField(default=0)
-    status = models.IntegerField(choices=PAYMENT_STATUS)
-    type = models.OneToOneField(PaymentType)
+    date = models.DateField(auto_now_add=True)
+    valid_until = models.DateField(auto_now_add=True)
+
+    def done(self):
+        return self.transaction_set.filter(status="done").exists()
+
+
+class Transaction(models.Model):
+    payment = models.ForeignKey(Payment)
+    code = models.CharField(max_length=50)
+    status = models.CharField(max_length=25)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def get_checkout_url(self):
+        return settings.PAGSEGURO_WEBCHECKOUT + self.code
 
