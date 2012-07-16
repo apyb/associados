@@ -14,7 +14,7 @@ class MemberListViewTest(TestCase):
         self._create_user(first_name='lorem', last_name='ipsum', category=2)
         self._create_user(first_name='amet', last_name='consectetur', category=2)
 
-        self.url = reverse('people-members-list')
+        self.url = reverse('members-list')
         self.response = self.client.get(self.url)
 
 
@@ -68,7 +68,7 @@ class MemberRegisterView(TestCase):
     def setUp(self):
         super(MemberRegisterView, self).setUp()
 
-        self.url = reverse('people-member-register')
+        self.url = reverse('member-register')
 
         self.empty_data = {
             u'category': u'',
