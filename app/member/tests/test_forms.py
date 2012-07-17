@@ -14,7 +14,7 @@ class FormTest(TestCase):
             'address': 'Rua XXX',
 
             'cpf': '94463643104',
-            'email': 'valdergallo123123123123123123123123123123123123123123123123123123@gmail.com',
+            'email': 'valdergallo@gmail.com',
             'phone': '1199492911',
             'city': 'Sao Paulo',
             'state': 'SP',
@@ -23,7 +23,7 @@ class FormTest(TestCase):
             'mailing': 1,
             'contact': 1,
             'partner': 1,
-            'relation_with_community':'fake relation'
+            'relation_with_community': 'fake relation'
         }
 
 
@@ -52,7 +52,7 @@ class ValidUserFormTest(FormTest):
         self.assertEqual(self.new_user.email, self.data.get('email'))
 
     def test_should_store_username(self):
-        self.assertEqual(self.new_user.username, 'valdergallo123123123123123123123123123123123123123123123123123123@gmail.com')
+        self.assertEqual(self.new_user.username, self.data.get('email')[:70])
 
 
 class InvalidUserFormTest(TestCase):
@@ -121,6 +121,9 @@ class ValidMemberFormTest(FormTest):
 
     def test_should_store_partner(self):
         self.assertEqual(self.member_instance.partner, self.data.get('partner'))
+
+    def test_should_change_username(self):
+        self.assertEqual(self.member_instance.user.username, self.member_instance.cpf)
 
 
 class InvalidUserFormTest(TestCase):

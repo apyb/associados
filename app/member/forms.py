@@ -27,7 +27,7 @@ class UserForm(forms.ModelForm):
         full_name = self.cleaned_data.get('full_name')
         full_name_list = full_name.split(' ')
 
-        self.instance.username = self.instance.email
+        self.instance.username = self.instance.email[:70]
         self.instance.last_name = full_name_list.pop(-1)
         self.instance.first_name = ' '.join(full_name_list)
 
@@ -60,10 +60,7 @@ class MemberForm(forms.ModelForm):
         return None
 
     def save(self, user, commit=True):
+        user.username = self.cleaned_data['cpf']
+        user.save()
         self.instance.user = user
         return super(MemberForm, self).save(commit)
-
-
-#    def save(self, user):
-#        member = super(MemberForm, self).save()
-#        return member

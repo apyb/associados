@@ -145,7 +145,6 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'app.monkey_patch',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
