@@ -27,7 +27,6 @@ class PaymentView(View):
         payload['itemDescription1'] = ugettext(u'Payment of a %s Ticket in PythonBrasil[8] conference, 2012 edition') % ugettext(member.category)
         payload["reference"] = "%d" % payment.pk
         response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
-
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
@@ -41,8 +40,8 @@ class PaymentView(View):
             return transaction
         return Transaction.objects.none()
 
-    def get(self, request, *args, **kwargs):
-        member = Member.objects.get(user=2)
+    def get(self, request, member_id):
+        member = Member.objects.get(user=member_id)
         payment = Payment.objects.create(
             member=member,
         )
@@ -50,7 +49,7 @@ class PaymentView(View):
 
         if not t:
             payment.delete()
-            url = reverse('/')
+            url = '/'
             messages.error(request, ugettext("Failed to generate a transaction within the payment gateway. Please contact the event staff to complete your registration."), fail_silently=True)
         else:
             url = settings.PAGSEGURO_WEBCHECKOUT + t.code
