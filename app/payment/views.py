@@ -13,7 +13,7 @@ from django.views.generic import View
 from lxml import html as lhtml
 
 from app.members.models import Member
-from app.payment.models import Payment, Transaction
+from app.payment.models import Payment, Transaction, PaymentType
 
 
 class PaymentView(View):
@@ -24,7 +24,7 @@ class PaymentView(View):
         member = payment.member
         price = 0
         payload["itemAmount1"] = "%.2f" % price
-        payload['itemDescription1'] = ugettext(u'Payment of a %s Ticket in PythonBrasil[8] conference, 2012 edition') % ugettext(member.category)
+        payload['itemDescription1'] = ugettext(u'Payment of the registration no APyB')
         payload["reference"] = "%d" % payment.pk
         response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
         if response.ok:
@@ -41,9 +41,11 @@ class PaymentView(View):
         return Transaction.objects.none()
 
     def get(self, request, member_id):
-        member = Member.objects.get(user=member_id)
+        member = Member.objects.get(id=member_id)
+        payment_type = PaymentType.objects.get(category=member.category)
         payment = Payment.objects.create(
             member=member,
+            type=payment_type
         )
         t = self.generate_transaction(payment)
 
