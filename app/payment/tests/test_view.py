@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import call_command
@@ -166,6 +167,29 @@ class NotificationViewTestCase(MemberTestCase):
         NotificationView().transaction_done(payment.id)
         reloaded_member = Member.objects.get(id=self.member.id)
         self.assertEqual(reloaded_member.category, payment.type.category)
+
+    def test_transaction_done_fill_payment_date(self):
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
+        self.assertFalse(payment.date)
+        NotificationView().transaction_done(payment.id)
+
+        reloaded_payment = Payment.objects.get(id=payment.id)
+        self.assertTrue(reloaded_payment.date)
+        self.assertEqual(reloaded_payment.date.strftime('%Y-%m-%d+%H:%M'),
+                         datetime.now().strftime('%Y-%m-%d+%H:%M'))
+
+    def test_transaction_done_fill_payment_valid_until(self):
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
+        self.assertFalse(payment.valid_until)
+        NotificationView().transaction_done(payment.id)
+
+        valid_until = datetime.now() + timedelta(days=payment.type.duration)
+        reloaded_payment = Payment.objects.get(id=payment.id)
+        self.assertTrue(reloaded_payment.valid_until)
+        self.assertEqual(reloaded_payment.valid_until.strftime('%Y-%m-%d+%H:%M'),
+                         valid_until.strftime('%Y-%m-%d+%H:%M'))
+
+
 
     def test_transaction_canceled(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="115.84")

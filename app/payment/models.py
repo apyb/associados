@@ -13,8 +13,8 @@ class PaymentType(models.Model):
 class Payment(models.Model):
     member = models.ForeignKey(Member)
     type = models.ForeignKey(PaymentType)
-    date = models.DateTimeField(auto_now_add=True)
-    valid_until = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(null=True, blank=True)
+    valid_until = models.DateTimeField(null=True, blank=True)
 
     def done(self):
         return self.transaction_set.filter(status="done").exists()

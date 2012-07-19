@@ -41,7 +41,6 @@ class PaymentModelTestCase(MemberTestCase):
     def test_date_should_be_datetime_field(self):
         date_field = Payment._meta.get_field_by_name('date')[0]
         self.assertIsInstance(date_field, models.DateTimeField)
-        self.assertTrue(date_field.auto_now_add)
 
     def test_should_have_valid_until(self):
         self.assert_field_in('valid_until', Payment)
@@ -50,7 +49,6 @@ class PaymentModelTestCase(MemberTestCase):
         date_field = Payment._meta.get_field_by_name('valid_until')[0]
         self.assertIsInstance(date_field, models.DateField)
 
-
     def test_should_have_type(self):
         self.assert_field_in('type', Payment)
 
@@ -58,7 +56,6 @@ class PaymentModelTestCase(MemberTestCase):
         type_field = Payment._meta.get_field_by_name('type')[0]
         self.assertIsInstance(type_field, models.ForeignKey)
         self.assertEqual(PaymentType, type_field.related.parent_model)
-
 
     def test_payment_done_should_be_false_if_has_not_a_transaction(self):
         self.assertFalse(Payment().done())

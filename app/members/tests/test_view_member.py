@@ -118,6 +118,7 @@ class MemberRegisterView(TestCase):
         self.response = self.client.post(self.url, data=self.empty_data)
         self.assertContains(self.response, u'Este campo é obrigatório.', count=7)
 
-    def test_post_with_correcly_data_should_return_sucessfull_message(self):
+    def test_post_with_correcly_data_should_redirect_to_payment(self):
         self.response = self.client.post(self.url, data=self.data)
+
         self.assertContains(self.response, u'You are registered!', count=1)

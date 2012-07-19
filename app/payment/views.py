@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
 import requests
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 
 from django.utils.decorators import method_decorator
@@ -90,6 +90,11 @@ class NotificationView(View):
         member.category = payment.type.category
         member.save()
 
+    def _update_payment_dates(self, payment):
+        payment.date = datetime.now()
+        payment.valid_until = datetime.now() + timedelta(days=payment.type.duration)
+        payment.save()
+
     def transaction_done(self, payment_id):
         payment = Payment.objects.get(id=payment_id)
 
@@ -97,9 +102,8 @@ class NotificationView(View):
         transaction.status = "done"
         transaction.save()
 
+        self._update_payment_dates(payment)
         self._update_member_category(payment)
-
-
 
     def transaction_canceled(self, payment_id):
         transaction = Transaction.objects.get(payment_id=payment_id)
