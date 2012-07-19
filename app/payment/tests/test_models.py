@@ -6,14 +6,17 @@ from django.db import models
 from django.test import TestCase
 
 from django_dynamic_fixture import G
-from app.members.models import Member
+from app.members.models import Member, Category
 from app.payment.models import Payment, Transaction, PaymentType
 
 
 class MemberTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(username="Wolverine")
-        self.member = G(Member, user=self.user, category='1')
+        self.member = G(Member,
+            user=self.user,
+            category=Category.objects.get(id=1)
+        )
 
 
 class PaymentModelTestCase(MemberTestCase):

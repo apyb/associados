@@ -2,17 +2,19 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from app.members.models import Member
+from app.members.models import Member, Category
 from django_dynamic_fixture import G
 
 class MemberListViewTest(TestCase):
 
     def setUp(self):
         super(MemberListViewTest, self).setUp()
+
+        category = Category.objects.get(id=2)
         self._create_user(first_name='test', last_name='test')
         self._create_user(first_name='dolor', last_name='sit')
-        self._create_user(first_name='lorem', last_name='ipsum', category=2)
-        self._create_user(first_name='amet', last_name='consectetur', category=2)
+        self._create_user(first_name='lorem', last_name='ipsum', category=category)
+        self._create_user(first_name='amet', last_name='consectetur', category=category)
 
         self.url = reverse('people-members-list')
         self.response = self.client.get(self.url)
@@ -24,7 +26,9 @@ class MemberListViewTest(TestCase):
     def test_should_render_the_correctly_template(self):
         self.assertTemplateUsed(self.response, 'members/member_list.html')
 
-    def _create_user(self, first_name, last_name, category='1'):
+    def _create_user(self, first_name, last_name, category=None):
+        category = category or Category.objects.get(id=1)
+
         user = User.objects.create(
             first_name=first_name,
             last_name=last_name,

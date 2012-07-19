@@ -29,14 +29,14 @@ class MemberListView(ListView):
     def get(self, request, *args, **kwargs):
         self.query = request.GET.get('q')
         category = request.GET.get('category')
-        
+
         if self.query:
             self.queryset = Member.objects.filter(
                                                   Q(user__first_name__icontains=self.query) |
                                                   Q(user__last_name__icontains=self.query))
         
         if category:
-            self.queryset = Member.objects.filter(category=category)
+            self.queryset = Member.objects.filter(category__id=category)
         
         return super(MemberListView, self).get(request, args, kwargs)
 
