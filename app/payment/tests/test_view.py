@@ -185,7 +185,7 @@ class NotificationViewTestCase(MemberTestCase):
             payment=payment,
             status="pending",
             code="xpto",
-            price=123.45
+            price=str(123.45)
         )
         notification_view = NotificationView()
         notification_view.transaction = (lambda code: (3, 1))
