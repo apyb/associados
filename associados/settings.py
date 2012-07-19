@@ -215,8 +215,7 @@ PAGSEGURO = {
     'itemQuantity1': 1,
     }
 
-#PAGSEGURO_BASE = 'https://pagseguro.uol.com.br/v2/'
-PAGSEGURO_BASE = 'http://localhost:8888/v2'
+PAGSEGURO_BASE = 'https://pagseguro.uol.com.br/v2'
 PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAGSEGURO_TRANSACTIONS

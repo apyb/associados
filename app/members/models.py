@@ -43,7 +43,7 @@ class Member(models.Model):
     #TODO: this field must be removes in favor of Category Model
     category = models.ForeignKey(Category)
     organization = models.ForeignKey(Organization, null=True, blank=True)
-    cpf = models.CharField(_('CPF'), max_length=11, db_index=True)
+    cpf = models.CharField(_('CPF'), max_length=11, db_index=True, unique=True)
     phone = models.CharField(_('Phone'), max_length=50, null=True, blank=True)
     address = models.TextField(_('Address'), null=True, blank=True)
     city = models.ForeignKey(City, db_index=True)

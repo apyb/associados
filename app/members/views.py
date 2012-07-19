@@ -1,5 +1,7 @@
 # encoding: utf-8
+from django.core.urlresolvers import reverse
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from app.members.forms import MemberForm, UserForm
 from django.views.generic.list import ListView
@@ -12,8 +14,9 @@ def register(request):
 
     if request.method == 'POST' and user_form.is_valid() and member_form.is_valid():
         user = user_form.save()
-        member_form.save(user)
+        member = member_form.save(user)
         saved = True
+        return HttpResponseRedirect(reverse('payment', kwargs={'member_id':member.id}))
 
     return render(request,
         'members/member_register.html',

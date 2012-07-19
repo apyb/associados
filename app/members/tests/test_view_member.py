@@ -118,7 +118,17 @@ class MemberRegisterView(TestCase):
         self.response = self.client.post(self.url, data=self.empty_data)
         self.assertContains(self.response, u'Este campo é obrigatório.', count=7)
 
+    def test_post_with_correcly_data_should_created_a_member(self):
+        self.response = self.client.post(self.url, data=self.data)
+        try:
+            Member.objects.get(cpf=self.data['cpf'])
+        except Member.DoesNotExist:
+            self.fail("Member does not exist")
+
     def test_post_with_correcly_data_should_redirect_to_payment(self):
         self.response = self.client.post(self.url, data=self.data)
+        member = Member.objects.get(cpf=self.data['cpf'])
+        payment_url = reverse('payment', kwargs={'member_id':member.id})
 
-        self.assertContains(self.response, u'You are registered!', count=1)
+        self.assertEqual(self.response.status_code, 302)
+        self.assertTrue(self.response['location'].endswith(payment_url) )
