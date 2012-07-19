@@ -85,10 +85,21 @@ class NotificationView(View):
             return status_transacao, referencia
         return None, None
 
+    def _update_member_category(self, payment):
+        member = payment.member
+        member.category = payment.type.category
+        member.save()
+
     def transaction_done(self, payment_id):
-        transaction = Transaction.objects.get(payment_id=payment_id)
+        payment = Payment.objects.get(id=payment_id)
+
+        transaction = Transaction.objects.get(payment=payment)
         transaction.status = "done"
         transaction.save()
+
+        self._update_member_category(payment)
+
+
 
     def transaction_canceled(self, payment_id):
         transaction = Transaction.objects.get(payment_id=payment_id)

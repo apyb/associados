@@ -130,6 +130,19 @@ class NotificationViewTestCase(MemberTestCase):
     def tearDown(self):
         views.requests = self.requests_original
 
+    def _make_transaction(self, status, code, price):
+        payment = Payment.objects.create(
+            member=self.member,
+            type=PaymentType.objects.get(id=2)
+        )
+        transaction = Transaction.objects.create(
+            payment=payment,
+            status=status,
+            code=code,
+            price=price
+        )
+        return payment, transaction
+
     def test_name_url(self):
         try:
             reverse('payment-notification')
@@ -142,31 +155,21 @@ class NotificationViewTestCase(MemberTestCase):
         self.assertEqual(3, ref)
 
     def test_transaction_done(self):
-        payment = Payment.objects.create(
-            member=self.member,
-            type=PaymentType.objects.get(id=1)
-        )
-        transaction = Transaction.objects.create(
-            payment=payment,
-            status="pending",
-            code="xpto",
-            price="123.54"
-        )
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
+
         NotificationView().transaction_done(payment.id)
         transaction = Transaction.objects.get(id=transaction.id)
         self.assertEqual("done", transaction.status)
 
+    def test_transaction_done_update_member_category(self):
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
+        NotificationView().transaction_done(payment.id)
+        reloaded_member = Member.objects.get(id=self.member.id)
+        self.assertEqual(reloaded_member.category, payment.type.category)
+
     def test_transaction_canceled(self):
-        payment = Payment.objects.create(
-            member=self.member,
-            type=PaymentType.objects.get(id=1)
-        )
-        transaction = Transaction.objects.create(
-            payment=payment,
-            status="pending",
-            code="xpto",
-            price="115.84"
-        )
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price="115.84")
+
         NotificationView().transaction_canceled(payment.id)
         transaction = Transaction.objects.get(id=transaction.id)
         self.assertEqual("canceled", transaction.status)
@@ -177,16 +180,7 @@ class NotificationViewTestCase(MemberTestCase):
         self.assertEqual("transaction_canceled", methods_by_status[7].__name__)
 
     def test_post(self):
-        payment = Payment.objects.create(
-            member=self.member,
-            type=PaymentType.objects.get(id=1)
-        )
-        transaction = Transaction.objects.create(
-            payment=payment,
-            status="pending",
-            code="xpto",
-            price=str(123.45)
-        )
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price='123.45')
         notification_view = NotificationView()
         notification_view.transaction = (lambda code: (3, 1))
         request = RequestFactory().post("/", {"notificationCode": "123"})

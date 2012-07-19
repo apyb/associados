@@ -34,6 +34,10 @@ def get_public_key_storage_path(instance, filename):
 class Category(models.Model):
     name = models.CharField(max_length=30)
 
+    def __unicode__(self):
+        return self.name
+
+
 class Member(models.Model):
     user = models.OneToOneField(User)
     #TODO: this field must be removes in favor of Category Model
