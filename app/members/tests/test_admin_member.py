@@ -4,6 +4,8 @@ from django.contrib import admin as django_admin
 from app.members.models import Member, Organization, City
 
 class AdminMemberTest(TestCase):
+    def setUp(self):
+        self.response = self.client.get('/')
 
     def test_Member_model_should_be_registered_within_the_admin(self):
         self.assertIn(Member, django_admin.site._registry)

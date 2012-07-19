@@ -17,7 +17,7 @@
                 {% for member in object_list %}
                     <tr>
                         <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
-                        <td>{{ member.get_category_display }}</td>
+                        <td>{{ member.category.name }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

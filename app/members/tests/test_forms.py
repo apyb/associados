@@ -2,7 +2,7 @@
 # encoding: utf-8
 from django.test import TestCase
 from app.members.forms import MemberForm, UserForm
-from app.members.models import Organization, City, User, Member
+from app.members.models import Organization, City, User, Member, Category
 
 
 class FormTest(TestCase):
@@ -111,7 +111,8 @@ class ValidMemberFormTest(FormTest):
         self.assertEqual(self.member_instance.public_key, self.data.get('public_key'))
 
     def test_should_store_category(self):
-        self.assertEqual(self.member_instance.category, self.data.get('category'))
+        category = Category.objects.get(id=self.data.get('category'))
+        self.assertEqual(self.member_instance.category, category)
 
     def test_should_store_relation_with_community(self):
         self.assertEqual(self.member_instance.relation_with_community, self.data.get('relation_with_community'))
