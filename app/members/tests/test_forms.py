@@ -52,7 +52,7 @@ class ValidUserFormTest(FormTest):
         self.assertEqual(self.new_user.email, self.data.get('email'))
 
     def test_should_store_username(self):
-        self.assertEqual(self.new_user.username, 'valdergallojr')
+        self.assertEqual(self.new_user.username, self.data.get('cpf'))
 
 
 class InvalidUserFormTest(TestCase):
@@ -122,6 +122,8 @@ class ValidMemberFormTest(FormTest):
 
     def test_should_store_partner(self):
         self.assertEqual(self.member_instance.partner, self.data.get('partner'))
+
+
 
 
 class InvalidUserFormTest(TestCase):
