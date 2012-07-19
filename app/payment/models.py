@@ -12,7 +12,8 @@ class PaymentType(models.Model):
 
 class Payment(models.Model):
     member = models.ForeignKey(Member)
-    date = models.DateField(auto_now_add=True)
+    type = models.ForeignKey(PaymentType)
+    date = models.DateTimeField(auto_now_add=True)
     valid_until = models.DateField(auto_now_add=True)
 
     def done(self):
