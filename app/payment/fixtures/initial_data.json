@@ -1,0 +1,20 @@
+[
+    {
+        "pk": 1,
+        "model": "payment.paymenttype",
+        "fields": {
+            "category": 1,
+            "duration": 365,
+            "price": "40"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "payment.paymenttype",
+        "fields": {
+            "category": 2,
+            "duration": 365,
+            "price": "20"
+        }
+    }
+]
