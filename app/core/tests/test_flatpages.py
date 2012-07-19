@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.flatpages.models import FlatPage
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from lxml import html as lhtml
 
@@ -25,4 +26,10 @@ class FlatpagesTest(TestCase):
         dom = lhtml.fromstring(self.response.content)
         self.assertEqual(dom.cssselect('title')[0].text, self.flatpage.title)
 
+    def test_should_have_the_member_form_route(self):
+        url = reverse('member-register')
+        self.assertContains(self.response, url)
 
+    def test_should_have_the_member_list_route(self):
+        url = reverse('members-list')
+        self.assertContains(self.response, url)
