@@ -18,14 +18,19 @@ from app.payment.models import Payment, Transaction, PaymentType
 
 class PaymentView(View):
 
-    def generate_transaction(self, payment):
-        headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
+    def _create_payload(self, payment):
         payload = settings.PAGSEGURO
         member = payment.member
-        price = 0
+        price = payment.type.price
         payload["itemAmount1"] = "%.2f" % price
         payload['itemDescription1'] = ugettext(u'Payment of the registration no APyB')
         payload["reference"] = "%d" % payment.pk
+        return payload, price
+
+    def generate_transaction(self, payment):
+        headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
+
+        payload, price = self._create_payload(payment)
         response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
         if response.ok:
             dom = lhtml.fromstring(response.content)

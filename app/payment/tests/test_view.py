@@ -83,10 +83,15 @@ class PaymentViewTestCase(MemberTestCase):
         expected_url = settings.PAGSEGURO_WEBCHECKOUT + "xpto123"
         self.assertEqual(expected_url, response["Location"])
 
-    def test_payment_view_should_create_a_payment_for_the_user_type(self):
+    def test_payment_view_should_create_a_transaction_for_the_user_type(self):
         PaymentView.as_view()(self.request, self.member.id)
         transaction = Transaction.objects.get(payment__member=self.member)
         self.assertEqual(transaction.payment.type.category, self.member.category)
+
+    def test_payment_view_should_create_a_payment_for_the_user_type(self):
+        PaymentView.as_view()(self.request, self.member.id)
+        transaction = Transaction.objects.get(payment__member=self.member)
+        self.assertEqual(transaction.payment.type.price, transaction.price)
 
 
     def test_generate_transaction(self):
