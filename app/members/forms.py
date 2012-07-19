@@ -2,7 +2,6 @@
 # encoding: utf-8
 from django import forms
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
 from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField, BRStateSelect
 from app.members.models import City, Organization, Member
 
@@ -10,6 +9,7 @@ from app.members.models import City, Organization, Member
 class UserForm(forms.ModelForm):
     full_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
+    cpf = BRCPFField(required=True)
 
     class Meta:
         model = User
