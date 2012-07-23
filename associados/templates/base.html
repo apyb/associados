@@ -53,16 +53,25 @@
 
 <div class="container">
 
+    {% block message %}
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                <a class="close" data-dismiss="alert" href="#">×</a>
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% endif %}
+    {% endblock %}
+
     {% block content %}
       {% blocktrans %}
       <h1>Bootstrap starter template</h1>
       <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
       {% endblocktrans %}
-
     {% endblock content %}
 
-    <!-- Footer
-    ================================================== -->
+
     <footer class="footer">
         {% block footer %}
             <p class="pull-right"><a href="#">Back to top</a></p>
@@ -70,12 +79,9 @@
         {% endblock footer %}
     </footer>
 
-</div> <!-- /container -->
+</div>
 
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/google-code-prettify/prettify.js"></script>
