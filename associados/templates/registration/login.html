@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="content">
+        {% if form.errors %}
+            <div class="alert alert-block fade in">
+                <a class="close" data-dismiss="alert" href="#">×</a>
+                <p><strong>{% trans "Oh snap!" %}</strong> {% trans "Please enter a correct username and password. Note that both fields are case-sensitive." %}</p>
+            </div>
+        {% endif %}
+        <form action="{% url django.contrib.auth.views.login %}" method="post" id="login-form">{% csrf_token %}
+            <fieldset>
+                <legend>{% trans 'Log in' %}</legend>
+                {% for field in form %}
+                    {% include 'registration/form_field.html' %}
+                {% endfor %}
+                <div class="actions">
+                    <input type="submit" class="btn primary" value="{% trans 'Log in' %}">&nbsp;<button type="reset" class="btn">{% trans 'Cancel' %}</button>
+                </div>
+            </fieldset>
+        </form>
+        <p><a href="{% url django.contrib.auth.views.password_reset %}">{% trans "Reset my password" %}</a></p>
+        <script type="text/javascript">
+            $(function(){
+                $(".alert-message").alert();
+                $('#mainForm').submit(function(){
+                    $('#submit').button('loading');
+                })
+            });
+            document.forms[1].elements[2].focus();
+        </script>
+    </div>
+{% endblock %}
