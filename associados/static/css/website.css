@@ -1,0 +1,6 @@
+/*custom styles for site*/
+.navbar-fixed-top .brand {
+    color: #fff;
+    float: left;
+    margin-left: auto;
+}
