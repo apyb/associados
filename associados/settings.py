@@ -145,6 +145,12 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    #apps
+    'associados',
+    'app.payment',
+    'app.core',
+    'app.members',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -162,12 +168,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'sorl.thumbnail',
     'gravatar',
-
-    #apps
-    'associados',
-    'app.payment',
-    'app.core',
-    'app.members',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -204,6 +204,8 @@ try:
     execfile(BASEDIR + 'associados/settings_local.py')
 except IOError:
     pass
+
+LOGIN_REDIRECT_URL = '/'
 
 
 PAGSEGURO = {

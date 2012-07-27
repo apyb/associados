@@ -1,0 +1,33 @@
+{% load i18n %}
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="/">Associados da Associação Python Brasil</a>
+
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="i-bar"></span>
+                <span class="i-bar"></span>
+                <span class="i-bar"></span>
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                    {% if user.is_authenticated %}
+                        <li class="dropdown" id="fat-menu">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user }}{% endif %}<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">{% trans "dashboard" %}</a></li>
+                                <li><a href="{% url auth-password-change %}">{% trans "change password" %}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url auth-logout %}">{% trans "logout" %}</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url auth-login %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
