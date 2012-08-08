@@ -2,10 +2,12 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+
 from app.members.forms import MemberForm, UserForm
 from django.views.generic.list import ListView
 from app.members.models import Member
+from django.shortcuts import render, redirect, HttpResponse
+
 
 def register(request):
     member_form = MemberForm(request.POST or None)
@@ -37,10 +39,10 @@ class MemberListView(ListView):
             self.queryset = Member.objects.filter(
                                                   Q(user__first_name__icontains=self.query) |
                                                   Q(user__last_name__icontains=self.query))
-        
+
         if category:
             self.queryset = Member.objects.filter(category__id=category)
-        
+
         return super(MemberListView, self).get(request, args, kwargs)
 
     def get_context_data(self, **kwargs):
@@ -48,3 +50,18 @@ class MemberListView(ListView):
         if self.query:
             context['q'] = self.query
         return context
+
+
+def member_form(request):
+
+    if request.user:
+        member = Member.objects.get(pk=request.user.pk)
+    else:
+        member = None
+
+    form = MemberForm(request.POST or None, instance=member, user=request.user)
+    if request.POST:
+        if form.is_valid():
+            form.save(user=request.user)
+
+    return render(request, "members/member_form.html", {"form": form})

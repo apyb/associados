@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load bootstrap_toolkit %}
+
+{% block title %}{{ flatpage.title }}{% endblock %}
+
+{% block content %}
+    <h1>Atualização dos dados de associado</h1>
+
+    <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
+        <fieldset>
+            {% csrf_token %}
+                {{ form|as_bootstrap:"horizontal" }}
+                
+            <div class='form-actions'>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock %}
