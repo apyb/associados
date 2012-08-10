@@ -1,4 +1,4 @@
-# encoding: utf-8
+﻿# encoding: utf-8
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -6,16 +6,19 @@ from django.shortcuts import render
 from app.members.forms import MemberForm, UserForm
 from django.views.generic.list import ListView
 from app.members.models import Member
+from django.core.mail import send_mail
 
 def register(request):
     member_form = MemberForm(request.POST or None)
     user_form = UserForm(request.POST or None)
     saved = False
-
     if request.method == 'POST' and user_form.is_valid() and member_form.is_valid():
         user = user_form.save()
         member = member_form.save(user)
-        saved = True
+        saved = True        
+        #Send an email confirming the subscription
+        message = 'Olá %, seu registro na Associação Python Brasil (APyB) já foi realizado!'
+        user.email_user('Registro OK', message)
         return HttpResponseRedirect(reverse('payment', kwargs={'member_id':member.id}))
 
     return render(request,

@@ -223,3 +223,10 @@ PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAGSEGURO_TRANSACTIONS
 PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
+
+# email configs
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'user@gmail.com'
+EMAIL_HOST_PASSWORD = 'userPsswd'
+EMAIL_PORT = 587
