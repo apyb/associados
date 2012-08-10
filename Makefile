@@ -7,7 +7,7 @@ setup: deps
 	@python manage.py syncdb
 
 run:
-	@python manage.py runserver 0.0.0.0:8000
+	@python manage.py runserver 0.0.0.0:8000 --settings associados.settings_local
 
 clean:
 	@find . -name "*.pyc" -delete
