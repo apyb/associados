@@ -33,9 +33,12 @@ INSTALLED_APPS.append(
     'debug_toolbar'
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH = '/tmp/lead-messages'  # change this to a proper location
 
 #using pagseguro-fake-server: https://github.com/andrewsmedina/pagseguro-fake-server
-PAGSEGURO_BASE = 'http://localhost:8888/v2'
-
+PAGSEGURO_BASE = 'http://localhost:8889/v2'
+PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
+PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
+PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAGSEGURO_TRANSACTIONS
+PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
