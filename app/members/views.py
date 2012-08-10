@@ -1,4 +1,5 @@
 # encoding: utf-8
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -52,14 +53,10 @@ class MemberListView(ListView):
         return context
 
 
+@login_required
 def member_form(request):
-
-    if request.user:
-        member = Member.objects.get(pk=request.user.pk)
-    else:
-        member = None
-
-    form = MemberForm(request.POST or None, instance=member, user=request.user)
+    member = Member.objects.get(user=request.user)
+    form = MemberForm(request.POST or None, instance=member)
     if request.POST:
         if form.is_valid():
             form.save(user=request.user)

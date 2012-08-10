@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User, UserManager
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from app.members.models import Member, Category
 from django_dynamic_fixture import G
+from app.members.tests.helpers import create_user
 
 class MemberListViewTest(TestCase):
 
@@ -11,10 +12,10 @@ class MemberListViewTest(TestCase):
         super(MemberListViewTest, self).setUp()
 
         category = Category.objects.get(id=2)
-        self._create_user(first_name='test', last_name='test')
-        self._create_user(first_name='dolor', last_name='sit')
-        self._create_user(first_name='lorem', last_name='ipsum', category=category)
-        self._create_user(first_name='amet', last_name='consectetur', category=category)
+        create_user(first_name='test', last_name='test')
+        create_user(first_name='dolor', last_name='sit')
+        create_user(first_name='lorem', last_name='ipsum', category=category)
+        create_user(first_name='amet', last_name='consectetur', category=category)
 
         self.url = reverse('members-list')
         self.response = self.client.get(self.url)
@@ -25,16 +26,6 @@ class MemberListViewTest(TestCase):
 
     def test_should_render_the_correctly_template(self):
         self.assertTemplateUsed(self.response, 'members/member_list.html')
-
-    def _create_user(self, first_name, last_name, category=None):
-        category = category or Category.objects.get(id=1)
-
-        user = User.objects.create(
-            first_name=first_name,
-            last_name=last_name,
-            username='%s%s' % (first_name, last_name),
-        )
-        G(Member, user=user, category=category)
 
     def test_should_render_the_members(self):
         self.assertIn('test test', self.response.rendered_content)
@@ -116,7 +107,7 @@ class MemberRegisterView(TestCase):
 
     def test_post_with_blank_fields_should_return_error(self):
         self.response = self.client.post(self.url, data=self.empty_data)
-        self.assertContains(self.response, u'Este campo é obrigatório.', count=7)
+        self.assertContains(self.response, u'Este campo é obrigatório.', count=6)
 
     def test_post_with_correcly_data_should_created_a_member(self):
         self.response = self.client.post(self.url, data=self.data)
@@ -132,3 +123,31 @@ class MemberRegisterView(TestCase):
 
         self.assertEqual(self.response.status_code, 302)
         self.assertTrue(self.response['location'].endswith(payment_url) )
+
+
+class MemberChangeView(TestCase):
+    def setUp(self):
+        super(MemberChangeView, self).setUp()
+
+
+        self.url = reverse('members-form')
+        user = create_user(first_name='test', last_name='fake')
+        self.client.login(username='testfake', password='pass')
+        self.response = self.client.get(self.url)
+
+    def test_should_have_a_route(self):
+        try:
+            reverse('members-form')
+        except NoReverseMatch:
+            self.fail("Reversal of url named 'members-form' failed with NoReverseMatch")
+
+    def test_route_must_be_protected(self):
+        self.client.logout()
+        self.response = self.client.get(self.url)
+        self.assertRedirects(self.response, 'login/?next=/members/change/')
+
+    def test_should_responds_correcly(self):
+        self.assertEqual(self.response.status_code, 200)
+#
+#    def test_should_render_the_correctly_template(self):
+#        self.assertTemplateUsed(self.response, 'members/member_list.html')

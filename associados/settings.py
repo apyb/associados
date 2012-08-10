@@ -2,7 +2,7 @@
 # encoding: utf-8
 # Django settings for associados project.
 import os
-import sys
+from django.core.urlresolvers import reverse_lazy
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -206,8 +206,9 @@ try:
 except IOError:
     pass
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = reverse_lazy('auth-login')
 
+LOGIN_REDIRECT_URL = '/'
 
 PAGSEGURO = {
     'email': 'app-associados@pythonbrasil.org.br',
