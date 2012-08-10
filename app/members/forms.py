@@ -9,7 +9,6 @@ from app.members.models import City, Organization, Member
 class UserForm(forms.ModelForm):
     full_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
-    cpf = BRCPFField(required=True)
 
     class Meta:
         model = User
@@ -35,14 +34,16 @@ class UserForm(forms.ModelForm):
 
 
 class MemberForm(forms.ModelForm):
+    cpf = BRCPFField(required=True)
     phone = BRPhoneNumberField(required=False)
-    state = forms.CharField(widget=BRStateSelect())
     organization = forms.CharField()
     city = forms.CharField()
+    state = forms.CharField(widget=BRStateSelect())
 
     class Meta:
         model = Member
         exclude = ('user', )
+        fields = ('category', 'organization', 'cpf', 'phone', 'address', 'city', 'state', 'relation_with_community', 'mailing', 'partner')
 
     def clean_organization(self):
         organization =  self.cleaned_data['organization']
