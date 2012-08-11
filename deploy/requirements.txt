@@ -7,3 +7,4 @@ requests==0.13.3
 -e git+https://github.com/petry/django-bootstrap-toolkit.git@e7d01e86bc6b4ca7efebd2a97437489e6c583d12#egg=django_bootstrap_toolkit-dev
 dj-database-url==0.2.1
 psycopg2==2.4.5
+gunicorn==0.14.6
