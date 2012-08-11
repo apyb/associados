@@ -57,7 +57,7 @@ class PaymentView(View):
         if not t:
             payment.delete()
             url = '/'
-            messages.error(request, ugettext("Failed to generate a transaction within the payment gateway. Please contact the event staff to complete your registration."), fail_silently=True)
+            messages.error(request, ugettext("Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."), fail_silently=True)
         else:
             url = settings.PAGSEGURO_WEBCHECKOUT + t.code
         return HttpResponseRedirect(url)
