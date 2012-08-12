@@ -34,7 +34,12 @@ class UserForm(forms.ModelForm):
 
 
 class UserEditionForm(forms.ModelForm):
-    ''' '''
+    '''
+    Este form é redundante, mas do jeito que está o UserForm
+    não da pra aproveitar para edição
+    Necessário refactory destes forms -  UserForm e UserEditionForm.
+
+    '''
     class Meta:
         model = User
         fields = ('id', 'last_name', 'first_name', 'email')
