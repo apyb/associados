@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-
-from app.members.forms import MemberForm, UserForm
+from django.shortcuts import render
 from django.views.generic.list import ListView
+
+from django.contrib import messages
+
 from app.members.models import Member
-from django.shortcuts import render, redirect, HttpResponse
+from app.members.forms import MemberForm, UserForm, UserEditionForm
 
 
 def register(request):
@@ -19,7 +21,7 @@ def register(request):
         user = user_form.save()
         member = member_form.save(user)
         saved = True
-        return HttpResponseRedirect(reverse('payment', kwargs={'member_id':member.id}))
+        return HttpResponseRedirect(reverse('payment', kwargs={'member_id': member.id}))
 
     return render(request,
         'members/member_register.html',
@@ -28,6 +30,7 @@ def register(request):
             'user_form': user_form,
             'member_form': member_form,
             })
+
 
 class MemberListView(ListView):
     model = Member
@@ -56,9 +59,19 @@ class MemberListView(ListView):
 @login_required
 def member_form(request):
     member = Member.objects.get(user=request.user)
-    form = MemberForm(request.POST or None, instance=member)
-    if request.POST:
-        if form.is_valid():
-            form.save(user=request.user)
+    user_form = UserEditionForm(request.POST or None, instance=request.user)
+    member_form = MemberForm(request.POST or None, instance=member)
 
-    return render(request, "members/member_form.html", {"form": form})
+    if request.POST:
+        if member_form.is_valid() and user_form.is_valid():
+            member_form.save(user=request.user)
+            user_form.save()
+            messages.add_message(request, messages.INFO, 'Seus dados foram atualizados com sucesso')
+        else:
+            messages.add_message(request, messages.INFO, 'Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo.')
+
+    return render(request, "members/member_form.html",
+        {"member_form": member_form,
+        'user_form': user_form}
+        )
+

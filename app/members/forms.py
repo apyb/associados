@@ -33,6 +33,13 @@ class UserForm(forms.ModelForm):
         return super(UserForm, self).save(commit)
 
 
+class UserEditionForm(forms.ModelForm):
+    ''' '''
+    class Meta:
+        model = User
+        fields = ('id', 'last_name', 'first_name', 'email')
+
+
 class MemberForm(forms.ModelForm):
     cpf = BRCPFField(required=True)
     phone = BRPhoneNumberField(required=False)
@@ -63,4 +70,5 @@ class MemberForm(forms.ModelForm):
     def save(self, user, commit=True):
         self.instance.user = user
         return super(MemberForm, self).save(commit)
+
 
