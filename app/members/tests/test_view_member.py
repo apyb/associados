@@ -129,11 +129,27 @@ class MemberChangeView(TestCase):
     def setUp(self):
         super(MemberChangeView, self).setUp()
 
-
         self.url = reverse('members-form')
-        user = create_user(first_name='test', last_name='fake')
+        self.user = create_user(first_name='test', last_name='fake')
         self.client.login(username='testfake', password='pass')
         self.response = self.client.get(self.url)
+
+        self.data = {
+            u'category': u'1',
+            u'city': u'editou',
+            u'organization': u'editou',
+            u'relation_with_community': u'editou',
+            u'phone': u'12-1212-1212',
+            u'cpf': u'71763224490',
+            u'state': u'editou',
+            u'address': u'address',
+            u'partner': u'on',
+            u'mailing': u'on',
+            u'email': u'john@doe.com',
+            u'first_name': u'editou',
+            u'last_name': u'editou',
+            u'relation_with_community': u'editou',
+        }
 
     def test_should_have_a_route(self):
         try:
@@ -151,3 +167,14 @@ class MemberChangeView(TestCase):
 #
 #    def test_should_render_the_correctly_template(self):
 #        self.assertTemplateUsed(self.response, 'members/member_list.html')
+
+    def test_post_with_correcly_data_should_edit_a_member(self):
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, 200)
+        try:
+            Member.objects.get(user_id=self.user.id)
+            self.assertEqual(self.user.member.relation_with_community, u'editou')
+        except Member.DoesNotExist:
+            self.fail("Member does not exist")
+
+
