@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
-from app.members.models import Member, Category
+from app.members.models import Member, Category, City, Organization
 from django_dynamic_fixture import G
 from app.members.tests.helpers import create_user
 
@@ -90,7 +90,7 @@ class MemberRegisterView(TestCase):
             u'state': u'RJ',
             u'cpf': u'48296130840',
             u'full_name': u'john doe',
-            u'address': u'',
+            u'address': u'Rua XXX',
             u'partner': u'on',
             u'mailing': u'on',
             u'email': u'john@doe.com'
@@ -109,12 +109,31 @@ class MemberRegisterView(TestCase):
         self.response = self.client.post(self.url, data=self.empty_data)
         self.assertContains(self.response, u'Este campo é obrigatório.', count=6)
 
-    def test_post_with_correcly_data_should_created_a_member(self):
+    def test_post_with_correcly_data_should_create_a_member(self):
         self.response = self.client.post(self.url, data=self.data)
         try:
             Member.objects.get(cpf=self.data['cpf'])
         except Member.DoesNotExist:
             self.fail("Member does not exist")
+
+    def test_post_with_correcly_data_should_persiste_POST_data(self):
+        response = self.client.post(self.url, self.data)
+
+        member = Member.objects.get(cpf=self.data['cpf'])
+
+        self.assertEqual(member.category, Category.objects.get(id=1))
+        self.assertEqual(member.city, City.objects.get(name='Rio de Janeiro'))
+        self.assertEqual(member.organization, Organization.objects.get(name='globo'))
+        self.assertEqual(member.relation_with_community, u'')
+        self.assertEqual(member.phone, u'21-8447-9744')
+        self.assertEqual(member.cpf, u'48296130840')
+        self.assertEqual(member.city.state, u'RJ')
+        self.assertEqual(member.address, u'Rua XXX')
+        self.assertEqual(member.partner, True)
+        self.assertEqual(member.mailing, True)
+        self.assertEqual(member.user.email, u'john@doe.com')
+        self.assertEqual(member.user.first_name, u'john')
+        self.assertEqual(member.user.last_name, u'doe')
 
     def test_post_with_correcly_data_should_redirect_to_payment(self):
         self.response = self.client.post(self.url, data=self.data)
@@ -143,12 +162,11 @@ class MemberChangeView(TestCase):
             u'cpf': u'71763224490',
             u'state': u'editou',
             u'address': u'address',
-            u'partner': u'on',
-            u'mailing': u'on',
+            u'partner': u'',
+            u'mailing': u'',
             u'email': u'john@doe.com',
             u'first_name': u'editou',
             u'last_name': u'editou',
-            u'relation_with_community': u'editou',
         }
 
     def test_should_have_a_route(self):
@@ -165,16 +183,28 @@ class MemberChangeView(TestCase):
     def test_should_responds_correcly(self):
         self.assertEqual(self.response.status_code, 200)
 #
-#    def test_should_render_the_correctly_template(self):
-#        self.assertTemplateUsed(self.response, 'members/member_list.html')
+    def test_should_render_the_correctly_template(self):
+        self.assertTemplateUsed(self.response, 'members/member_form.html')
 
     def test_post_with_correcly_data_should_edit_a_member(self):
         response = self.client.post(self.url, self.data)
-        self.assertEqual(response.status_code, 200)
-        try:
-            Member.objects.get(user_id=self.user.id)
-            self.assertEqual(self.user.member.relation_with_community, u'editou')
-        except Member.DoesNotExist:
-            self.fail("Member does not exist")
+
+        member = Member.objects.get(user_id=self.user.id)
+
+        self.assertEqual(member.category, Category.objects.get(id=1))
+        self.assertEqual(member.city, City.objects.get(name='editou'))
+        self.assertEqual(member.organization, Organization.objects.get(name='editou'))
+        self.assertEqual(member.relation_with_community, u'editou')
+        self.assertEqual(member.phone, u'12-1212-1212')
+        self.assertEqual(member.cpf, u'71763224490')
+        self.assertEqual(member.city.state, u'editou')
+        self.assertEqual(member.address, u'address')
+        self.assertEqual(member.partner, False)
+        self.assertEqual(member.mailing, False)
+        self.assertEqual(member.user.email, u'john@doe.com')
+        self.assertEqual(member.user.first_name, u'editou')
+        self.assertEqual(member.user.last_name, u'editou')
+
+
 
 
