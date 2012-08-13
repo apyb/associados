@@ -17,6 +17,7 @@
     <link href="{{ STATIC_URL }}css/docs.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/website.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}js/google-code-prettify/prettify.css" rel="stylesheet">
+    {% block css %}{% endblock css %}
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -84,6 +85,6 @@
 <script src="{{ STATIC_URL }}js/bootstrap-carousel.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
 <script src="{{ STATIC_URL }}js/application.js"></script>
-
+{% block js %}{% endblock js %}
 </body>
 </html>

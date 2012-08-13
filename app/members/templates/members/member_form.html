@@ -1,20 +1,34 @@
 {% extends "base.html" %}
 {% load bootstrap_toolkit %}
-
+{% block css %}
+<style type="text/css">
+#id_address{height:60px;}
+#id_relation_with_community{height:60px;}
+</style>
+{% endblock css %}
 {% block title %}{{ flatpage.title }}{% endblock %}
 
 {% block content %}
     <h1>Atualização dos dados de associado</h1>
-
+<div class="row">
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
-        <fieldset>
-            {% csrf_token %}
-                {{ form|as_bootstrap:"horizontal" }}
-                
-            <div class='form-actions'>
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </div>
-        </fieldset>
+    {% csrf_token %}
+        <div class="span6">
+            <fieldset>
+                {{ user_form|as_bootstrap:"horizontal" }}
+                <div class='form-actions'>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </fieldset>
+        </div>
+        <div class="span6">
+            <fieldset>
+                {{ member_form|as_bootstrap:"horizontal" }}
+                <div class='form-actions'>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </fieldset>
+        </div>
     </form>
-
+</div>
 {% endblock %}
