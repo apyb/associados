@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from app.members.models import Member, Category
 from django_dynamic_fixture import G
+from django.core import mail
 
 class MemberListViewTest(TestCase):
 
@@ -105,7 +106,6 @@ class MemberRegisterView(TestCase):
             u'email': u'john@doe.com'
         }
 
-
     def test_should_have_a_route(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -132,3 +132,22 @@ class MemberRegisterView(TestCase):
 
         self.assertEqual(self.response.status_code, 302)
         self.assertTrue(self.response['location'].endswith(payment_url) )
+    
+    def test_send_email(self):
+        #make sure that the outbox is empty
+        mail.outbox = []
+        #do the request
+        self.response = self.client.post(self.url, data=self.data)
+        #get the created member
+        member = Member.objects.get(cpf=self.data['cpf'])
+        #set the strings to be verified
+        body = u'Olá %s! Seu registro na Associação Python Brasil (APyB) já foi realizado!' % member.user.get_full_name()
+        subject = u'Registro OK'
+        
+        #verify the outbox length
+        self.assertEqual(len(mail.outbox), 1)
+        #verify the subject string
+        self.assertEqual(mail.outbox[0].subject, subject)
+        #verify the body string
+        
+        self.assertEqual(mail.outbox[0].body, body)
