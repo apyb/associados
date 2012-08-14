@@ -116,14 +116,6 @@ class MemberRegisterView(TestCase):
         except Member.DoesNotExist:
             self.fail("Member does not exist")
 
-    def test_post_with_correcly_data_should_redirect_to_payment(self):
-        self.response = self.client.post(self.url, data=self.data)
-        member = Member.objects.get(cpf=self.data['cpf'])
-        payment_url = reverse('payment', kwargs={'member_id':member.id})
-
-        self.assertEqual(self.response.status_code, 302)
-        self.assertTrue(self.response['location'].endswith(payment_url) )
-
 
 class MemberChangeView(TestCase):
     def setUp(self):

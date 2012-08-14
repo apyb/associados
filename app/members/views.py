@@ -1,10 +1,11 @@
 # encoding: utf-8
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.safestring import SafeUnicode
 
 from django.db.models import Q
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.list import ListView
 
@@ -77,3 +78,19 @@ def member_form(request):
         'user_form': user_form}
         )
 
+
+@login_required
+def dashboard(request):
+    #verifica pagamento ainda valido
+    payment_valid = False
+    last_payment = request.user.member.payment_set.all().order_by('-date')[0]
+    if not last_payment.date is None:
+        dif = last_payment.valid_until - datetime.now()
+        if dif.days > 0:
+            payment_valid = True
+
+    return render(request, "members/dashboard.html",
+        {"payment_valid": payment_valid,
+        "last_payment": last_payment
+        }
+        )
