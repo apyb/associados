@@ -1,6 +1,8 @@
 # encoding: utf-8
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.utils.safestring import SafeUnicode
+
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -15,18 +17,18 @@ from app.members.forms import MemberForm, UserForm, UserEditionForm
 def register(request):
     member_form = MemberForm(request.POST or None)
     user_form = UserForm(request.POST or None)
-    saved = False
 
     if request.method == 'POST' and user_form.is_valid() and member_form.is_valid():
         user = user_form.save()
         member = member_form.save(user)
-        saved = True
-        return HttpResponseRedirect(reverse('payment', kwargs={'member_id': member.id}))
-
+        login = reverse('auth-login')
+        messages.add_message(request, messages.INFO, SafeUnicode('Seu regitro foi realizado com sucesso. </br><a href="%s">Acesse seu perfil, para terminar de prencher se cadastro.</a>' % (login)))
+        #return HttpResponseRedirect(reverse('payment', kwargs={'member_id': member.id}))
+    else:
+        messages.add_message(request, messages.ERROR, 'Houve um problema no seu cadastro. Verifique os campos abaixo')
     return render(request,
         'members/member_register.html',
             {
-            'saved': saved,
             'user_form': user_form,
             'member_form': member_form,
             })
