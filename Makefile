@@ -1,7 +1,7 @@
 
 deps:
-	@pip install -r deploy/requirements.txt
-	@pip install -r deploy/requirements_test.txt
+	@pip install -r requirements.txt
+	@pip install -r requirements_test.txt
 
 setup: deps
 	@python manage.py syncdb

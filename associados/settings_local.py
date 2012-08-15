@@ -3,6 +3,11 @@
 import sys
 from settings import *
 
+DATABASES['default'] = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(BASEDIR, 'associados.sqlite')
+}
+
 INTERNAL_IPS = ('127.0.0.1',)
 
 # You've installed lessc, right?

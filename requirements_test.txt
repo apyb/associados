@@ -9,4 +9,3 @@ readline==6.2.2
 sorl-thumbnail==11.12
 wsgiref==0.1.2
 django-nose==1.1
-lxml==2.3.4
