@@ -82,19 +82,10 @@ def member_form(request):
 @login_required
 def dashboard(request):
     #verifica pagamento ainda valido
-    payment_valid = False
-    days_left = None
-    last_payment = request.user.member.payment_set.all().order_by('-date')[0]
-    print datetime.now() - last_payment.valid_until
-    if last_payment.valid_until is not None:
-        dif = last_payment.valid_until - datetime.now()
-        if dif.days > 0:
-            payment_valid = True
-        days_left = dif.days
-    print payment_valid
+    payment_results = request.user.member.get_payment_check_list()
     return render(request, "members/dashboard.html",
-        {"payment_valid": payment_valid,
-        "last_payment": last_payment,
-        "days_left": days_left
+        {"expired": payment_results['expired'],
+        "last_payment": payment_results['last_date'],
+        "days_left": payment_results['days_left']
          }
         )
