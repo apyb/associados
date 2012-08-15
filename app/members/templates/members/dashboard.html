@@ -12,36 +12,47 @@
 
 <div class="row">
 
-<div class="span4">
+<div class="span6">
 <table class="table table-striped">
-    <tbody>
-      <tr>
-        <th>Usuário:</th>
-        <td>{{ user }}</td>
-      </tr>
-      <tr>
-        <th>E-mail para contato:</th>
-        <td>{{ user.email }}</td>
-      </tr>
-      <tr>
-        <th>Membro desde de:</th>
-        <td>{{ user.date_joined }}</td>
-      </tr>
-      <tr>
-        <th>Último pagamento:</th>
-        <td>{{ last_payment.date|default:"não realizado" }} 
-            {%if payment_valid %} <span class="label label-important">Expirado</span>
-            {% else%} <span class="label label-success"> Válido até  {{last_payment.valid_until}}</span>
-            {%endif%}</td>
-      </tr>
-    </tbody>
-  </table>
+  <tbody>
+    <tr>
+      <th>Usuário:</th>
+      <td>{{ user }}</td>
+    </tr>
+    <tr>
+      <th>E-mail para contato:</th>
+      <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+      <th>Membro desde:</th>
+      <td>{{ user.date_joined }}</td>
+    </tr>
+    <tr>
+      <th>Último pagamento:</th>
+      <td>{{ last_payment.date|default:"não realizado" }} </td>
+    </tr>
+    <tr>
+      <th>Status da Associação</th>
+      <td>
+        {%if payment_valid %}
+        <span class="label label-success"> Associação Válida  + {{days_left}} dias </span> 
+        {% else %} <span class="label label-important">Associação Inválida </span>
+        {%endif %}
+      </td>
+    </tr>
+    <tr>
+      <th span="2">
+        <a class="btn btn-success" href="{% url  payment  user.id %}">
+    <i class="icon-heart icon-white"></i> link para pagamento da anuidade</a>
+  </th>
+
+    </tr>
+  </tbody>
+</table>
 
 </div>
-<div class="span8">
-
-   
-    <a class="btn btn-success" href="{% url  payment  user.id %}"><i class="icon-heart icon-white"></i> link para pagamento da anuidade</a>
+<div class="span6">
+    
 </div>
 </div>
 </section>
