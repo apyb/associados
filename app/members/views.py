@@ -85,12 +85,12 @@ def dashboard(request):
     payment_valid = False
     days_left = None
     last_payment = request.user.member.payment_set.all().order_by('-date')[0]
-    #print last_payment.valid_until is  None
+    print datetime.now() - last_payment.valid_until
     if last_payment.valid_until is not None:
-        dif = datetime.now() - last_payment.valid_until
+        dif = last_payment.valid_until - datetime.now()
         if dif.days > 0:
             payment_valid = True
-        days_left = -dif.days
+        days_left = dif.days
     print payment_valid
     return render(request, "members/dashboard.html",
         {"payment_valid": payment_valid,
