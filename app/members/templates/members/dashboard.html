@@ -35,7 +35,8 @@
       <th>Status da Associação</th>
       <td>
         {%if payment_valid %}
-        <span class="label label-success"> Associação Válida  + {{days_left}} dias </span> 
+        <span class="label label-success"> Associação Válida </span> 
+        <span  class="muted">&nbsp;+{{days_left}} dias </span>
         {% else %} <span class="label label-important">Associação Inválida </span>
         {%endif %}
       </td>
