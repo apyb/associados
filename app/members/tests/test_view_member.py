@@ -107,7 +107,7 @@ class MemberRegisterView(TestCase):
 
     def test_post_with_blank_fields_should_return_error(self):
         self.response = self.client.post(self.url, data=self.empty_data)
-        self.assertContains(self.response, u'Este campo é obrigatório.', count=6)
+        self.assertContains(self.response, u'This field is required.', count=6)
 
     def test_post_with_correcly_data_should_create_a_member(self):
         self.response = self.client.post(self.url, data=self.data)
