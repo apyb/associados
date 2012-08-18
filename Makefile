@@ -4,7 +4,7 @@ deps:
 	@pip install -r requirements_test.txt
 
 setup: deps
-	@python manage.py syncdb
+	@python manage.py syncdb --settings associados.settings_local
 
 run:
 	@python manage.py runserver 0.0.0.0:8000 --settings associados.settings_local
@@ -18,3 +18,9 @@ test: clean
 
 help:
 	@grep '^[^#[:space:]].*:' Makefile | awk -F ":" '{print $$1}'
+
+makemessages:
+	@python manage.py makemessages --settings associados.settings_test -l pt_BR
+
+compilemessages:
+	@python manage.py compilemessages --settings associados.settings_test 
