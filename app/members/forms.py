@@ -3,12 +3,13 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField, BRStateSelect
+from django.utils.translation import gettext_lazy as _
 from app.members.models import City, Organization, Member
 
 
 class UserForm(forms.ModelForm):
-    full_name = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
+    full_name = forms.CharField(label=_("Name"), required=True)
+    email = forms.EmailField(label=_("E-Mail"), required=True)
 
     class Meta:
         model = User
@@ -46,11 +47,11 @@ class UserEditionForm(forms.ModelForm):
 
 
 class MemberForm(forms.ModelForm):
-    cpf = BRCPFField(required=True)
-    phone = BRPhoneNumberField(required=False)
-    organization = forms.CharField()
-    city = forms.CharField()
-    state = forms.CharField(widget=BRStateSelect())
+    cpf = BRCPFField(label=_("CPF"), required=True)
+    phone = BRPhoneNumberField(label=_("Phone"), required=False)
+    organization = forms.CharField(label=_("Organization"))
+    city = forms.CharField(label=_("City"))
+    state = forms.CharField(label=_("State"), widget=BRStateSelect())
 
     class Meta:
         model = Member

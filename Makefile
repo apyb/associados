@@ -18,3 +18,9 @@ test: clean
 
 help:
 	@grep '^[^#[:space:]].*:' Makefile | awk -F ":" '{print $$1}'
+
+makemessages:
+	@python manage.py makemessages --settings associados.settings_test -l pt_BR
+
+compilemessages:
+	@python manage.py compilemessages --settings associados.settings_test 

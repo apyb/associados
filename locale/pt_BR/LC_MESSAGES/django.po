@@ -1,0 +1,240 @@
+# Brazilian Python Association Member Management
+# Copyright (C) 2012 Associação Python Brasil
+# This file is distributed under the same license as the Apache License package.
+# Osvaldo Santana Neto <osantana@python.org.br>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: associados 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-18 02:05-0300\n"
+"PO-Revision-Date: 2012-08-18 01:04-0300\n"
+"Last-Translator: Osvaldo Santana Neto <osantana@python.org.br>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"Language: Brazilian Portuguese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: app/members/forms.py:11 app/members/models.py:10 app/members/models.py:21
+msgid "Name"
+msgstr "Nome"
+
+#: app/members/forms.py:12
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: app/members/forms.py:50 app/members/models.py:46
+msgid "CPF"
+msgstr "CPF"
+
+#: app/members/forms.py:51 app/members/models.py:47
+msgid "Phone"
+msgstr "Fone"
+
+#: app/members/forms.py:52
+msgid "Organization"
+msgstr "Organização"
+
+#: app/members/forms.py:53
+msgid "City"
+msgstr "Cidade"
+
+#: app/members/forms.py:54 app/members/models.py:20
+msgid "State"
+msgstr "Estado"
+
+#: app/members/models.py:48
+msgid "Address"
+msgstr "Endereço"
+
+#: app/members/models.py:50
+msgid "Public Key"
+msgstr "Chave Pública"
+
+#: app/members/models.py:52
+msgid "Relation with community"
+msgstr "Relação com a comunidade"
+
+#: app/members/models.py:53
+msgid "Mailing"
+msgstr "Correspondência"
+
+#: app/members/models.py:54
+msgid "Partner"
+msgstr "Parceiro"
+
+#: app/members/templates/members/member_register.html:8
+msgid "Python Brazil Association Registration"
+msgstr "Pagamento do registro na Associação Python Brasil"
+
+#: app/members/templates/members/member_register.html:17
+msgid "Submit"
+msgstr "Enviar"
+
+#: app/members/templates/members/member_register.html:22
+msgid "You are already registered!"
+msgstr "Você já está registrado!"
+
+#: app/payment/views.py:25
+msgid "Brazilian Python Association registration payment"
+msgstr "Pagamento do registro na Associação Python Brasil"
+
+#: app/payment/views.py:59
+msgid ""
+"Failed to generate a transaction within the payment gateway. Please contact "
+"the staff to complete your registration."
+msgstr ""
+"Falha no processamento da transação com o gateway de pagamento. Entre em "
+"contato com a Associação Python Brasil para completar seu cadastramento."
+
+#: associados/templates/base.html:55
+msgid ""
+"\n"
+"      <h1>Bootstrap starter template</h1>\n"
+"      <p>Use this document as a way to quick start any new project.<br> All "
+"you get is this message and a barebones HTML document.</p>\n"
+"      "
+msgstr ""
+
+#: associados/templates/navbar.html:20
+msgid "dashboard"
+msgstr "painel"
+
+#: associados/templates/navbar.html:21
+msgid "change password"
+msgstr "alterar senha"
+
+#: associados/templates/navbar.html:23
+msgid "logout"
+msgstr "sair"
+
+#: associados/templates/navbar.html:27
+msgid "Login"
+msgstr "Entrar"
+
+#: associados/templates/registration/logged_out.html:6
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr "Obrigado pelo seu tempo neste site."
+
+#: associados/templates/registration/logged_out.html:7
+msgid "Log in again"
+msgstr "Entrar novamente"
+
+#: associados/templates/registration/login.html:9
+msgid "Oh snap!"
+msgstr "Danou-se!"
+
+#: associados/templates/registration/login.html:9
+msgid ""
+"Please enter a correct username and password. Note that both fields are case-"
+"sensitive."
+msgstr ""
+"Informe o usuário e senha corretamente. Note que ambos os campos fazem "
+"distinção entre maiúsculas e minúsculas."
+
+#: associados/templates/registration/login.html:14
+#: associados/templates/registration/login.html:19
+msgid "Log in"
+msgstr "Entrar"
+
+#: associados/templates/registration/login.html:19
+#: associados/templates/registration/password_change_form.html:25
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: associados/templates/registration/login.html:23
+#: associados/templates/registration/password_reset_form.html:24
+msgid "Reset my password"
+msgstr "Redefinir minha senha"
+
+#: associados/templates/registration/password_change_done.html:6
+msgid "Password change successful"
+msgstr "Senha alterada com sucesso"
+
+#: associados/templates/registration/password_change_done.html:7
+msgid "Back"
+msgstr "Voltar"
+
+#: associados/templates/registration/password_change_form.html:9
+#: associados/templates/registration/password_reset_confirm.html:10
+#: associados/templates/registration/password_reset_form.html:9
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Por favor corrija o erro abaixo."
+msgstr[1] "Por favor corrija os erros abaixo."
+
+#: associados/templates/registration/password_change_form.html:15
+msgid "Password change"
+msgstr "Alterar senha"
+
+#: associados/templates/registration/password_change_form.html:18
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Informe a sua senha atual, por segurança, e então informe sua nova senha "
+"duas vezes para podermos verificar se ela foi digitada corretamente."
+
+#: associados/templates/registration/password_change_form.html:25
+#: associados/templates/registration/password_reset_confirm.html:30
+msgid "Change my password"
+msgstr "Alterar minha senha"
+
+#: associados/templates/registration/password_reset_complete.html:6
+msgid "Password reset complete"
+msgstr "Redefinição de senha completada"
+
+#: associados/templates/registration/password_reset_complete.html:7
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Sua senha foi definida. Você pode seguir adiante e entrar no sistema."
+
+#: associados/templates/registration/password_reset_confirm.html:20
+#: associados/templates/registration/password_reset_confirm.html:38
+msgid "Password reset unsuccessful"
+msgstr "Redefinição de senha falhou"
+
+#: associados/templates/registration/password_reset_confirm.html:23
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Informe sua senha duas vezes para que possamos verificar se ela foi digitada "
+"corretamente."
+
+#: associados/templates/registration/password_reset_confirm.html:40
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+"O link para redefinir a senha é inválido. Provavelmente porque já foi "
+"utilizado. Solicite uma nova redefinição de senha."
+
+#: associados/templates/registration/password_reset_done.html:6
+msgid "Password reset successful"
+msgstr "Senha redefinida com sucesso"
+
+#: associados/templates/registration/password_reset_done.html:7
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Nós lhe enviamos um e-mail com instruções sobre como definir uma nova senha "
+"em breve você deve recebê-lo."
+
+#: associados/templates/registration/password_reset_form.html:14
+msgid "Password reset"
+msgstr "Redefinir senha"
+
+#: associados/templates/registration/password_reset_form.html:17
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Esqueceu sua senha? Informe seu endereço de e-mail abaixo e nós lhe "
+"enviaremos instruções para definir uma nova."
+
+#: associados/templates/registration/password_reset_form.html:24
+msgid "loading"
+msgstr "carregando"

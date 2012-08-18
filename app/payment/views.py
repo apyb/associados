@@ -22,7 +22,7 @@ class PaymentView(View):
         payload = settings.PAGSEGURO
         price = payment.type.price
         payload["itemAmount1"] = "%.2f" % price
-        payload['itemDescription1'] = ugettext(u'Payment of the registration no APyB')
+        payload['itemDescription1'] = ugettext(u'Brazilian Python Association registration payment')
         payload["reference"] = "%d" % payment.pk
         return payload, price
 
@@ -61,7 +61,7 @@ class PaymentView(View):
             url = settings.PAGSEGURO_WEBCHECKOUT + t.code
         return HttpResponseRedirect(url)
 
-    
+
 
 class NotificationView(View):
 
