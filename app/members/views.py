@@ -20,7 +20,6 @@ def register(request):
     if request.method == 'POST' and user_form.is_valid() and member_form.is_valid():
         user = user_form.save()
         member = member_form.save(user)
-        saved = True
         return HttpResponseRedirect(reverse('payment', kwargs={'member_id': member.id}))
 
     return render(request,
