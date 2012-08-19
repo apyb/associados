@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load bootstrap_toolkit %}
+{% load bootstrap_toolkit i18n %}
 {% block css %}
 <style type="text/css">
 #id_address{height:60px;}
@@ -9,11 +9,17 @@
 {% block title %}{{ flatpage.title }}{% endblock %}
 
 {% block content %}
-    <h1>Atualização dos dados de associado</h1>
+    <h1>{% trans "Member Data" %}</h1>
 <div class="row">
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
     {% csrf_token %}
             <fieldset>
+                <div class="control-group">
+                    <label class="control-label">{% trans "User Name"%}</label>
+                    <div class="controls">
+                        <span class="input-xlarge uneditable-input">{{ user_form.instance.username }}</span>
+                    </div>
+                </div>
                 {{ user_form|as_bootstrap:"horizontal" }}
             </fieldset>
             <hr>
