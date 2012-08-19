@@ -4,35 +4,33 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.safestring import SafeUnicode
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 from django.db.models import Q
+
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
 from django.views.generic.list import ListView
 
 from django.contrib import messages
 
+from authemail.forms import RegisterForm
+
 from app.members.models import Member
-from app.members.forms import MemberForm, UserForm, UserEditionForm
+from app.members.forms import MemberForm, UserEditionForm
 
 
 def register(request):
-    member_form = MemberForm(request.POST or None)
-    user_form = UserForm(request.POST or None)
-
-    if request.method == 'POST' and user_form.is_valid() and member_form.is_valid():
-        user = user_form.save()
-        member = member_form.save(user)
-        login = reverse('auth-login')
-        messages.add_message(request, messages.INFO, SafeUnicode('Seu regitro foi realizado com sucesso. </br><a href="%s">Acesse seu perfil, para terminar de prencher se cadastro.</a>' % (login)))
-        #return HttpResponseRedirect(reverse('payment', kwargs={'member_id': member.id}))
-    else:
-        messages.add_message(request, messages.ERROR, 'Houve um problema no seu cadastro. Verifique os campos abaixo')
-    return render(request,
-        'members/member_register.html',
-            {
-            'user_form': user_form,
-            'member_form': member_form,
-            })
+    form = RegisterForm()
+    if request.method == 'POST':
+        #data = request.POST.copy()  # so we can manipulate data
+        form = RegisterForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Welcome ! You may login now."))
+            return HttpResponseRedirect(reverse('auth-login'))
+    return render(request, 'members/member_register.html', {'form': form})
 
 
 class MemberListView(ListView):

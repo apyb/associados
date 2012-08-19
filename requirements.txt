@@ -5,6 +5,7 @@ django-gravatar==0.1.
 django-pipeline==1.2.11
 requests==0.13.3
 -e git+https://github.com/petry/django-bootstrap-toolkit.git@e7d01e86bc6b4ca7efebd2a97437489e6c583d12#egg=django_bootstrap_toolkit-dev
+git+git://github.com/cadu-leite/django-auth-email.git
 dj-database-url==0.2.1
 psycopg2==2.4.5
 gunicorn==0.14.6
