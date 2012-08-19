@@ -182,7 +182,7 @@ class MemberChangeView(TestCase):
 
     def test_should_responds_correcly(self):
         self.assertEqual(self.response.status_code, 200)
-#
+
     def test_should_render_the_correctly_template(self):
         self.assertTemplateUsed(self.response, 'members/member_form.html')
 

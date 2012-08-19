@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style type="text/css">
+#id_address{height:60px;}
+#id_relation_with_community{height:60px;}
+</style>
+{% endblock css %}
+{% block content %}
+    <h1></h1>
+<section>
+
+<div class="row">
+
+<div class="span6">
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th>Usuário:</th>
+      <td>{{ user }}</td>
+    </tr>
+    <tr>
+      <th>E-mail para contato:</th>
+      <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+      <th>Membro desde:</th>
+      <td>{{ user.date_joined }}</td>
+    </tr>
+    <tr>
+      <th>Último pagamento:</th>
+      <td>{{ last_payment.date|default:"não realizado" }} </td>
+    </tr>
+    <tr>
+      <th>Status da Associação</th>
+      <td>
+        {%if expired %}
+        <span class="label label-important">Associação Inválida </span>
+        {% else %}
+        <span class="label label-success"> Associação Válida </span> 
+        <span  class="muted">&nbsp;+{{days_left}} dias </span>
+        {%endif %}
+      </td>
+    </tr>
+    <tr>
+      <th span="2">
+        <a class="btn btn-success" href="{% url  payment  user.id %}">
+    <i class="icon-heart icon-white"></i> link para pagamento da anuidade</a>
+  </th>
+
+    </tr>
+  </tbody>
+</table>
+
+</div>
+<div class="span6">
+    
+</div>
+</div>
+</section>
+{% endblock %}

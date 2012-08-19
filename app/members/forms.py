@@ -43,7 +43,7 @@ class UserEditionForm(forms.ModelForm):
     '''
     class Meta:
         model = User
-        fields = ('id', 'last_name', 'first_name', 'email')
+        fields = ('first_name', 'last_name', 'email')
 
 
 class MemberForm(forms.ModelForm):
