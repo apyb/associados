@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-18 02:05-0300\n"
+"POT-Creation-Date: 2012-08-19 17:58-0300\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Osvaldo Santana Neto <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -17,65 +17,102 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: app/members/forms.py:11 app/members/models.py:10 app/members/models.py:21
-msgid "Name"
-msgstr "Nome"
-
-#: app/members/forms.py:12
-msgid "E-Mail"
-msgstr "E-Mail"
-
-#: app/members/forms.py:50 app/members/models.py:46
+#: app/members/forms.py:18 app/members/models.py:50
 msgid "CPF"
 msgstr "CPF"
 
-#: app/members/forms.py:51 app/members/models.py:47
+#: app/members/forms.py:19 app/members/models.py:51
 msgid "Phone"
 msgstr "Fone"
 
-#: app/members/forms.py:52
+#: app/members/forms.py:20
 msgid "Organization"
 msgstr "Organização"
 
-#: app/members/forms.py:53
+#: app/members/forms.py:21
 msgid "City"
 msgstr "Cidade"
 
-#: app/members/forms.py:54 app/members/models.py:20
+#: app/members/forms.py:22 app/members/models.py:24
 msgid "State"
 msgstr "Estado"
 
-#: app/members/models.py:48
+#: app/members/models.py:14 app/members/models.py:25
+#: app/members/templates/members/member_list.html:13
+msgid "Name"
+msgstr "Nome"
+
+#: app/members/models.py:52
 msgid "Address"
 msgstr "Endereço"
 
-#: app/members/models.py:50
+#: app/members/models.py:54
 msgid "Public Key"
 msgstr "Chave Pública"
 
-#: app/members/models.py:52
+#: app/members/models.py:56
 msgid "Relation with community"
 msgstr "Relação com a comunidade"
 
-#: app/members/models.py:53
+#: app/members/models.py:57
 msgid "Mailing"
 msgstr "Correspondência"
 
-#: app/members/models.py:54
+#: app/members/models.py:58
 msgid "Partner"
 msgstr "Parceiro"
+
+#: app/members/templates/members/member_form.html:14
+msgid "Update member information"
+msgstr "Atualizar informações do associado"
+
+#: app/members/templates/members/member_form.html:25
+#: app/members/templates/members/member_register.html:17
+msgid "Submit"
+msgstr "Enviar"
+
+#: app/members/templates/members/member_list.html:3
+#: app/members/templates/members/member_list.html:6
+msgid "Members"
+msgstr "Associados"
+
+#: app/members/templates/members/member_list.html:14
+msgid "Category"
+msgstr "Categoria"
+
+#: app/members/templates/members/member_list.html:30
+msgid "Search members:"
+msgstr "Buscar associados:"
+
+#: app/members/templates/members/member_list.html:33
+msgid "Search"
+msgstr "Buscar"
+
+#: app/members/templates/members/member_list.html:36
+msgid "Filter by category:"
+msgstr "Filtrar por categoria:"
+
+#: app/members/templates/members/member_list.html:40
+#: app/members/templates/members/member_list.html:44
+msgid "Student"
+msgstr "Estudante"
+
+#: app/members/templates/members/member_list.html:41
+#: app/members/templates/members/member_list.html:45
+msgid "Member"
+msgstr "Associado"
 
 #: app/members/templates/members/member_register.html:8
 msgid "Python Brazil Association Registration"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
-#: app/members/templates/members/member_register.html:17
-msgid "Submit"
-msgstr "Enviar"
-
 #: app/members/templates/members/member_register.html:22
 msgid "You are already registered!"
 msgstr "Você já está registrado!"
+
+#: app/members/templates/members/member_signup.html:14
+msgid "Signup"
+msgstr "Registrar"
 
 #: app/payment/views.py:25
 msgid "Brazilian Python Association registration payment"

@@ -1,16 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Members{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Members" %}{% endblock %}
 
 {% block content %}
-    <h1>Members</h1>
-    
+    <h1>{% trans "Members" %}</h1>
+
     <div class="row">
         <div class="span9">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Category</th>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Category" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,25 +24,25 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div class="span3">
             <div class="well">
-                <h3>Search members:</h3>
+                <h3>{% trans "Search members:" %}</h3>
                 <form class="form-search">
                   <input type="text" name="q" value= "{{ q }}" class="input-medium search-query">
-                  <button type="submit" class="btn">Search</button>
+                  <button type="submit" class="btn">{% trans "Search" %}</button>
                 </form>
-    
-                <h3>Filter by category:</h3>
+
+                <h3>{% trans "Filter by category:" %}</h3>
                 <ul>
                     {% if q %}
                     <li><a href="?q={{ q|urlencode }}">All</a></li>
-                    <li><a href="?q={{ q|urlencode }}&category=1">Student</a></li>
-                    <li><a href="?q={{ q|urlencode }}&category=2">Member</a></li>
+                    <li><a href="?q={{ q|urlencode }}&category=1">{% trans "Student" %}</a></li>
+                    <li><a href="?q={{ q|urlencode }}&category=2">{% trans "Member" %}</a></li>
                     {% else %}
                     <li><a href="?{{ q|urlencode:"=" }}">All</a></li>
-                    <li><a href="?category=1">Student</a></li>
-                    <li><a href="?category=2">Member</a></li>
+                    <li><a href="?category=1">{% trans "Student" %}</a></li>
+                    <li><a href="?category=2">{% trans "Member" %}</a></li>
                     {% endif %}
                 </ul>
             </div>

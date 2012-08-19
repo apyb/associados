@@ -1,15 +1,17 @@
 {% extends "base.html" %}
-{% load bootstrap_toolkit i18n %}
+{% load i18n %}{% load bootstrap_toolkit %}
+
 {% block css %}
 <style type="text/css">
 #id_address{height:60px;}
 #id_relation_with_community{height:60px;}
 </style>
 {% endblock css %}
+
 {% block title %}{{ flatpage.title }}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Member Data" %}</h1>
+    <h1>{% trans "Update member information" %}</h1>
 <div class="row">
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
     {% csrf_token %}
@@ -26,7 +28,7 @@
             <fieldset>
                 {{ member_form|as_bootstrap:"horizontal" }}
                 <div class='form-actions'>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
                 </div>
             </fieldset>
     </form>
