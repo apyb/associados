@@ -13,22 +13,16 @@
 <div class="row">
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
     {% csrf_token %}
-        <div class="span6">
             <fieldset>
                 {{ user_form|as_bootstrap:"horizontal" }}
-                <div class='form-actions'>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
             </fieldset>
-        </div>
-        <div class="span6">
+            <hr>
             <fieldset>
                 {{ member_form|as_bootstrap:"horizontal" }}
                 <div class='form-actions'>
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </fieldset>
-        </div>
     </form>
 </div>
 {% endblock %}
