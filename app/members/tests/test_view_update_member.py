@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from app.members.models import Member, Category, City, Organization
-from django_dynamic_fixture import G
-from app.members.tests.helpers import create_user
+from app.members.tests.helpers import create_user_with_member
 from lxml import html as lhtml
 
 class MemberChangeView(TestCase):
@@ -12,7 +10,7 @@ class MemberChangeView(TestCase):
         super(MemberChangeView, self).setUp()
 
         self.url = reverse('members-form')
-        self.user = create_user(first_name='test', last_name='fake')
+        self.user = create_user_with_member(first_name='test', last_name='fake')
         self.client.login(username='testfake', password='pass')
         self.response = self.client.get(self.url)
         self.dom = lhtml.fromstring(self.response.content)
@@ -58,7 +56,7 @@ class MemberChangeView(TestCase):
         last_name = self.dom.cssselect('input[name=last_name]')[0]
         self.assertEqual(last_name.value, self.user.last_name)
 
-    def test_post_with_correcly_data_should_edit_a_member(self):
+    def test_post_with_correcly_data_should_update_a_member(self):
         response = self.client.post(self.url, self.data)
 
         member = Member.objects.get(user_id=self.user.id)

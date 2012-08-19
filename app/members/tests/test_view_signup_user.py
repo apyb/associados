@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from app.members.models import Member, Category, City, Organization
 from django_dynamic_fixture import G
-from app.members.tests.helpers import create_user
+from app.members.tests.helpers import create_user_with_member
 
 
 class MemberSignupView(TestCase):
@@ -54,7 +54,7 @@ class MemberSignupView(TestCase):
 
     def test_post_with_correcly_data_should_redirect_to_dashboard(self):
         self.response = self.client.post(self.url, data=self.data)
-        dashboard_url = reverse('members-dashboard')
+        dashboard_url = reverse('members-form')
 
         self.assertEqual(self.response.status_code, 302)
         self.assertTrue(self.response['location'].endswith(dashboard_url) )

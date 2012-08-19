@@ -27,7 +27,7 @@ class FlatpagesTest(TestCase):
         self.assertEqual(dom.cssselect('title')[0].text, self.flatpage.title)
 
     def test_should_have_the_member_form_route(self):
-        url = reverse('member-register')
+        url = reverse('members-signup')
         self.assertContains(self.response, url)
 
     def test_should_have_the_member_list_route(self):

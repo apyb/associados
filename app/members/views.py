@@ -42,7 +42,7 @@ class MemberListView(ListView):
 class SignupView(FormView):
     template_name = 'members/member_signup.html'
     form_class = UserCreationForm
-    success_url = reverse_lazy('members-dashboard')
+    success_url = reverse_lazy('members-form')
 
     def form_valid(self, form):
         form.save()
@@ -90,6 +90,7 @@ def dashboard(request):
     try:
         payment_results = request.user.member.get_payment_check_list()
     except Member.DoesNotExist:
+        messages.add_message(request, messages.INFO, 'Para acessar os dashboard, você precisa completar os seus dados')
         return HttpResponseRedirect(reverse('members-form'))
 
     return render(request,
