@@ -13,11 +13,12 @@
                 <ul class="nav pull-right">
                     {% if user.is_authenticated %}
                         <li class="dropdown" id="fat-menu">
+
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user }}{% endif %}<b class="caret"></b>
+                                <i class="icon-user icon-white"></i> {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user }}{% endif %}<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">{% trans "dashboard" %}</a></li>
+                                <li><a href="{% url members-dashboard %}">{% trans "dashboard" %}</a></li>
                                 <li><a href="{% url auth-password-change %}">{% trans "change password" %}</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{% url auth-logout %}">{% trans "logout" %}</a></li>
