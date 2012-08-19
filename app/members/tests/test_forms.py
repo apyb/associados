@@ -2,19 +2,24 @@
 # encoding: utf-8
 from django.test import TestCase
 from app.members.forms import MemberForm, UserForm
-from app.members.models import Organization, City, User, Member, Category
+from app.members.models import Organization, City, User,  Category
 
-
-class FormTest(TestCase):
-
+class UserFormTest(TestCase):
     def setUp(self):
         self.data = {
-            'full_name': 'Valder Gallo Jr',
+            'first_name': 'Valder',
+            'last_name': 'Gallo Jr',
+            'email': 'valdergallo@gmail.com',
+        }
+
+
+class MemberFormTest(TestCase):
+    def setUp(self):
+        self.data = {
             'organization': 'Home',
             'address': 'Rua XXX',
 
             'cpf': '94463643104',
-            'email': 'valdergallo@gmail.com',
             'phone': '1199492911',
             'city': 'Sao Paulo',
             'state': 'SP',
@@ -27,8 +32,7 @@ class FormTest(TestCase):
         }
 
 
-class ValidUserFormTest(FormTest):
-
+class ValidUserFormTest(UserFormTest):
     def setUp(self):
         super(ValidUserFormTest, self).setUp()
 
@@ -43,20 +47,16 @@ class ValidUserFormTest(FormTest):
         self.assertIsInstance(self.new_user, User)
 
     def test_should_store_first_name(self):
-        self.assertEqual(self.new_user.first_name, 'Valder Gallo')
+        self.assertEqual(self.new_user.first_name, 'Valder')
 
     def test_should_store_last_name(self):
-        self.assertEqual(self.new_user.last_name, 'Jr')
+        self.assertEqual(self.new_user.last_name, 'Gallo Jr')
 
     def test_should_store_email(self):
         self.assertEqual(self.new_user.email, self.data.get('email'))
 
-    def test_should_store_username(self):
-        self.assertEqual(self.new_user.username, self.data.get('cpf'))
 
-
-class InvalidUserFormTest(TestCase):
-
+class InvalidUserFormTest(UserFormTest):
     def setUp(self):
         self.user_form = UserForm({})
 
@@ -70,8 +70,7 @@ class InvalidUserFormTest(TestCase):
         self.assertTrue(self.user_form.errors.has_key('full_name'))
 
 
-class ValidMemberFormTest(FormTest):
-
+class ValidMemberFormTest(MemberFormTest):
     def setUp(self):
         super(ValidMemberFormTest, self).setUp()
 
@@ -85,10 +84,6 @@ class ValidMemberFormTest(FormTest):
 
     def test_form_must_be_valid(self):
         self.assertTrue(self.member_form.is_valid())
-
-    def test_should_create_an_user(self):
-        self.assertEqual(self.user_instance.get_full_name(), self.data.get('full_name'))
-        self.assertIsInstance(self.member_instance.user, User)
 
     def test_should_store_a_city(self):
         city = City.objects.get(name='Sao Paulo', state='SP')
@@ -124,10 +119,7 @@ class ValidMemberFormTest(FormTest):
         self.assertEqual(self.member_instance.partner, self.data.get('partner'))
 
 
-
-
-class InvalidUserFormTest(TestCase):
-
+class InvalidUserFormTest(MemberFormTest):
     def setUp(self):
         super(InvalidUserFormTest, self).setUp()
         self.member_form = MemberForm({})

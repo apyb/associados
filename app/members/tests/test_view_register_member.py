@@ -21,7 +21,8 @@ class MemberRegisterView(TestCase):
             u'phone': u'',
             u'state': u'AC',
             u'relation_with_community': u'',
-            u'full_name': u'',
+            u'first_name': u'',
+            u'last_name': u'',
             u'address': u'',
             u'partner': u'on',
             u'mailing': u'on',
@@ -36,7 +37,8 @@ class MemberRegisterView(TestCase):
             u'phone': u'2184479744',
             u'state': u'RJ',
             u'cpf': u'48296130840',
-            u'full_name': u'john doe',
+            u'first_name': u'john',
+            u'last_name': u'doe',
             u'address': u'Rua XXX',
             u'partner': u'on',
             u'mailing': u'on',
@@ -54,7 +56,7 @@ class MemberRegisterView(TestCase):
 
     def test_post_with_blank_fields_should_return_error(self):
         self.response = self.client.post(self.url, data=self.empty_data)
-        self.assertContains(self.response, u'This field is required.', count=6)
+        self.assertContains(self.response, u'This field is required.', count=4)
 
     def test_post_with_correcly_data_should_create_a_member(self):
         self.response = self.client.post(self.url, data=self.data)

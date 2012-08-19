@@ -5,6 +5,7 @@ from django.test import TestCase
 from app.members.models import Member, Category, City, Organization
 from django_dynamic_fixture import G
 from app.members.tests.helpers import create_user
+from lxml import html as lhtml
 
 class MemberChangeView(TestCase):
     def setUp(self):
@@ -14,6 +15,7 @@ class MemberChangeView(TestCase):
         self.user = create_user(first_name='test', last_name='fake')
         self.client.login(username='testfake', password='pass')
         self.response = self.client.get(self.url)
+        self.dom = lhtml.fromstring(self.response.content)
 
         self.data = {
             u'category': u'1',
@@ -29,7 +31,7 @@ class MemberChangeView(TestCase):
             u'email': u'john@doe.com',
             u'first_name': u'editou',
             u'last_name': u'editou',
-            }
+        }
 
     def test_should_have_a_route(self):
         try:
@@ -39,14 +41,22 @@ class MemberChangeView(TestCase):
 
     def test_route_must_be_protected(self):
         self.client.logout()
-        self.response = self.client.get(self.url)
-        self.assertRedirects(self.response, 'login/?next=/members/change/')
+        response = self.client.get(self.url)
+        self.assertRedirects(response, 'login/?next=/members/change/')
 
     def test_should_responds_correcly(self):
         self.assertEqual(self.response.status_code, 200)
 
     def test_should_render_the_correctly_template(self):
         self.assertTemplateUsed(self.response, 'members/member_form.html')
+
+    def test_first_name_must_be_filled(self):
+        first_name = self.dom.cssselect('input[name=first_name]')[0]
+        self.assertEqual(first_name.value, self.user.first_name)
+
+    def test_last_name_must_be_filled(self):
+        last_name = self.dom.cssselect('input[name=last_name]')[0]
+        self.assertEqual(last_name.value, self.user.last_name)
 
     def test_post_with_correcly_data_should_edit_a_member(self):
         response = self.client.post(self.url, self.data)

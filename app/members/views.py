@@ -1,27 +1,18 @@
 # encoding: utf-8
-from httplib import HTTPResponse
+from django.contrib import messages
 from django.contrib.auth import login, authenticate
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.utils.safestring import SafeUnicode
-
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.safestring import SafeUnicode
 from django.views.generic.list import ListView
-
-from django.contrib import messages
+from django.views.generic.edit import FormView
 
 from app.members.models import Member
-from app.members.forms import MemberForm, UserForm, UserEditionForm
-from django.views.generic.edit import FormView
-from django.core.urlresolvers import reverse_lazy
-
-
-
-
+from app.members.forms import MemberForm, UserForm
 
 
 class MemberListView(ListView):
@@ -75,7 +66,7 @@ def member_form(request):
         member = Member.objects.get(user=request.user)
     except Member.DoesNotExist:
         member = Member()
-    user_form = UserEditionForm(request.POST or None, instance=request.user)
+    user_form = UserForm(request.POST or None, instance=request.user)
     member_form = MemberForm(request.POST or None, instance=member)
     if request.POST:
         if member_form.is_valid() and user_form.is_valid():
@@ -96,18 +87,18 @@ def member_form(request):
 
 @login_required
 def dashboard(request):
-    #verifica pagamento ainda valido
     try:
         payment_results = request.user.member.get_payment_check_list()
     except Member.DoesNotExist:
         return HttpResponseRedirect(reverse('members-form'))
 
-    return render(request, "members/dashboard.html",
-        {"expired": payment_results['expired'],
-        "last_payment": payment_results['last_date'],
-        "days_left": payment_results['days_left']
-         }
-        )
+    return render(request,
+        "members/dashboard.html",{
+            "expired": payment_results['expired'],
+            "last_payment": payment_results['last_date'],
+            "days_left": payment_results['days_left']
+        }
+    )
 
 def register(request):
     member_form = MemberForm(request.POST or None)

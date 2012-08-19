@@ -8,39 +8,7 @@ from app.members.models import City, Organization, Member
 
 
 class UserForm(forms.ModelForm):
-    full_name = forms.CharField(label=_("Name"), required=True)
-    email = forms.EmailField(label=_("E-Mail"), required=True)
 
-    class Meta:
-        model = User
-        fields = ('full_name', 'email')
-
-    def clean_full_name(self):
-        full_name = self.cleaned_data['full_name'].split(' ')
-        first_name = full_name.pop(0)
-        last_name = ' '.join(full_name)
-        self.cleaned_data.update({'first_name': first_name})
-        self.cleaned_data.update({'last_name': last_name})
-        return self.cleaned_data['full_name']
-
-    def save(self, commit=True):
-        full_name = self.cleaned_data.get('full_name')
-        full_name_list = full_name.split(' ')
-
-        self.instance.username = self.data['cpf']
-        self.instance.last_name = full_name_list.pop(-1)
-        self.instance.first_name = ' '.join(full_name_list)
-
-        return super(UserForm, self).save(commit)
-
-
-class UserEditionForm(forms.ModelForm):
-    '''
-    Este form é redundante, mas do jeito que está o UserForm
-    não da pra aproveitar para edição
-    Necessário refactory destes forms -  UserForm e UserEditionForm.
-
-    '''
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
@@ -76,5 +44,6 @@ class MemberForm(forms.ModelForm):
     def save(self, user, commit=True):
         self.instance.user = user
         return super(MemberForm, self).save(commit)
+
 
 
