@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% load bootstrap_toolkit %}
+{% load i18n %}{% load bootstrap_toolkit %}
 
 {% block title %}{{ flatpage.title }}{% endblock %}
 
@@ -14,7 +13,7 @@
                 {{ user_form|as_bootstrap:"horizontal" }}
                 {{ member_form|as_bootstrap:"horizontal" }}
             <div class='form-actions'>
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
             </div>
         </fieldset>
     </form>
