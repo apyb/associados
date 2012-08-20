@@ -9,3 +9,4 @@ dj-database-url==0.2.1
 psycopg2==2.4.5
 gunicorn==0.14.6
 lxml==2.3.4
+git+https://github.com/cadu-leite/django-auth-email.git

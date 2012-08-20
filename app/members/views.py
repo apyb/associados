@@ -13,6 +13,7 @@ from django.views.generic.edit import FormView
 
 from app.members.models import Member
 from app.members.forms import MemberForm, UserForm
+from authemail.forms import RegisterForm
 
 
 class MemberListView(ListView):
@@ -101,7 +102,8 @@ def dashboard(request):
         }
     )
 
-def register(request):
+
+def register_old(request):
     member_form = MemberForm(request.POST or None)
     user_form = UserForm(request.POST or None)
 
@@ -120,3 +122,19 @@ def register(request):
         }
     )
 
+
+def register(request):
+    user_form = RegisterForm()
+    if request.method == 'POST':
+        #data = request.POST.copy()  # so we can manipulate data
+        user_form = RegisterForm(request.POST or None)
+
+        if user_form.is_valid():
+
+            user_form.save()
+            login = reverse('auth-login')
+            messages.add_message(request, messages.INFO, SafeUnicode('Seu regitro foi realizado com sucesso. </br><a href="%s">Acesse seu perfil, para terminar de prencher se cadastro.</a>' % (login)))
+            return HttpResponseRedirect(reverse('auth-login'))
+        else:
+            messages.add_message(request, messages.ERROR, 'Houve um problema no seu cadastro. Verifique os campos abaixo')
+    return render(request, 'members/member_register.html', {'user_form': user_form})

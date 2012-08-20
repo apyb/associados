@@ -6,18 +6,13 @@
 {% block content %}
     <h1>{% trans "Python Brazil Association Registration" %}</h1>
 
-    {% if not saved %}
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
         <fieldset>
             {% csrf_token %}
                 {{ user_form|as_bootstrap:"horizontal" }}
-                {{ member_form|as_bootstrap:"horizontal" }}
             <div class='form-actions'>
                 <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
             </div>
         </fieldset>
     </form>
-    {% else %}
-        <h2>{% trans "You are already registered!" %}</h2>
-    {% endif %}
 {% endblock %}
