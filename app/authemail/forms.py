@@ -4,8 +4,8 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth.models import User
 from django import forms
 
-NAMES = ('Graham Chapman Python', 'Eric Idle Python', 'Terry Gilliam Python', 'Terry Jones Python',
-    'John Cleese Python', 'Michael Palin Python', 'Neil Innes Python', 'Carol Cleveland Python',  # monty python members/contributors
+NAMES = ('Graham Chapman', 'Eric Idle', 'Terry Gilliam', 'Terry Jones',
+    'John Cleese', 'Michael Palin', 'Neil Innes', 'Carol Cleveland',  # monty python members/contributors
     'Arca Jeth', 'Ashka Boda', 'Vodo Baas', 'Chamma', 'Dominus', 'Exar Kun', 'Freedon Nadd',
     'Garnoo', "Gra'aton", 'Ikrit', 'Jaled Dur', 'Jassa Mroon', 'Memit Nadill', 'Odan Urr', 'Ood Bnar',
     'Ooroo', 'Master Ra\xc3\xbal', 'Shatoyo', 'Sidonra Diath', 'Ulic Qel-Droma', 'Jedon-Pan', 'Ahsoka Tano',

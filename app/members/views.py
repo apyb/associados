@@ -13,7 +13,7 @@ from django.views.generic.edit import FormView
 
 from app.members.models import Member
 from app.members.forms import MemberForm, UserForm
-from authemail.forms import RegisterForm
+from app.authemail.forms import RegisterForm
 
 
 class MemberListView(ListView):
@@ -42,18 +42,17 @@ class MemberListView(ListView):
 
 class SignupView(FormView):
     template_name = 'members/member_signup.html'
-    form_class = UserCreationForm
+    form_class = RegisterForm
     success_url = reverse_lazy('members-form')
 
     def form_valid(self, form):
         form.save()
         user = authenticate(
-            username=self.request.POST['username'],
-            password=self.request.POST['password1']
-        )
+            username=self.request.POST['email'],
+            password=self.request.POST['password1'])
         login(self.request, user)
         messages.success(self.request, 'Você está cadastrado! Complete os seus dados para\
-         prosseguir com o registro na associação!')
+            prosseguir com o registro na associação!')
         return super(SignupView, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -79,7 +78,7 @@ def member_form(request):
             messages.add_message(request, messages.ERROR, 'Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo.')
 
     return render(request,
-        "members/member_form.html",{
+        "members/member_form.html", {
             "member_form": member_form,
             'user_form': user_form
         }
@@ -95,46 +94,9 @@ def dashboard(request):
         return HttpResponseRedirect(reverse('members-form'))
 
     return render(request,
-        "members/dashboard.html",{
+        "members/dashboard.html", {
             "expired": payment_results['expired'],
             "last_payment": payment_results['last_date'],
             "days_left": payment_results['days_left']
         }
     )
-
-
-def register_old(request):
-    member_form = MemberForm(request.POST or None)
-    user_form = UserForm(request.POST or None)
-
-    if request.method == 'POST':
-        if user_form.is_valid() and member_form.is_valid():
-            user = user_form.save()
-            member = member_form.save(user)
-            login = reverse('auth-login')
-            messages.add_message(request, messages.INFO, SafeUnicode('Seu regitro foi realizado com sucesso. </br><a href="%s">Acesse seu perfil, para terminar de prencher se cadastro.</a>' % (login)))
-        else:
-            messages.add_message(request, messages.ERROR, 'Houve um problema no seu cadastro. Verifique os campos abaixo')
-    return render(request,
-        'members/member_register.html',{
-            'user_form': user_form,
-            'member_form': member_form
-        }
-    )
-
-
-def register(request):
-    user_form = RegisterForm()
-    if request.method == 'POST':
-        #data = request.POST.copy()  # so we can manipulate data
-        user_form = RegisterForm(request.POST or None)
-
-        if user_form.is_valid():
-
-            user_form.save()
-            login = reverse('auth-login')
-            messages.add_message(request, messages.INFO, SafeUnicode('Seu regitro foi realizado com sucesso. </br><a href="%s">Acesse seu perfil, para terminar de prencher se cadastro.</a>' % (login)))
-            return HttpResponseRedirect(reverse('auth-login'))
-        else:
-            messages.add_message(request, messages.ERROR, 'Houve um problema no seu cadastro. Verifique os campos abaixo')
-    return render(request, 'members/member_register.html', {'user_form': user_form})

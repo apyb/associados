@@ -4,14 +4,13 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from app.members.models import Member, Category, City, Organization
 from django_dynamic_fixture import G
-from app.members.tests.helpers import create_user_with_member
 
 
 class UserRegisterView(TestCase):
     def setUp(self):
         super(UserRegisterView, self).setUp()
 
-        self.url = reverse('member-register')
+        self.url = reverse('members-signup')
 
         self.empty_data = {
             u'email': u'',
@@ -31,7 +30,7 @@ class UserRegisterView(TestCase):
 
     def test_should_render_the_correctly_template(self):
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'members/member_register.html')
+        self.assertTemplateUsed(response, 'members/member_signup.html')
 
     def test_post_with_blank_fields_should_return_error(self):
         response = self.client.post(self.url, {'email': '', 'password1': '', 'password2': ''})
@@ -39,9 +38,16 @@ class UserRegisterView(TestCase):
         self.assertFormError(response, 'form', 'password1', 'This field is required.')
         self.assertFormError(response, 'form', 'password2', 'This field is required.')
 
-    def test_post_with_correcly_data_should_create_a_member(self):
+    def test_post_with_correcly_data_should_create_a_user(self):
         self.response = self.client.post(self.url, data=self.user_data)
         try:
             User.objects.get(email=self.user_data['email'])
         except Member.DoesNotExist:
             self.fail("Member does not exist")
+
+    def test_post_with_correcly_data_should_redirect_to_dashboard(self):
+        self.response = self.client.post(self.url, data=self.user_data)
+        dashboard_url = reverse('members-form')
+
+        self.assertEqual(self.response.status_code, 302)
+        self.assertTrue(self.response['location'].endswith(dashboard_url))
