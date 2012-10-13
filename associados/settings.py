@@ -204,7 +204,7 @@ except IOError:
 
 LOGIN_URL = reverse_lazy('auth-login')
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = reverse_lazy('members-dashboard')
 
 PAGSEGURO = {
     'email': 'app-associados@pythonbrasil.org.br',

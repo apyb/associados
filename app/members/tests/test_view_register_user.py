@@ -45,9 +45,8 @@ class UserRegisterView(TestCase):
         except Member.DoesNotExist:
             self.fail("Member does not exist")
 
-    def test_post_with_correcly_data_should_redirect_to_dashboard(self):
+    def test_post_with_correcly_data_should_redirect_to_members_form(self):
         self.response = self.client.post(self.url, data=self.user_data)
-        dashboard_url = reverse('members-form')
+        members_form_url = reverse('members-form')
+        self.assertRedirects(self.response, members_form_url)
 
-        self.assertEqual(self.response.status_code, 302)
-        self.assertTrue(self.response['location'].endswith(dashboard_url))
