@@ -99,6 +99,12 @@ class NotificationView(View):
         payment.valid_until = datetime.now() + timedelta(days=payment.type.duration)
         payment.save()
 
+    def _send_confirmation_email(self, payment):
+        #Send an email confirming the subscription
+        user = payment.member.user
+        message = u'Olá %s! Seu registro na Associação Python Brasil (APyB) já foi realizado!' % user.get_full_name()
+        user.email_user(u'Registro OK', message)
+
     def transaction_done(self, payment_id):
         payment = Payment.objects.get(id=payment_id)
 
@@ -108,6 +114,8 @@ class NotificationView(View):
 
         self._update_payment_dates(payment)
         self._update_member_category(payment)
+        self._send_confirmation_email(payment)
+
 
     def transaction_canceled(self, payment_id):
         transaction = Transaction.objects.get(payment_id=payment_id)
