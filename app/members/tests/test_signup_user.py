@@ -37,21 +37,6 @@ class MemberSignupView(TestCase):
         self.response = self.client.post(self.url, data=self.empty_data)
         self.assertContains(self.response, u'This field is required.', count=3)
 
-    def test_post_with_correcly_data_should_create_a_user(self):
-        self.response = self.client.post(self.url, data=self.data)
-        try:
-            User.objects.get(email=self.data['email'])
-        except Member.DoesNotExist:
-            self.fail("User does not exist")
-
-    def test_post_with_correcly_data_should_persiste_POST_data(self):
-        response = self.client.post(self.url, self.data)
-
-        user = User.objects.get(email=self.data['email'])
-
-        self.assertEqual(user.email, u'fake_user@fake.com')
-        self.assertTrue(user.check_password('fake_pass'))
-
     def test_post_with_correcly_data_should_redirect_to_dashboard(self):
         self.response = self.client.post(self.url, data=self.data)
         dashboard_url = reverse('members-form')
