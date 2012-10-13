@@ -16,12 +16,6 @@
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
     {% csrf_token %}
             <fieldset>
-                <div class="control-group">
-                    <label class="control-label">{% trans "User Name"%}</label>
-                    <div class="controls">
-                        <span class="input-xlarge uneditable-input">{{ user_form.instance.username }}</span>
-                    </div>
-                </div>
                 {{ user_form|as_bootstrap:"horizontal" }}
             </fieldset>
             <hr>
