@@ -12,6 +12,7 @@ from app.members.models import Member, Category
 from app.payment import views
 from app.payment.models import Payment, Transaction, PaymentType
 from app.payment.views import PaymentView, NotificationView
+from django.core import mail
 
 
 class MemberTestCase(TestCase):
@@ -193,6 +194,27 @@ class NotificationViewTestCase(MemberTestCase):
         self.assertTrue(reloaded_payment.valid_until)
         self.assertEqual(reloaded_payment.valid_until.strftime('%Y-%m-%d+%H:%M'),
                          valid_until.strftime('%Y-%m-%d+%H:%M'))
+
+    def test_transaction_done_send_email(self):
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
+
+        #make sure that the outbox is empty
+        mail.outbox = []
+
+        NotificationView().transaction_done(payment.id)
+
+        #get the created member
+        #set the strings to be verified
+        body = u'Olá %s! Seu registro na Associação Python Brasil (APyB) já foi realizado!' % self.member.user.get_full_name()
+        subject = u'Registro OK'
+
+        #verify the outbox length
+        self.assertEqual(len(mail.outbox), 1)
+        #verify the subject string
+        self.assertEqual(mail.outbox[0].subject, subject)
+        #verify the body string
+
+        self.assertEqual(mail.outbox[0].body, body)
 
 
 

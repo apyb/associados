@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from app.members.models import Category, Member
 from django_dynamic_fixture import G
 
-def create_user(first_name, last_name, category=None):
+def create_user_with_member(first_name, last_name, category=None):
     category = category or Category.objects.get(id=1)
 
     user = User.objects.create_user(

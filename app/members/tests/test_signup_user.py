@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from app.members.models import Member, Category, City, Organization
 from django_dynamic_fixture import G
-from app.members.tests.helpers import create_user
+from app.members.tests.helpers import create_user_with_member
 
 
 class MemberSignupView(TestCase):
@@ -14,13 +14,13 @@ class MemberSignupView(TestCase):
         self.url = reverse('members-signup')
 
         self.empty_data = {
-            u'username': u'',
+            u'email': u'',
             u'password1': u'',
             u'password2': u'',
             }
 
         self.data = {
-            u'username': u'fake_user',
+            u'email': u'fake_user@fake.com',
             u'password1': u'fake_pass',
             u'password2': u'fake_pass',
             }
@@ -37,24 +37,9 @@ class MemberSignupView(TestCase):
         self.response = self.client.post(self.url, data=self.empty_data)
         self.assertContains(self.response, u'This field is required.', count=3)
 
-    def test_post_with_correcly_data_should_create_a_user(self):
-        self.response = self.client.post(self.url, data=self.data)
-        try:
-            User.objects.get(username=self.data['username'])
-        except Member.DoesNotExist:
-            self.fail("User does not exist")
-
-    def test_post_with_correcly_data_should_persiste_POST_data(self):
-        response = self.client.post(self.url, self.data)
-
-        user = User.objects.get(username=self.data['username'])
-
-        self.assertEqual(user.username, u'fake_user')
-        self.assertTrue(user.check_password('fake_pass'))
-
     def test_post_with_correcly_data_should_redirect_to_dashboard(self):
         self.response = self.client.post(self.url, data=self.data)
-        dashboard_url = reverse('members-dashboard')
+        dashboard_url = reverse('members-form')
 
         self.assertEqual(self.response.status_code, 302)
         self.assertTrue(self.response['location'].endswith(dashboard_url) )
