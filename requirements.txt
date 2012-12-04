@@ -1,9 +1,9 @@
-Django==1.4
-django-extensions==0.9
+Django==1.4.2
+django-extensions==1.0.1
 sorl-thumbnail==11.12
-django-gravatar==0.1.
+django-gravatar==0.1.0
 django-pipeline==1.2.11
-requests==0.13.3
+requests==0.14.2
 -e git+https://github.com/petry/django-bootstrap-toolkit.git@e7d01e86bc6b4ca7efebd2a97437489e6c583d12#egg=django_bootstrap_toolkit-dev
 dj-database-url==0.2.1
 psycopg2==2.4.5
