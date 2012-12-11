@@ -86,3 +86,6 @@ class Member(models.Model):
                     payment_valid = True
                 days_left = dif.days
         return {'expired': not payment_valid, 'days_left': days_left, 'last_date': None}
+
+    def __unicode__(self):
+        return self.user.get_full_name()
