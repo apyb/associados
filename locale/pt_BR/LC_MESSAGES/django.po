@@ -151,6 +151,10 @@ msgstr "sair"
 msgid "Login"
 msgstr "Entrar"
 
+#: associados/templates/navbar.html:28
+msgid "Sign up"
+msgstr "Inscreva-se"
+
 #: associados/templates/registration/logged_out.html:6
 msgid "Thanks for spending some quality time with the Web site today."
 msgstr "Obrigado pelo seu tempo neste site."
