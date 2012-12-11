@@ -9,6 +9,9 @@ class PaymentType(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     duration = models.IntegerField(help_text='In days', default=1)
 
+    def __unicode__(self):
+        return self.category.name
+
 
 class Payment(models.Model):
     member = models.ForeignKey(Member)
