@@ -15,6 +15,7 @@ class Organization(DefaultFields):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = _('Organizations')
 
     def __unicode__(self):
         return self.name
@@ -26,6 +27,7 @@ class City(DefaultFields):
 
     class Meta:
         ordering = ('state', 'name')
+        verbose_name_plural = _('Cities')
 
     def __unicode__(self):
         return self.name
@@ -37,6 +39,9 @@ def get_public_key_storage_path(instance, filename):
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
+
+    class Meta:
+        verbose_name_plural = _('Categories')
 
     def __unicode__(self):
         return self.name
