@@ -1,7 +1,5 @@
-
 deps:
-	@pip install -r requirements.txt
-	@pip install -r requirements_test.txt
+	@bash -c "./setup_os.sh"
 
 setup: deps
 	@python manage.py syncdb --settings associados.settings_local
