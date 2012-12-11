@@ -5,6 +5,7 @@ django-dynamic-fixture==1.6.3
 django-extensions==0.9
 ipdb==0.6.1
 ipython==0.12.1
+readline==6.2.2
 sorl-thumbnail==11.12
 wsgiref==0.1.2
 django-nose==1.1
