@@ -73,7 +73,7 @@ class Member(models.Model):
         expired = True para pagamentos reazalidos até 1 ano (365 dias) atrás  
         expired = False para todas as outroas condições
         days_left = int(n) dias que faltam para vencer o pagamento / negativo (-n) se expirado.
-        lasta_date = data do ultimo pagamento  - "None" se nenhum foi realizado.
+        last_date = data do ultimo pagamento  - "None" se nenhum foi realizado.
         '''
         payment_valid = False
         days_left = None
