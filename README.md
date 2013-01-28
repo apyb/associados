@@ -12,6 +12,12 @@ Instalar
     $ make setup
 
 
+Rodando a aplicação localmente
+------------------------------
+
+    $ make test
+
+
 Rodando os testes
 -----------------
 
