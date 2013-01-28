@@ -15,7 +15,7 @@ Instalar
 Rodando a aplicação localmente
 ------------------------------
 
-    $ make test
+    $ make run
 
 
 Rodando os testes
