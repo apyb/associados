@@ -161,7 +161,7 @@ EMAIL_USE_TLS = True
 
 # 3rd party applications
 PAGSEGURO = {
-    'email': 'app-associados@pythonbrasil.org.br',
+    'email': os.environ.get('PAGSEGURO_EMAIL'),
     'charset': 'UTF-8',
     'token': os.environ.get('PAGSEGURO_TOKEN'),
     'currency': 'BRL',
