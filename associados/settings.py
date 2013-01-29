@@ -163,7 +163,7 @@ EMAIL_USE_TLS = True
 PAGSEGURO = {
     'email': 'app-associados@pythonbrasil.org.br',
     'charset': 'UTF-8',
-    'token': 'fake',
+    'token': os.environ.get('PAGSEGURO_TOKEN'),
     'currency': 'BRL',
     'itemId1': '0001',
     'itemQuantity1': 1,
