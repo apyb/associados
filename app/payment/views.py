@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
+from django.utils import timezone
 import requests
 
 from django.conf import settings
@@ -101,8 +102,8 @@ class NotificationView(View):
         member.save()
 
     def _update_payment_dates(self, payment):
-        payment.date = datetime.now()
-        payment.valid_until = datetime.now() + timedelta(days=payment.type.duration)
+        payment.date = datetime.now(tz=timezone.get_default_timezone())
+        payment.valid_until = datetime.now(tz=timezone.get_default_timezone()) + timedelta(days=payment.type.duration)
         payment.save()
 
     def _send_confirmation_email(self, payment):

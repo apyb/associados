@@ -6,6 +6,7 @@ from django.core.management import call_command
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from django.test.client import RequestFactory
+from django.utils import timezone
 from django_dynamic_fixture import G
 from app.members.models import Member, Category
 
@@ -181,15 +182,17 @@ class NotificationViewTestCase(MemberTestCase):
 
         reloaded_payment = Payment.objects.get(id=payment.id)
         self.assertTrue(reloaded_payment.date)
-        self.assertEqual(reloaded_payment.date.strftime('%Y-%m-%d+%H:%M'),
-                         datetime.now().strftime('%Y-%m-%d+%H:%M'))
+        self.assertEqual(
+            reloaded_payment.date.strftime('%Y-%m-%d+%H:%M'),
+            timezone.now().strftime('%Y-%m-%d+%H:%M')
+        )
 
     def test_transaction_done_fill_payment_valid_until(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
         self.assertFalse(payment.valid_until)
         NotificationView().transaction_done(payment.id)
 
-        valid_until = datetime.now() + timedelta(days=payment.type.duration)
+        valid_until = timezone.now() + timedelta(days=payment.type.duration)
         reloaded_payment = Payment.objects.get(id=payment.id)
         self.assertTrue(reloaded_payment.valid_until)
         self.assertEqual(reloaded_payment.valid_until.strftime('%Y-%m-%d+%H:%M'),

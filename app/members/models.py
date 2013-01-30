@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from django.db import models
+from django.utils import timezone
 from app.core.models import DefaultFields
 
 from django.contrib.localflavor.br.br_states import STATE_CHOICES
@@ -82,7 +83,7 @@ class Member(models.Model):
         if payments:
             last_payment = self.payment_set.all().order_by('-date')[0]
             if last_payment.valid_until is not None:
-                dif = last_payment.valid_until - datetime.now()
+                dif = last_payment.valid_until - timezone.now()
                 if dif.days > 0:
                     payment_valid = True
                 days_left = dif.days

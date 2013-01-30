@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n  tz %}
 {% block content %}
     <h1>Dashboard</h1>
     <section>
@@ -19,7 +19,7 @@
                     </tr>
                     <tr>
                         <th>{% trans "Member since" %}:</th>
-                        <td>{{ user.date_joined }}</td>
+                        <td>{{ user.date_joined|localtime }}</td>
                     </tr>
                     <tr>
                         <th>{% trans "Last Payment" %}:</th>
