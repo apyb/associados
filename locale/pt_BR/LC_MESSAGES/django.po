@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-30 13:40-0200\n"
+"POT-Creation-Date: 2013-01-30 14:11-0200\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Osvaldo Santana Neto <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -98,6 +98,46 @@ msgstr "Correspondência"
 msgid "Partner"
 msgstr "Parceiro"
 
+#: app/members/templates/members/dashboard.html:13
+msgid "User"
+msgstr ""
+
+#: app/members/templates/members/dashboard.html:17
+msgid "Email for contact"
+msgstr ""
+
+#: app/members/templates/members/dashboard.html:21
+msgid "Member since"
+msgstr "Associado desde"
+
+#: app/members/templates/members/dashboard.html:25
+msgid "Last Payment"
+msgstr "Último Pagamento"
+
+#: app/members/templates/members/dashboard.html:26
+msgid "unrealized"
+msgstr "não realizado"
+
+#: app/members/templates/members/dashboard.html:29
+msgid "Status of the Association"
+msgstr "Status da Associação"
+
+#: app/members/templates/members/dashboard.html:34
+msgid "Invalid Association"
+msgstr "Associação inválida"
+
+#: app/members/templates/members/dashboard.html:39
+msgid "Valid Association"
+msgstr "Associação válida"
+
+#: app/members/templates/members/dashboard.html:41
+msgid "days"
+msgstr "dias"
+
+#: app/members/templates/members/dashboard.html:49
+msgid "membership dues"
+msgstr "obrigações dos associados"
+
 #: app/members/templates/members/member_form.html:14
 msgid "Update member information"
 msgstr "Atualizar informações do associado"
@@ -146,13 +186,17 @@ msgstr "Registrar"
 msgid "Brazilian Python Association registration payment"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
-#: app/payment/views.py:59
+#: app/payment/views.py:58
 msgid ""
 "Failed to generate a transaction within the payment gateway. Please contact "
 "the staff to complete your registration."
 msgstr ""
 "Falha no processamento da transação com o gateway de pagamento. Entre em "
 "contato com a Associação Python Brasil para completar seu cadastramento."
+
+#: associados/templates/base.html:6 associados/templates/navbar.html:5
+msgid "Members of the Python Brazil Association"
+msgstr "Membros da Associação Python Brasil"
 
 #: associados/templates/base.html:55
 msgid ""
