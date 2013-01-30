@@ -28,7 +28,6 @@ class PaymentView(View):
 
     def generate_transaction(self, payment):
         headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
-
         payload, price = self._create_payload(payment)
         response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
         if response.ok:
@@ -69,15 +68,22 @@ class NotificationView(View):
         self.methods_by_status = {
             3: self.transaction_done,
             7: self.transaction_canceled,
-            }
+        }
         super(NotificationView, self).__init__(**kwargs)
 
     def transaction(self, transaction_code):
-        url_transacao = "%s/%s?email=%s&token=%s" % (settings.PAGSEGURO_TRANSACTIONS,
-                                                     transaction_code,
-                                                     settings.PAGSEGURO["email"],
-                                                     settings.PAGSEGURO["token"])
-        url_notificacao = "%s/%s?email=%s&token=%s" % (settings.PAGSEGURO_TRANSACTIONS_NOTIFICATIONS, transaction_code, settings.PAGSEGURO["email"], settings.PAGSEGURO["token"])
+        url_transacao = "%s/%s?email=%s&token=%s" % (
+            settings.PAGSEGURO_TRANSACTIONS,
+            transaction_code,
+            settings.PAGSEGURO["email"],
+            settings.PAGSEGURO["token"]
+            )
+        url_notificacao = "%s/%s?email=%s&token=%s" % (
+            settings.PAGSEGURO_TRANSACTIONS_NOTIFICATIONS,
+            transaction_code,
+            settings.PAGSEGURO["email"],
+            settings.PAGSEGURO["token"]
+            )
 
         response = requests.get(url_transacao)
         if not response.ok:

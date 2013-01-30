@@ -77,6 +77,7 @@ class Member(models.Model):
         '''
         payment_valid = False
         days_left = None
+        last_payment = None
         payments = self.payment_set.all().order_by('-date')
         if payments:
             last_payment = self.payment_set.all().order_by('-date')[0]
@@ -85,7 +86,11 @@ class Member(models.Model):
                 if dif.days > 0:
                     payment_valid = True
                 days_left = dif.days
-        return {'expired': not payment_valid, 'days_left': days_left, 'last_date': None}
+        return {
+            'expired': not payment_valid,
+            'days_left': days_left,
+            'last_date': last_payment
+        }
 
     def __unicode__(self):
         return self.user.get_full_name()

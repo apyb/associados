@@ -41,6 +41,9 @@ INSTALLED_APPS.append(
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH = '/tmp/lead-messages'  # change this to a proper location
 
+PAGSEGURO['email'] = 'email@fake.com'
+PAGSEGURO['token'] = 'faketoken'
+
 #using pagseguro-fake-server: https://github.com/andrewsmedina/pagseguro-fake-server
 PAGSEGURO_BASE = 'http://localhost:8889/v2'
 PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE

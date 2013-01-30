@@ -158,27 +158,19 @@ EMAIL_HOST= 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-
 # 3rd party applications
 PAGSEGURO = {
-    'email': 'app-associados@pythonbrasil.org.br',
+    'email': os.environ.get('PAGSEGURO_EMAIL'),
     'charset': 'UTF-8',
-    'token': 'fake',
+    'token': os.environ.get('PAGSEGURO_TOKEN'),
     'currency': 'BRL',
     'itemId1': '0001',
     'itemQuantity1': 1,
 }
 
 
-PAGSEGURO_BASE = 'https://pagseguro.uol.com.br/v2'
+PAGSEGURO_BASE = 'https://ws.pagseguro.uol.com.br/v2'
 PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAGSEGURO_TRANSACTIONS
 PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
-
-
-# Load local/dev settings
-try:
-    execfile(BASEDIR + 'associados/settings_local.py')
-except IOError:
-    pass
