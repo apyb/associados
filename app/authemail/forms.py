@@ -11,7 +11,7 @@ class RegisterForm(forms.Form):
         'password_mismatch': _("The two password fields didn't match."),
     }
 
-    email = forms.EmailField(label='Email address', max_length=75)
+    email = forms.EmailField(label=_("Email address"), max_length=75)
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput,
            help_text=("Enter the same password as above, for verification."))

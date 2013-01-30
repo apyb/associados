@@ -5,7 +5,7 @@ from django.utils import timezone
 from app.core.models import DefaultFields
 
 from django.contrib.localflavor.br.br_states import STATE_CHOICES
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 
 from datetime import datetime
@@ -51,7 +51,7 @@ class Category(models.Model):
 class Member(models.Model):
     user = models.OneToOneField(User)
     #TODO: this field must be removes in favor of Category Model
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, verbose_name=_('Category'))
     organization = models.ForeignKey(Organization, null=True, blank=True)
     cpf = models.CharField(_('CPF'), max_length=11, db_index=True, unique=True)
     phone = models.CharField(_('Phone'), max_length=50, null=True, blank=True)
@@ -71,7 +71,7 @@ class Member(models.Model):
 
     def get_payment_check_list(self):
         '''
-        expired = True para pagamentos reazalidos até 1 ano (365 dias) atrás  
+        expired = True para pagamentos reazalidos até 1 ano (365 dias) atrás
         expired = False para todas as outroas condições
         days_left = int(n) dias que faltam para vencer o pagamento / negativo (-n) se expirado.
         last_date = data do ultimo pagamento  - "None" se nenhum foi realizado.

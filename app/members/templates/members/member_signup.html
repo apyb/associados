@@ -3,7 +3,7 @@
 {% block title %}{{ flatpage.title }}{% endblock %}
 
 {% block content %}
-    <h1>Signup</h1>
+    <h1>{% trans Signup %}</h1>
     <div class="row">
         <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
             {% csrf_token %}
