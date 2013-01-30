@@ -31,7 +31,7 @@ WSGI_APPLICATION = 'associados.wsgi.application'
 # i18n & l10n
 TIME_ZONE = 'America/Sao_Paulo'
 USE_THOUSAND_SEPARATOR = True
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-BR'
 LOCALE_PATHS = (
     os.path.join(BASEDIR, "locale"),
 )

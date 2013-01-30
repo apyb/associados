@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-30 14:11-0200\n"
+"POT-Creation-Date: 2013-01-30 19:39-0200\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Osvaldo Santana Neto <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -37,11 +37,11 @@ msgstr "Confirmação da senha"
 msgid "This email address already exists. Did you forget your password?"
 msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha ?"
 
-#: app/members/forms.py:19 app/members/models.py:55
+#: app/members/forms.py:19 app/members/models.py:56
 msgid "CPF"
 msgstr "CPF"
 
-#: app/members/forms.py:20 app/members/models.py:56
+#: app/members/forms.py:20 app/members/models.py:57
 msgid "Phone"
 msgstr "Fone"
 
@@ -53,58 +53,58 @@ msgstr "Organização"
 msgid "City"
 msgstr "Cidade"
 
-#: app/members/forms.py:23 app/members/models.py:25
+#: app/members/forms.py:23 app/members/models.py:26
 msgid "State"
 msgstr "Estado"
 
-#: app/members/models.py:14 app/members/models.py:26
+#: app/members/models.py:15 app/members/models.py:27
 #: app/members/templates/members/member_list.html:13
 msgid "Name"
 msgstr "Nome"
 
-#: app/members/models.py:18
+#: app/members/models.py:19
 msgid "Organizations"
 msgstr "Organização"
 
-#: app/members/models.py:30
+#: app/members/models.py:31
 msgid "Cities"
 msgstr "Cidades"
 
-#: app/members/models.py:44
+#: app/members/models.py:45
 msgid "Categories"
 msgstr "Categoria"
 
-#: app/members/models.py:53 app/members/templates/members/member_list.html:14
+#: app/members/models.py:54 app/members/templates/members/member_list.html:14
 msgid "Category"
 msgstr "Categoria"
 
-#: app/members/models.py:57
+#: app/members/models.py:58
 msgid "Address"
 msgstr "Endereço"
 
-#: app/members/models.py:59
+#: app/members/models.py:60
 msgid "Public Key"
 msgstr "Chave Pública"
 
-#: app/members/models.py:61
+#: app/members/models.py:62
 msgid "Relation with community"
 msgstr "Relação com a comunidade"
 
-#: app/members/models.py:62
+#: app/members/models.py:63
 msgid "Mailing"
 msgstr "Correspondência"
 
-#: app/members/models.py:63
+#: app/members/models.py:64
 msgid "Partner"
 msgstr "Parceiro"
 
 #: app/members/templates/members/dashboard.html:13
 msgid "User"
-msgstr ""
+msgstr "Usuário"
 
 #: app/members/templates/members/dashboard.html:17
 msgid "Email for contact"
-msgstr ""
+msgstr "Email de Contato"
 
 #: app/members/templates/members/dashboard.html:21
 msgid "Member since"
@@ -182,11 +182,11 @@ msgstr "Pagamento do registro na Associação Python Brasil"
 msgid "Signup"
 msgstr "Registrar"
 
-#: app/payment/views.py:25
+#: app/payment/views.py:26
 msgid "Brazilian Python Association registration payment"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
-#: app/payment/views.py:58
+#: app/payment/views.py:59
 msgid ""
 "Failed to generate a transaction within the payment gateway. Please contact "
 "the staff to complete your registration."

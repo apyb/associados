@@ -46,4 +46,3 @@ htmlcov/*
 associados.sqlite
 test.py
 
-*.mo
