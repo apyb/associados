@@ -5,6 +5,7 @@ from app.members.models import Member, Category, City, Organization
 from app.members.tests.helpers import create_user_with_member
 from lxml import html as lhtml
 
+
 class MemberChangeView(TestCase):
     def setUp(self):
         super(MemberChangeView, self).setUp()
@@ -40,7 +41,7 @@ class MemberChangeView(TestCase):
     def test_route_must_be_protected(self):
         self.client.logout()
         response = self.client.get(self.url)
-        self.assertRedirects(response, 'login/?next=/members/change/')
+        self.assertRedirects(response, 'login/?next=/members/update/')
 
     def test_should_responds_correcly(self):
         self.assertEqual(self.response.status_code, 200)
@@ -74,5 +75,3 @@ class MemberChangeView(TestCase):
         self.assertEqual(member.user.email, u'john@doe.com')
         self.assertEqual(member.user.first_name, u'editou')
         self.assertEqual(member.user.last_name, u'editou')
-
-

@@ -28,14 +28,14 @@ class MemberForm(forms.ModelForm):
         fields = ('category', 'organization', 'cpf', 'phone', 'address', 'city', 'state', 'relation_with_community', 'mailing', 'partner')
 
     def clean_organization(self):
-        organization =  self.cleaned_data['organization']
+        organization = self.cleaned_data['organization']
         if organization:
             organization_instance, created = Organization.objects.get_or_create(name=organization)
             return organization_instance
         return None
 
     def clean_city(self):
-        city =  self.cleaned_data['city']
+        city = self.cleaned_data['city']
         state = self.data.get('state')
         if city:
             city_instance, created = City.objects.get_or_create(name=city, state=state)
@@ -45,6 +45,3 @@ class MemberForm(forms.ModelForm):
     def save(self, user, commit=True):
         self.instance.user = user
         return super(MemberForm, self).save(commit)
-
-
-

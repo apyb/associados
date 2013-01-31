@@ -5,16 +5,16 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^members/', include('app.members.urls')),
     url(r'^payment/', include('app.payment.urls')),
-
-
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
 
-urlpatterns += patterns('django.contrib.auth.views',
+urlpatterns += patterns(
+    'django.contrib.auth.views',
     url(r'^logout/$', 'logout_then_login', name='auth-logout'),
     url(r'^login/', 'login', name='auth-login'),
     url(r'^password/request/$', 'password_reset'),

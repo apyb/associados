@@ -3,7 +3,6 @@ from django.db import models
 from app.members.models import Member, Category
 
 
-
 class PaymentType(models.Model):
     category = models.ForeignKey(Category)
     price = models.DecimalField(max_digits=5, decimal_places=2)
@@ -31,4 +30,3 @@ class Transaction(models.Model):
 
     def get_checkout_url(self):
         return settings.PAGSEGURO_WEBCHECKOUT + self.code
-

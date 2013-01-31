@@ -62,7 +62,6 @@ class PaymentView(View):
         return HttpResponseRedirect(url)
 
 
-
 class NotificationView(View):
 
     def __init__(self, **kwargs):
@@ -78,13 +77,13 @@ class NotificationView(View):
             transaction_code,
             settings.PAGSEGURO["email"],
             settings.PAGSEGURO["token"]
-            )
+        )
         url_notificacao = "%s/%s?email=%s&token=%s" % (
             settings.PAGSEGURO_TRANSACTIONS_NOTIFICATIONS,
             transaction_code,
             settings.PAGSEGURO["email"],
             settings.PAGSEGURO["token"]
-            )
+        )
 
         response = requests.get(url_transacao)
         if not response.ok:
@@ -122,7 +121,6 @@ class NotificationView(View):
         self._update_payment_dates(payment)
         self._update_member_category(payment)
         self._send_confirmation_email(payment)
-
 
     def transaction_canceled(self, payment_id):
         transaction = Transaction.objects.get(payment_id=payment_id)

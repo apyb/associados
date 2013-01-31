@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from lxml import html as lhtml
 
+
 class FlatpagesTest(TestCase):
 
     def setUp(self):

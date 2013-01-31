@@ -2,7 +2,8 @@
 # encoding: utf-8
 from django.test import TestCase
 from app.members.forms import MemberForm, UserForm
-from app.members.models import Organization, City, User,  Category
+from app.members.models import Organization, City, User, Category
+
 
 class UserFormTest(TestCase):
     def setUp(self):
@@ -28,7 +29,7 @@ class MemberFormTest(TestCase):
             'mailing': 1,
             'contact': 1,
             'partner': 1,
-            'relation_with_community':'fake relation'
+            'relation_with_community': 'fake relation'
         }
 
 
@@ -64,10 +65,10 @@ class InvalidUserFormTest(UserFormTest):
         self.assertFalse(self.user_form.is_valid())
 
     def test_with_no_data_should_return_email_error(self):
-        self.assertTrue(self.user_form.errors.has_key('email'))
+        self.assertIn('email', self.user_form.errors)
 
     def test_with_no_data_should_return_full_name_error(self):
-        self.assertTrue(self.user_form.errors.has_key('full_name'))
+        self.assertIn('full_name', self.user_form.errors)
 
 
 class ValidMemberFormTest(MemberFormTest):
@@ -128,16 +129,16 @@ class InvalidUserFormTest(MemberFormTest):
         self.assertFalse(self.member_form.is_valid())
 
     def test_with_no_data_should_return_category_error(self):
-        self.assertTrue(self.member_form.errors.has_key('category'))
+        self.assertIn('category', self.member_form.errors)
 
     def test_with_no_data_should_return_organization_error(self):
-        self.assertTrue(self.member_form.errors.has_key('organization'))
+        self.assertIn('organization', self.member_form.errors)
 
     def test_with_no_data_should_return_state_error(self):
-        self.assertTrue(self.member_form.errors.has_key('state'))
+        self.assertIn('state', self.member_form.errors)
 
     def test_with_no_data_should_return_cpf_error(self):
-        self.assertTrue(self.member_form.errors.has_key('cpf'))
+        self.assertIn('cpf', self.member_form.errors)
 
     def test_with_no_data_should_return_city_error(self):
-        self.assertTrue(self.member_form.errors.has_key('city'))
+        self.assertIn('city', self.member_form.errors)

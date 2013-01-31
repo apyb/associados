@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from app.members.models import Category, Member
 from django_dynamic_fixture import G
 
+
 def create_user_with_member(first_name, last_name, category=None):
     category = category or Category.objects.get(id=1)
 
@@ -12,8 +13,8 @@ def create_user_with_member(first_name, last_name, category=None):
         email='test@test.com',
         password='pass'
     )
-    user.first_name=first_name
-    user.last_name=last_name
+    user.first_name = first_name
+    user.last_name = last_name
     user.save()
 
     G(Member, user=user, category=category)

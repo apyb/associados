@@ -13,7 +13,8 @@ from app.payment.models import Payment, Transaction, PaymentType
 class MemberTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(username="Wolverine")
-        self.member = G(Member,
+        self.member = G(
+            Member,
             user=self.user,
             category=Category.objects.get(id=1)
         )
@@ -23,7 +24,12 @@ class PaymentModelTestCase(MemberTestCase):
 
     def test_name_url(self):
         try:
-            reverse('payment', kwargs={'member_id':self.member.id})
+            reverse(
+                'payment',
+                kwargs={
+                    'member_id': self.member.id
+                }
+            )
         except NoReverseMatch:
             self.fail("Reversal of url named 'payment' failed with NoReverseMatch")
 
@@ -113,4 +119,3 @@ class TransacitonModelTestCase(TestCase):
 
     def assert_field_in(self, field_name, model):
         self.assertIn(field_name, model._meta.get_all_field_names())
-

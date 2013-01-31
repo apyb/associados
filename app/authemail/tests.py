@@ -12,7 +12,7 @@ class ValidFormTest(TestCase):
             u'email': u'fake_user@fake.com',
             u'password1': u'fake_pass',
             u'password2': u'fake_pass',
-            }
+        }
         self.form = RegisterForm(data=self.data)
 
     def test_should_be_valid(self):
@@ -66,7 +66,7 @@ class InValidFormTest(TestCase):
             u'email': u'fake_email@fake.com',
             u'password1': u'pass1',
             u'password2': u'pass2',
-            }
+        }
 
         self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())
@@ -78,7 +78,7 @@ class InValidFormTest(TestCase):
             u'email': u'fake@email.com',
             u'password1': u'pass',
             u'password2': u'pass',
-            }
+        }
 
         self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())

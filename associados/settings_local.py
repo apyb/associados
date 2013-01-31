@@ -68,6 +68,6 @@ PIPELINE_LESS_BINARY = ()
 PIPELINE_COMPILERS = (
     'pipeline.compilers.less.LessCompiler',
     'pipeline.compilers.stylus.StylusCompiler',
-    )
+)
 
 COMPRESS_OUTPUT_DIR = 'cache'

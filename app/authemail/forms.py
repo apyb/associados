@@ -1,4 +1,4 @@
-from django.utils.translation import  ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django import forms
 
@@ -11,8 +11,11 @@ class RegisterForm(forms.Form):
 
     email = forms.EmailField(label=_("Email address"), max_length=75)
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
-    password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput,
-           help_text=("Enter the same password as above, for verification."))
+    password2 = forms.CharField(
+        label=_("Password confirmation"),
+        widget=forms.PasswordInput,
+        help_text=("Enter the same password as above, for verification.")
+    )
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1", "")
@@ -27,7 +30,7 @@ class RegisterForm(forms.Form):
 
         user_count = User.objects.filter(username__startswith=email_user).count()
         if user_count:
-            username = "%s_%s" % (email_user, user_count+1)
+            username = "%s_%s" % (email_user, user_count + 1)
         else:
             username = email_user
         return username

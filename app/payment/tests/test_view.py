@@ -19,9 +19,11 @@ from django.core import mail
 class MemberTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(username="Wolverine")
-        self.member = G(Member,
+        self.member = G(
+            Member,
             user=self.user,
-            category=Category.objects.get(id=1))
+            category=Category.objects.get(id=1)
+        )
 
 
 class PaymentViewTestCase(MemberTestCase):
@@ -95,7 +97,6 @@ class PaymentViewTestCase(MemberTestCase):
         transaction = Transaction.objects.get(payment__member=self.member)
         self.assertEqual(transaction.payment.type.price, transaction.price)
 
-
     def test_generate_transaction(self):
         payment = Payment.objects.create(
             member=self.member,
@@ -104,8 +105,6 @@ class PaymentViewTestCase(MemberTestCase):
         transaction = PaymentView().generate_transaction(payment)
         self.assertEqual(payment, transaction.payment)
         self.assertEqual("xpto123", transaction.code)
-
-
 
 
 class NotificationViewTestCase(MemberTestCase):
@@ -216,14 +215,10 @@ class NotificationViewTestCase(MemberTestCase):
         #verify the subject string
         self.assertEqual(mail.outbox[0].subject, subject)
         #verify the body string
-
         self.assertEqual(mail.outbox[0].body, body)
-
-
 
     def test_transaction_canceled(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="115.84")
-
         NotificationView().transaction_canceled(payment.id)
         transaction = Transaction.objects.get(id=transaction.id)
         self.assertEqual("canceled", transaction.status)

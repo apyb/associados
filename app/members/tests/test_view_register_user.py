@@ -48,4 +48,3 @@ class UserRegisterView(TestCase):
         self.response = self.client.post(self.url, data=self.user_data)
         members_form_url = reverse('members-form')
         self.assertRedirects(self.response, members_form_url)
-

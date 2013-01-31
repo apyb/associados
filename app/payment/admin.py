@@ -1,6 +1,7 @@
 from django.contrib import admin
 from app.payment.models import Payment, Transaction, PaymentType
 
+
 class TransactionInline(admin.StackedInline):
     model = Transaction
     readonly_fields = ('code', 'status', 'price')

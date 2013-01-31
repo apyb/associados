@@ -23,8 +23,9 @@ class MemberListView(ListView):
 
         if self.query:
             self.queryset = Member.objects.filter(
-                                                  Q(user__first_name__icontains=self.query) |
-                                                  Q(user__last_name__icontains=self.query))
+                Q(user__first_name__icontains=self.query) |
+                Q(user__last_name__icontains=self.query)
+            )
 
         if category:
             self.queryset = Member.objects.filter(category__id=category)
@@ -75,7 +76,8 @@ def member_form(request):
         else:
             messages.add_message(request, messages.ERROR, 'Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo.')
 
-    return render(request,
+    return render(
+        request,
         "members/member_form.html", {
             "member_form": member_form,
             'user_form': user_form
@@ -91,7 +93,8 @@ def dashboard(request):
         messages.add_message(request, messages.INFO, 'Para acessar os dashboard, você precisa completar os seus dados')
         return HttpResponseRedirect(reverse('members-form'))
 
-    return render(request,
+    return render(
+        request,
         "members/dashboard.html", {
             "expired": payment_results['expired'],
             "last_payment": payment_results['last_date'],

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from app.members.models import  Category
+from app.members.models import Category
 from app.members.tests.helpers import create_user_with_member
+
 
 class MemberListViewTest(TestCase):
 
@@ -18,7 +19,6 @@ class MemberListViewTest(TestCase):
         self.url = reverse('members-list')
         self.response = self.client.get(self.url)
 
-
     def test_should_have_a_route(self):
         self.assertEqual(self.response.status_code, 200)
 
@@ -32,7 +32,7 @@ class MemberListViewTest(TestCase):
     def test_should_search_members(self):
         response = self.client.get(self.url, {
             'q': 'te',
-            })
+        })
         self.assertIn('test test', response.rendered_content)
         self.assertIn('amet consectetur', response.rendered_content)
         self.assertNotIn('dolor sit', response.rendered_content)
@@ -41,7 +41,7 @@ class MemberListViewTest(TestCase):
     def test_should_filter_members(self):
         response = self.client.get(self.url, {
             'category': 1,
-            })
+        })
         self.assertIn('test test', response.rendered_content)
         self.assertIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
@@ -51,7 +51,7 @@ class MemberListViewTest(TestCase):
         response = self.client.get(self.url, {
             'q': 'te',
             'category': 1,
-            })
+        })
         self.assertIn('test test', response.rendered_content)
         self.assertIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)

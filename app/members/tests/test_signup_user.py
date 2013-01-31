@@ -13,13 +13,13 @@ class MemberSignupView(TestCase):
             u'email': u'',
             u'password1': u'',
             u'password2': u'',
-            }
+        }
 
         self.data = {
             u'email': u'fake_user@fake.com',
             u'password1': u'fake_pass',
             u'password2': u'fake_pass',
-            }
+        }
 
     def test_should_have_a_route(self):
         response = self.client.get(self.url)
@@ -38,4 +38,4 @@ class MemberSignupView(TestCase):
         dashboard_url = reverse('members-form')
 
         self.assertEqual(self.response.status_code, 302)
-        self.assertTrue(self.response['location'].endswith(dashboard_url) )
+        self.assertTrue(self.response['location'].endswith(dashboard_url))

@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.contrib import admin as django_admin
 from app.members.models import Member, Organization, City
 
+
 class AdminMemberTest(TestCase):
     def setUp(self):
         self.response = self.client.get('/')

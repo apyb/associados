@@ -20,7 +20,6 @@ class DefaultFields(models.Model):
         abstract = True
 
 
-
 class TestDefaultFields(DefaultFields):
     "just for test manager"
     pass
