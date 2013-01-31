@@ -29,18 +29,18 @@ class MemberForm(forms.ModelForm):
 
     def clean_organization(self):
         organization = self.cleaned_data['organization']
-        if organization:
-            organization_instance, created = Organization.objects.get_or_create(name=organization)
-            return organization_instance
-        return None
+        if not organization:
+            return None
+        organization_instance, created = Organization.objects.get_or_create(name=organization)
+        return organization_instance
 
     def clean_city(self):
         city = self.cleaned_data['city']
         state = self.data.get('state')
-        if city:
-            city_instance, created = City.objects.get_or_create(name=city, state=state)
-            return city_instance
-        return None
+        if not city:
+            return None
+        city_instance, created = City.objects.get_or_create(name=city, state=state)
+        return city_instance
 
     def save(self, user, commit=True):
         self.instance.user = user
