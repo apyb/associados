@@ -9,5 +9,6 @@ INSTALLED_APPS = INSTALLED_APPS + (
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+LANGUAGE_CODE = 'en-us'
 
 logging.disable(logging.CRITICAL)
