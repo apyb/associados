@@ -8,6 +8,9 @@ from app.members.models import City, Organization, Member
 
 
 class UserForm(forms.ModelForm):
+    first_name = forms.CharField(label=_("first_name"))
+    last_name = forms.CharField(label=_("last_name"))
+    email = forms.CharField(label=_("email"))
 
     class Meta:
         model = User

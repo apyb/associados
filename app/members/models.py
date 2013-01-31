@@ -29,11 +29,7 @@ class City(DefaultFields):
         verbose_name_plural = _('Cities')
 
     def __unicode__(self):
-        return self.name
-
-
-def get_public_key_storage_path(instance, filename):
-        return 'public_key/%s/%s' % (instance.pk, filename)
+        return "{0} - {1}".format(self.name, self.state)
 
 
 class Category(models.Model):
@@ -48,47 +44,35 @@ class Category(models.Model):
 
 class Member(models.Model):
     user = models.OneToOneField(User)
-    #TODO: this field must be removes in favor of Category Model
     category = models.ForeignKey(Category, verbose_name=_('Category'))
     organization = models.ForeignKey(Organization, null=True, blank=True)
     cpf = models.CharField(_('CPF'), max_length=11, db_index=True, unique=True)
     phone = models.CharField(_('Phone'), max_length=50, null=True, blank=True)
     address = models.TextField(_('Address'), null=True, blank=True)
     city = models.ForeignKey(City, db_index=True)
-    public_key = models.FileField(_('Public Key'), upload_to=get_public_key_storage_path,
-                                  null=True, blank=True)
     relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
     mailing = models.BooleanField(_('Mailing'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
 
-    def get_category(self):
-        raise NotImplementedError
+    def get_days_to_next_payment(self, payment):
+        if payment and payment.done() and payment.valid_until is not None:
+            dif = payment.valid_until - timezone.now()
+            return dif.days
+        return 0
 
-    def make_payment(self):
-        raise NotImplementedError
+    def get_last_payment(self):
+        payments = self.payment_set.all().order_by('-date')
+        if not payments:
+            return None
+        return payments.order_by('-date')[0]
 
     def get_payment_check_list(self):
-        '''
-        expired = True para pagamentos reazalidos até 1 ano (365 dias) atrás
-        expired = False para todas as outroas condições
-        days_left = int(n) dias que faltam para vencer o pagamento / negativo (-n) se expirado.
-        last_date = data do ultimo pagamento  - "None" se nenhum foi realizado.
-        '''
-        payment_valid = False
-        days_left = None
-        last_payment = None
-        payments = self.payment_set.all().order_by('-date')
-        if payments:
-            last_payment = self.payment_set.all().order_by('-date')[0]
-            if last_payment.valid_until is not None:
-                dif = last_payment.valid_until - timezone.now()
-                if dif.days > 0:
-                    payment_valid = True
-                days_left = dif.days
+        last_payment = self.get_last_payment()
+        days_left = self.get_days_to_next_payment(last_payment)
         return {
-            'expired': not payment_valid,
+            'expired': days_left <= 0,
             'days_left': days_left,
-            'last_date': last_payment
+            'last_payment': last_payment
         }
 
     def __unicode__(self):

@@ -95,9 +95,6 @@ def dashboard(request):
 
     return render(
         request,
-        "members/dashboard.html", {
-            "expired": payment_results['expired'],
-            "last_payment": payment_results['last_date'],
-            "days_left": payment_results['days_left']
-        }
+        "members/dashboard.html",
+        payment_results
     )

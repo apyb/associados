@@ -9,7 +9,7 @@ class PaymentType(models.Model):
     duration = models.IntegerField(help_text='In days', default=1)
 
     def __unicode__(self):
-        return self.category.name
+        return "{0} - {1} for {2} days".format(self.category.name, self.price, self.duration)
 
 
 class Payment(models.Model):
@@ -21,6 +21,8 @@ class Payment(models.Model):
     def done(self):
         return self.transaction_set.filter(status="done").exists()
 
+    def __unicode__(self):
+        return 'payment from {0}'.format(self.member)
 
 class Transaction(models.Model):
     payment = models.ForeignKey(Payment)

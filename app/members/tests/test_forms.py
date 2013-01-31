@@ -17,6 +17,10 @@ class UserFormTest(TestCase):
 class MemberFormTest(TestCase):
     def setUp(self):
         self.data = {
+            'first_name': 'Valder',
+            'last_name': 'Gallo Jr',
+            'email': 'valdergallo@gmail.com',
+
             'organization': 'Home',
             'address': 'Rua XXX',
 
@@ -57,18 +61,21 @@ class ValidUserFormTest(UserFormTest):
         self.assertEqual(self.new_user.email, self.data.get('email'))
 
 
-class InvalidUserFormTest(UserFormTest):
+class InvalidUserFormTest(TestCase):
     def setUp(self):
         self.user_form = UserForm({})
 
     def test_must_be_invalid(self):
         self.assertFalse(self.user_form.is_valid())
 
+    def test_with_no_data_should_return_first_name_error(self):
+        self.assertIn('first_name', self.user_form.errors)
+
+    def test_with_no_data_should_return_last_name_error(self):
+        self.assertIn('last_name', self.user_form.errors)
+
     def test_with_no_data_should_return_email_error(self):
         self.assertIn('email', self.user_form.errors)
-
-    def test_with_no_data_should_return_full_name_error(self):
-        self.assertIn('full_name', self.user_form.errors)
 
 
 class ValidMemberFormTest(MemberFormTest):
@@ -103,9 +110,6 @@ class ValidMemberFormTest(MemberFormTest):
     def test_should_store_address(self):
         self.assertEqual(self.member_instance.address, self.data.get('address'))
 
-    def test_should_store_public_key(self):
-        self.assertEqual(self.member_instance.public_key, self.data.get('public_key'))
-
     def test_should_store_category(self):
         category = Category.objects.get(id=self.data.get('category'))
         self.assertEqual(self.member_instance.category, category)
@@ -120,9 +124,9 @@ class ValidMemberFormTest(MemberFormTest):
         self.assertEqual(self.member_instance.partner, self.data.get('partner'))
 
 
-class InvalidUserFormTest(MemberFormTest):
+class InvalidMemberFormTest(MemberFormTest):
     def setUp(self):
-        super(InvalidUserFormTest, self).setUp()
+        super(InvalidMemberFormTest, self).setUp()
         self.member_form = MemberForm({})
 
     def test_must_be_invalid(self):

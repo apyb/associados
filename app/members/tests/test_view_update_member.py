@@ -75,3 +75,28 @@ class MemberChangeView(TestCase):
         self.assertEqual(member.user.email, u'john@doe.com')
         self.assertEqual(member.user.first_name, u'editou')
         self.assertEqual(member.user.last_name, u'editou')
+
+
+class MemberChangeWithErrorView(TestCase):
+    def setUp(self):
+        super(MemberChangeWithErrorView, self).setUp()
+
+        self.url = reverse('members-form')
+        self.user = create_user_with_member(first_name='test', last_name='fake')
+        self.client.login(username='testfake', password='pass')
+        self.response = self.client.get(self.url)
+        self.dom = lhtml.fromstring(self.response.content)
+
+        self.data = {
+            u'category': u'1',
+            u'partner': u'',
+            u'mailing': u'',
+            u'email': u'john@doe.com',
+            u'first_name': u'editou',
+            u'last_name': u'editou',
+        }
+
+    def test_post_with_correcly_data_should_update_a_member(self):
+        response = self.client.post(self.url, self.data)
+
+        self.assertIn('Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo.', response.content)

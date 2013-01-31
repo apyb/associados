@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 from django.test import TestCase
+from django.utils import timezone
 
 from django_dynamic_fixture import G
 from app.members.models import Member, Category
@@ -12,13 +14,21 @@ from app.payment.models import Payment, Transaction, PaymentType
 
 class MemberTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create(username="Wolverine")
+        self.user = User.objects.create(username="Wolverine", first_name='Logan')
         self.member = G(
             Member,
             user=self.user,
             category=Category.objects.get(id=1)
         )
 
+class PaymentTypeTestCase(TestCase):
+    def test_should_output_payment_type_information(self):
+        self.payment_type = PaymentType.objects.create(
+            category = Category.objects.get(id=1),
+            price = 34.34,
+            duration = 20
+        )
+        self.assertEqual(unicode(self.payment_type), 'Efetivo - 34.34 for 20 days')
 
 class PaymentModelTestCase(MemberTestCase):
 
@@ -32,6 +42,15 @@ class PaymentModelTestCase(MemberTestCase):
             )
         except NoReverseMatch:
             self.fail("Reversal of url named 'payment' failed with NoReverseMatch")
+
+    def test_should_output_member_information(self):
+        self.payment = Payment.objects.create(
+            member=self.member,
+            type=PaymentType.objects.get(id=1),
+            date=timezone.now(),
+            valid_until=timezone.now() + timedelta(days=10, minutes=1)
+        )
+        self.assertEqual(unicode(self.payment), 'payment from Logan')
 
     def test_should_have_member(self):
         self.assert_field_in('member', Payment)

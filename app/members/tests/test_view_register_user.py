@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User, UserManager
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
-from app.members.models import Member
+from app.members.models import Member, Category, City, Organization
+from django_dynamic_fixture import G
 
 
 class UserRegisterView(TestCase):
@@ -39,10 +40,7 @@ class UserRegisterView(TestCase):
 
     def test_post_with_correcly_data_should_create_a_user(self):
         self.response = self.client.post(self.url, data=self.user_data)
-        try:
-            User.objects.get(email=self.user_data['email'])
-        except Member.DoesNotExist:
-            self.fail("Member does not exist")
+        self.assertEqual(User.objects.filter(email=self.user_data['email']).count(), 1)
 
     def test_post_with_correcly_data_should_redirect_to_members_form(self):
         self.response = self.client.post(self.url, data=self.user_data)

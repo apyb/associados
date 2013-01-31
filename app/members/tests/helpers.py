@@ -5,13 +5,13 @@ from app.members.models import Category, Member
 from django_dynamic_fixture import G
 
 
-def create_user_with_member(first_name, last_name, category=None):
+def create_user_with_member(first_name='test', last_name='test', email='test@test.com', password='pass', category=None):
     category = category or Category.objects.get(id=1)
 
     user = User.objects.create_user(
         username='%s%s' % (first_name, last_name),
-        email='test@test.com',
-        password='pass'
+        email=email,
+        password=password
     )
     user.first_name = first_name
     user.last_name = last_name
