@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import django.contrib.auth.create_superuser
+from django.contrib.auth.management import create_superuser
 from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
@@ -25,11 +27,7 @@ class ValidFormTest(TestCase):
     def test_should_create_a_user(self):
         self.form.is_valid()
         user = self.form.save()
-
-        try:
-            User.objects.get(email=self.data['email'])
-        except Member.DoesNotExist:
-            self.fail("User does not exist")#
+        self.assertEqual(user, User.objects.get(email=self.data['email']))
 
     def test_should_persist_user_data(self):
         self.form.is_valid()
@@ -56,13 +54,38 @@ class InValidFormTest(TestCase):
     def setUp(self):
         super(InValidFormTest, self).setUp()
 
-        self.data = {
+    def test_should_be_invalid(self):
+        data = {
             u'email': u'',
             u'password1': u'',
             u'password2': u'',
+        }
+
+        self.form = RegisterForm(data=data)
+        self.assertFalse(self.form.is_valid())
+        self.assertEqual(self.form.errors['email'][0], 'This field is required.')
+        self.assertEqual(self.form.errors['password1'][0], 'This field is required.')
+        self.assertEqual(self.form.errors['password2'][0], 'This field is required.')
+
+    def test_should_fail_if_password_mismatch(self):
+        data = {
+            u'email': u'fake_email@fake.com',
+            u'password1': u'pass1',
+            u'password2': u'pass2',
             }
 
-        self.form = RegisterForm(data=self.data)
-
-    def test_should_be_invalid(self):
+        self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())
+        self.assertEqual(self.form.errors['password2'][0], "The two password fields didn't match.")
+
+    def test_should_fail_if_has_another_user_with_same_email(self):
+        User.objects.create(username='fake', email='fake@email.com')
+        data = {
+            u'email': u'fake@email.com',
+            u'password1': u'pass',
+            u'password2': u'pass',
+            }
+
+        self.form = RegisterForm(data=data)
+        self.assertFalse(self.form.is_valid())
+        self.assertEqual(self.form.errors['email'][0], "This email address already exists. Did you forget your password?")
