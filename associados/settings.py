@@ -6,7 +6,7 @@ import os
 import dj_database_url
 from django.core.urlresolvers import reverse_lazy
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
@@ -47,29 +47,25 @@ TIME_ZONE = 'America/Sao_Paulo'
 
 
 # Media & Static
-MEDIA_ROOT = os.path.join(BASEDIR, 'media')
-MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
+DEFAULT_S3_PATH = "media"
+STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+STATIC_S3_PATH = "static"
 
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+AWS_ACCESS_KEY_ID = os.environ.get('BUCKET_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('BUCKET_SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
-STATIC_ROOT = os.path.join(BASEDIR, 'static')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = ()
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
+MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
+STATIC_ROOT = "/%s/" % STATIC_S3_PATH
+STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-
-PIPELINE_LESS_BINARY = ()
-PIPELINE_COMPILERS = (
-  'pipeline.compilers.less.LessCompiler',
-  'pipeline.compilers.stylus.StylusCompiler',
-)
-
-COMPRESS_OUTPUT_DIR = 'cache'
-
 
 # Security
 SECRET_KEY = 'yc!+ii!psza0mi)&amp;vnn_rdsip5ipdyr(0w8hjllxw6p)!wgo1e'
@@ -172,7 +168,6 @@ PAGSEGURO = {
     'itemId1': '0001',
     'itemQuantity1': 1,
 }
-
 
 PAGSEGURO_BASE = 'https://ws.pagseguro.uol.com.br/v2'
 PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE

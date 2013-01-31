@@ -3,6 +3,8 @@
 import sys
 from settings import *
 
+DEBUG = True
+
 DATABASES['default'] = {
     'ENGINE': 'django.db.backends.sqlite3',
     'NAME': os.path.join(BASEDIR, 'associados.sqlite')
@@ -50,3 +52,22 @@ PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAGSEGURO_TRANSACTIONS
 PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
+
+
+MEDIA_ROOT = os.path.join(BASEDIR, 'media')
+MEDIA_URL = '/media/'
+
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+STATIC_ROOT = os.path.join(BASEDIR, 'static')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = ()
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
+PIPELINE_LESS_BINARY = ()
+PIPELINE_COMPILERS = (
+    'pipeline.compilers.less.LessCompiler',
+    'pipeline.compilers.stylus.StylusCompiler',
+    )
+
+COMPRESS_OUTPUT_DIR = 'cache'
