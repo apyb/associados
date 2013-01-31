@@ -35,7 +35,7 @@ class MemberSignupView(TestCase):
 
     def test_post_with_blank_fields_should_return_error(self):
         self.response = self.client.post(self.url, data=self.empty_data)
-        self.assertContains(self.response, u'This field is required.', count=3)
+        self.assertContains(self.response, u'Este campo \xe9 obrigat\xf3rio.', count=3)
 
     def test_post_with_correcly_data_should_redirect_to_dashboard(self):
         self.response = self.client.post(self.url, data=self.data)

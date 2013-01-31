@@ -34,9 +34,9 @@ class UserRegisterView(TestCase):
 
     def test_post_with_blank_fields_should_return_error(self):
         response = self.client.post(self.url, {'email': '', 'password1': '', 'password2': ''})
-        self.assertFormError(response, 'form', 'email', 'This field is required.')
-        self.assertFormError(response, 'form', 'password1', 'This field is required.')
-        self.assertFormError(response, 'form', 'password2', 'This field is required.')
+        self.assertFormError(response, 'form', 'email', u'Este campo \xe9 obrigat\xf3rio.')
+        self.assertFormError(response, 'form', 'password1', u'Este campo \xe9 obrigat\xf3rio.')
+        self.assertFormError(response, 'form', 'password2', u'Este campo \xe9 obrigat\xf3rio.')
 
     def test_post_with_correcly_data_should_create_a_user(self):
         self.response = self.client.post(self.url, data=self.user_data)

@@ -29,7 +29,7 @@ class MemberListViewTest(TestCase):
 
     def test_should_render_the_members(self):
         self.assertIn('test test', self.response.rendered_content)
-        self.assertIn('Student', self.response.rendered_content)
+        self.assertIn('Estudante', self.response.rendered_content)
 
     def test_should_search_members(self):
         response = self.client.get(self.url, {
