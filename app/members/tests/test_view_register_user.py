@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User, UserManager
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.test import TestCase
-from app.members.models import Member, Category, City, Organization
-from django_dynamic_fixture import G
+from app.members.models import Member
 
 
 class UserRegisterView(TestCase):

@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-import django.contrib.auth.create_superuser
-from django.contrib.auth.management import create_superuser
-from django.contrib.auth.models import User, UserManager
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.contrib.auth.models import User
 from django.test import TestCase
-from app.members.models import Member, Category, City, Organization
-from django_dynamic_fixture import G
-from app.members.tests.helpers import create_user_with_member
 from app.authemail.forms import RegisterForm
 
 

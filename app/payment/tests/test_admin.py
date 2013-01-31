@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.contrib.flatpages.models import FlatPage
 from django.test import TestCase
 from django.contrib import admin as django_admin
 from app.payment.models import PaymentType
