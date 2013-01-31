@@ -29,18 +29,22 @@ WSGI_APPLICATION = 'associados.wsgi.application'
 
 
 # i18n & l10n
-TIME_ZONE = 'America/Sao_Paulo'
+USE_I18N = True
+USE_L10N = True
+
 USE_THOUSAND_SEPARATOR = True
+LANGUAGES = [
+    ('pt-BR', 'Portuguese Brazil')
+]
 LANGUAGE_CODE = 'pt-BR'
+DEFAULT_LANGUAGE = 1
 LOCALE_PATHS = (
     os.path.join(BASEDIR, "locale"),
 )
 
-USE_I18N = True
-USE_L10N = True
-
 USE_TZ = True
 TIME_ZONE = 'America/Sao_Paulo'
+
 
 # Media & Static
 MEDIA_ROOT = os.path.join(BASEDIR, 'media')
