@@ -57,6 +57,18 @@ class MemberChangeView(TestCase):
         last_name = self.dom.cssselect('input[name=last_name]')[0]
         self.assertEqual(last_name.value, self.user.last_name)
 
+    def test_should_render_organization_name(self):
+        organization = Organization.objects.create(
+            name='organization fake'
+        )
+        self.user.member.organization = organization
+        self.user.member.save()
+
+        response = self.client.get(self.url)
+        dom = lhtml.fromstring(response.content)
+        organization_dom = dom.cssselect('input[name=organization]')[0]
+        self.assertEqual(organization_dom.value, organization.name)
+
     def test_post_with_correcly_data_should_update_a_member(self):
         response = self.client.post(self.url, self.data)
 
