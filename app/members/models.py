@@ -61,7 +61,7 @@ class Member(models.Model):
         return 0
 
     def get_last_payment(self):
-        payments = self.payment_set.all().order_by('-date')
+        payments = self.payment_set.filter(last_transaction__status='done').order_by('-date')
         if not payments:
             return None
         return payments.order_by('-date')[0]
