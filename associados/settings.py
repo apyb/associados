@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'sorl.thumbnail',
     'gravatar',
+    'south'
 )
 
 
