@@ -17,6 +17,7 @@ class Payment(models.Model):
     type = models.ForeignKey(PaymentType)
     date = models.DateTimeField(null=True, blank=True)
     valid_until = models.DateTimeField(null=True, blank=True)
+    last_transaction = models.ForeignKey('Transaction', null=True, blank=True, related_name='last_transaction')
 
     def done(self):
         return self.transaction_set.filter(status="done").exists()
