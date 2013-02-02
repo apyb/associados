@@ -1,0 +1,18 @@
+Olá {{ member.user.get_full_name }},
+
+Esse e-mail é um lembrete de que faltam {{ days }} dias para o vencimento da anuidade referente à sua associação.
+
+Para efetuar a sua renovação é só seguir o link abaixo:
+
+{{ url }}
+
+Vale lembrar que apenas os membros em dia com sua anuidade pode participar das assembléias da Associação Python Brasil bem como outros direitos garantidos a todos os membros (ex. descontos para inscrições de eventos organizados pela associação).
+
+Caso você já tenha efetuado o pagamento pedimos que desconsidere esse aviso.
+
+Caso tenha alguma dúvida é só entrar em contato conosco através do e-mail: {{ contact_email }}.
+
+Obrigado,
+Equipe da Associação Python Brasil
+
+PS. O sistema de controle de associados está em fase de implantação. Caso tenha encontrado algum problema pedimos a gentileza de nos avisar através do mesmo endereço de e-mail: {{ contact_email }}.
