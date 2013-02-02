@@ -8,9 +8,9 @@ from app.members.models import City, Organization, Member
 
 
 class UserForm(forms.ModelForm):
-    first_name = forms.CharField(label=_("first_name"))
-    last_name = forms.CharField(label=_("last_name"))
-    email = forms.CharField(label=_("email"))
+    first_name = forms.CharField(label=_("First Name"))
+    last_name = forms.CharField(label=_("Last Name"))
+    email = forms.CharField(label=_("Email"))
 
     class Meta:
         model = User
@@ -22,13 +22,13 @@ class MemberForm(forms.ModelForm):
     cpf = BRCPFField(label=_("CPF"), required=True)
     phone = BRPhoneNumberField(label=_("Phone"), required=False)
     organization = forms.CharField(label=_("Organization"))
-    city = forms.CharField(label=_("City"))
-    state = forms.CharField(label=_("State"), widget=BRStateSelect())
+    location = forms.CharField(label=_("Location"))
 
     class Meta:
         model = Member
         exclude = ('user', )
-        fields = ('category', 'organization', 'cpf', 'phone', 'address', 'city', 'state', 'relation_with_community', 'mailing', 'partner')
+        fields = ('category', 'organization', 'cpf', 'phone', 'address', 'location',
+                  'relation_with_community', 'mailing', 'partner')
 
     def clean_organization(self):
         organization = self.cleaned_data['organization']
@@ -36,14 +36,6 @@ class MemberForm(forms.ModelForm):
             return None
         organization_instance, created = Organization.objects.get_or_create(name=organization)
         return organization_instance
-
-    def clean_city(self):
-        city = self.cleaned_data['city']
-        state = self.data.get('state')
-        if not city:
-            return None
-        city_instance, created = City.objects.get_or_create(name=city, state=state)
-        return city_instance
 
     def save(self, user, commit=True):
         self.instance.user = user
