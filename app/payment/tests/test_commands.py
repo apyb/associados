@@ -12,7 +12,12 @@ from app.payment.models import Payment, Transaction, PaymentType
 
 import datetime
 
-class RenewalAlertTestCase(TestCase):
+class RenewalAlertConfigTest(TestCase):
+    def test_renewal_alert_config_error(self):
+        with self.assertRaises(ImproperlyConfigured):
+            call_command('renewal_alert')
+
+class RenewalAlertTest(TestCase):
     def setUp(self):
         self.users = [
             G(User),
@@ -55,14 +60,6 @@ class RenewalAlertTestCase(TestCase):
                 valid_until=expiration_dates[3]),
         ]
 
-class RenewalAlertConfigTest(RenewalAlertTestCase):
-    def test_renewal_alert_config_error(self):
-        with self.assertRaises(ImproperlyConfigured):
-            call_command('renewal_alert')
-
-class RenewalAlertTest(RenewalAlertTestCase):
-    def setUp(self):
-        super(RenewalAlertTest, self).setUp()
         settings.EMAIL_CONTACT_ADDRESS = 'email@fake.com'
         call_command('renewal_alert')
 

@@ -22,6 +22,11 @@ class Command(BaseCommand):
         return value
 
     def handle(self, *args, **options):
+        contact_email = getattr(settings, 'EMAIL_CONTACT_ADDRESS', None)
+
+        if contact_email is None:
+            raise ImproperlyConfigured('EMAIL_CONTACT_ADDRESS must be configured')
+
         if settings.USE_TZ:
             today = timezone.now().date()
         else:
@@ -47,11 +52,6 @@ class Command(BaseCommand):
 
         for payment in Payment.objects.filter(filter_arg):
             valid_until_date = payment.valid_until.date()
-            contact_email = getattr(settings, 'EMAIL_CONTACT_ADDRESS', None)
-
-            if contact_email is None:
-                raise ImproperlyConfigured('EMAIL_CONTACT_ADDRESS must be configured')
-
             context = {
                 'contact_email': contact_email,
                 'member': payment.member,
