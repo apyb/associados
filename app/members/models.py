@@ -2,12 +2,15 @@
 # encoding: utf-8
 from django.db import models
 from django.utils import timezone
+import slumber
 from app.core.models import DefaultFields
 
 from django.contrib.localflavor.br.br_states import STATE_CHOICES
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
+from django.conf import settings
 
+github_api = slumber.API("https://api.github.com/", append_slash=False)
 
 class Organization(DefaultFields):
     name = models.CharField(_('Name'), max_length=250)
@@ -45,6 +48,7 @@ class Category(models.Model):
 class Member(models.Model):
     user = models.OneToOneField(User)
     category = models.ForeignKey(Category, verbose_name=_('Category'))
+    github_user = models.CharField(_('Github User'), max_length=50, null=True, blank=True)
     organization = models.ForeignKey(Organization, null=True, blank=True)
     cpf = models.CharField(_('CPF'), max_length=11, db_index=True, unique=True)
     phone = models.CharField(_('Phone'), max_length=50, null=True, blank=True)
@@ -75,5 +79,15 @@ class Member(models.Model):
             'last_payment': last_payment
         }
 
+    @property
+    def github(self):
+        if not self.github_user:
+            return None
+        try:
+            return github_api.users(self.github_user).get(client_id=settings.GITHUB_CLIENT_ID, client_secret=settings.GITHUB_CLIENT_SECRET)
+        except slumber.exceptions.HttpClientError:
+            return None
+
     def __unicode__(self):
         return self.user.get_full_name()
+

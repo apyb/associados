@@ -13,12 +13,14 @@ from app.members.models import  Organization, Member
 
 class OrganizationInput(TextInput):
     def _format_value(self, value):
+        if type(value) is not int:
+            return value
         try:
             organization = Organization.objects.get(id=value)
-            name = organization.name
+            value = organization.name
         except Organization.DoesNotExist:
-            name = ''
-        return name
+            value = ''
+        return value
 
     def render(self, name, value, attrs=None):
         if value is None:
@@ -43,13 +45,14 @@ class UserForm(forms.ModelForm):
 class MemberForm(forms.ModelForm):
     cpf = BRCPFField(label=_("CPF"), required=True)
     phone = BRPhoneNumberField(label=_("Phone"), required=False)
-    organization = forms.CharField(label=_("Organization"), widget=OrganizationInput)
-    location = forms.CharField(label=_("Location"))
+    github_user = forms.CharField(label=_("GitHub User"), required=False)
+    organization = forms.CharField(label=_("Organization"), widget=OrganizationInput, required=False)
+    location = forms.CharField(label=_("Location"), required=False)
 
     class Meta:
         model = Member
         exclude = ('user', )
-        fields = ('category', 'organization', 'cpf', 'phone', 'address', 'location',
+        fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location',
                   'relation_with_community', 'mailing', 'partner')
 
     def clean_organization(self):

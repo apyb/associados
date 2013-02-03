@@ -36,7 +36,6 @@ nbproject
 .idea
 node_modules
 .coverage
-static
 
 settings_local.py
 associados/static/docs/*

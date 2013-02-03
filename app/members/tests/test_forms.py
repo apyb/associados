@@ -133,12 +133,6 @@ class InvalidMemberFormTest(MemberFormTest):
     def test_with_no_data_should_return_category_error(self):
         self.assertIn('category', self.member_form.errors)
 
-    def test_with_no_data_should_return_organization_error(self):
-        self.assertIn('organization', self.member_form.errors)
-
-    def test_with_no_data_should_return_location_error(self):
-        self.assertIn('location', self.member_form.errors)
-
     def test_with_no_data_should_return_cpf_error(self):
         self.assertIn('cpf', self.member_form.errors)
 
