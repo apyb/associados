@@ -11,3 +11,4 @@ gunicorn==0.14.6
 lxml==2.3.4
 -e git+https://github.com/petry/django-s3-folder-storage.git@d7e8b7939b554e8fdc6815da5fa349bf7d5d8aaa#egg=django_s3_folder_storage-dev
 South==0.7.6
+slumber==0.5.1
