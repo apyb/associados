@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n tz %}
+{% load i18n  tz %}
 {% block content %}
     <h1>Dashboard</h1>
     <section>
@@ -46,7 +46,7 @@
                     <tr>
                         <th span="2">
                             <a class="btn btn-success" href="{% url  payment  user.member.id %}">
-                                <i class="icon-shopping-cart icon-white"></i>{% trans "membership dues" %}
+                                <i class="icon-shopping-cart icon-white"></i>{% trans "pay the annuity" %}
                             </a>
                         </th>
                     </tr>
