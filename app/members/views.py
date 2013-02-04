@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
@@ -13,6 +13,7 @@ from app.members.models import Member
 from app.members.forms import MemberForm, UserForm
 from app.authemail.forms import RegisterForm
 
+import json
 
 class MemberListView(ListView):
     model = Member
@@ -84,6 +85,22 @@ def member_form(request):
         }
     )
 
+def member_status(request):
+    valid_parameters = ['name', 'email', 'cpf', 'phone', 'organization']
+    received_parameters = {}
+    response = ''
+
+    querydict = request.GET
+    for dict_key in querydict:
+        for item in valid_parameters:
+            if item == dict_key:
+                received_parameters[item] = querydict[dict_key]
+    
+    if received_parameters == {}:
+        error_message = u'nenhum parâmetro válido informado. Opções: %s' % valid_parameters
+        response = {'error': error_message}
+
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 @login_required
 def dashboard(request):
