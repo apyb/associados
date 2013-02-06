@@ -161,7 +161,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # System contact email address
-EMAIL_CONTACT_ADDRESS = None
+EMAIL_CONTACT_ADDRESS = EMAIL_HOST_USER
 
 # 3rd party applications
 PAGSEGURO = {
