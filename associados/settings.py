@@ -160,6 +160,9 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+# System contact email address
+EMAIL_CONTACT_ADDRESS = None
+
 # 3rd party applications
 PAGSEGURO = {
     'email': os.environ.get('PAGSEGURO_EMAIL'),

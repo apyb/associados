@@ -43,6 +43,8 @@ INSTALLED_APPS.append(
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH = '/tmp/lead-messages'  # change this to a proper location
 
+EMAIL_CONTACT_ADDRESS = 'email@fake.com'
+
 PAGSEGURO['email'] = 'email@fake.com'
 PAGSEGURO['token'] = 'faketoken'
 
