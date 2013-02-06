@@ -4,3 +4,7 @@
     float: left;
     margin-left: auto;
 }
+
+.clearfix{
+    display: block;
+}
