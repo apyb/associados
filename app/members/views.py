@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 
-from app.members.models import Member
+from app.members.models import Category, Member
 from app.members.forms import MemberForm, UserForm
 from app.authemail.forms import RegisterForm
 
@@ -19,16 +19,20 @@ class MemberListView(ListView):
 
     def get(self, request, *args, **kwargs):
         self.query = request.GET.get('q')
-        category = request.GET.get('category')
+        self.category = request.GET.get('category')
+
+        queryset = self.get_queryset()
 
         if self.query:
-            self.queryset = Member.objects.filter(
+            queryset = queryset.filter(
                 Q(user__first_name__icontains=self.query) |
                 Q(user__last_name__icontains=self.query)
             )
 
-        if category:
-            self.queryset = Member.objects.filter(category__id=category)
+        if self.category:
+            queryset = queryset.filter(category__id=self.category)
+
+        self.queryset = queryset
 
         return super(MemberListView, self).get(request, args, kwargs)
 
@@ -36,6 +40,9 @@ class MemberListView(ListView):
         context = super(MemberListView, self).get_context_data(**kwargs)
         if self.query:
             context['q'] = self.query
+        if self.category:
+            context['active_category'] = int(self.category)
+        context['categories'] = Category.objects.all()
         return context
 
 

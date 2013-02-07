@@ -8,3 +8,13 @@
 .clearfix{
     display: block;
 }
+
+.well form {
+    margin-bottom:0;
+}
+
+.form-search label,
+.form-search input,
+.form-search>button {
+    margin-right:6px;
+}

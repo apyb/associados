@@ -53,6 +53,6 @@ class MemberListViewTest(TestCase):
             'category': 1,
         })
         self.assertIn('test test', response.rendered_content)
-        self.assertIn('dolor sit', response.rendered_content)
+        self.assertNotIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
         self.assertNotIn('amet consectetur', response.rendered_content)
