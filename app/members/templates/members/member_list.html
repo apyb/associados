@@ -17,12 +17,9 @@
                     <div class="btn-group">
                     {% for category in categories %}
                         {% if forloop.first %}
-                            {% if q %}
-                            <button class="btn{% if not active_category %} active{% endif %}">{% trans 'All' %}</button>
-                            {% else %}
-                            <button class="btn{% if not active_category %} active{% endif %}">{% trans 'All' %}</button>
-                            {% endif %}
+                        <button class="btn{% if not active_category %} active{% endif %}">{% trans 'All' %}</button>
                         {% endif %}
+
                         {% if q %}
                         <button class="btn{% if category.id == active_category %} active{% endif %}" name="category" value="{{ category.id }}">{{ category }}</button>
                         {% else %}
