@@ -7,6 +7,33 @@
 
     <div class="row">
         <div class="span12">
+            <div class="well">
+                <form class="form-search">
+                    <label><b>{% trans "Search members:" %}</b></label>
+                    <input type="text" name="q" value= "{{ q }}" class="input-medium search-query">
+                    <button type="submit" class="btn">{% trans "Search" %}</button>
+
+                    <label><b>{% trans "Filter by category:" %}</b></label>
+                    <div class="btn-group">
+                    {% for category in categories %}
+                        {% if forloop.first %}
+                        <button class="btn{% if not active_category %} active{% endif %}">{% trans 'All' %}</button>
+                        {% endif %}
+
+                        {% if q %}
+                        <button class="btn{% if category.id == active_category %} active{% endif %}" name="category" value="{{ category.id }}">{{ category }}</button>
+                        {% else %}
+                        <button class="btn{% if category.id == active_category %} active{% endif %}" name="category" value="{{ category.id }}">{{ category }}</button>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
             <div class="row">
                 {% for member in object_list %}
 
@@ -59,29 +86,5 @@
 
             </div>
         </div>
-        {% comment %}
-        <div class="span3">
-            <div class="well">
-                <h3>{% trans "Search members:" %}</h3>
-                <form class="form-search">
-                  <input type="text" name="q" value= "{{ q }}" class="input-medium search-query">
-                  <button type="submit" class="btn">{% trans "Search" %}</button>
-                </form>
-
-                <h3>{% trans "Filter by category:" %}</h3>
-                <ul>
-                    {% if q %}
-                    <li><a href="?q={{ q|urlencode }}">All</a></li>
-                    <li><a href="?q={{ q|urlencode }}&category=1">{% trans "Student" %}</a></li>
-                    <li><a href="?q={{ q|urlencode }}&category=2">{% trans "Member" %}</a></li>
-                    {% else %}
-                    <li><a href="?{{ q|urlencode:"=" }}">All</a></li>
-                    <li><a href="?category=1">{% trans "Student" %}</a></li>
-                    <li><a href="?category=2">{% trans "Member" %}</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-        {% endcomment %}
     </div>
 {% endblock %}
