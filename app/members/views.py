@@ -85,22 +85,53 @@ def member_form(request):
         }
     )
 
-def member_status(request):
-    valid_parameters = ['name', 'email', 'cpf', 'phone', 'organization']
+def _retrieve_parameters(request, parameters_dict):
     received_parameters = {}
-    response = ''
 
     querydict = request.GET
-    for dict_key in querydict:
-        for item in valid_parameters:
-            if item == dict_key:
-                received_parameters[item] = querydict[dict_key]
-    
-    if received_parameters == {}:
-        error_message = u'nenhum parâmetro válido informado. Opções: %s' % valid_parameters
+    for query_key in querydict:
+        for param_key, param_value in parameters_dict.items():
+            if param_key == query_key:
+                received_parameters[param_value] = querydict[query_key]
+
+    return received_parameters
+
+
+def _search_member(params):
+    result = ''
+    member = Member.objects.filter(**params)
+
+    if member:
+        days_to_next_payment = member[0].get_days_to_next_payment(member[0].get_last_payment())
+        if days_to_next_payment > 0:
+            result = 'ativo'
+        else:
+            result = 'inativo'
+    else:
+        result = 'invalido'
+    return {'status': result}
+
+
+def member_status(request):
+    valid_parameters = {
+        'first_name': 'user__first_name',
+        'last_name': 'user__last_name',
+        'email': 'user__email',
+        'cpf': 'cpf',
+        'phone': 'phone',
+        'organization': 'organization'
+    }
+    response = ''
+    params = _retrieve_parameters(request, valid_parameters)
+
+    if params == {}:
+        error_message = u'nenhum parâmetro válido informado. Opções: %s' % valid_parameters.keys()
         response = {'error': error_message}
+    else:
+        response = _search_member(params)
 
     return HttpResponse(json.dumps(response), content_type='application/json')
+
 
 @login_required
 def dashboard(request):
