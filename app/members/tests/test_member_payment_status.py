@@ -30,12 +30,31 @@ class UserFormTest(TestCase):
         self.transaction = Transaction.objects.create(
             payment=self.payment,
             code='fake-code',
-            status='done',
+            status='other',
             price=50.0
         )
 
-    def test_should_get_last_payment(self):
+    def test_should_return_none_if_hasnt_a_valid_payment(self):
+        self.assertEqual(self.member.get_last_payment(), None)
+
+    def test_should_return_last_payment(self):
+        self.transaction = Transaction.objects.create(
+            payment=self.payment,
+            code='fake-code',
+            status='done',
+            price=50.0
+        )
         self.assertEqual(self.member.get_last_payment(), self.payment)
 
+    def test_should_return_0_if_user_has_not_paid(self):
+        self.assertEqual(self.member.get_days_to_next_payment(self.payment), 0)
+
+
     def test_should_calculate_days(self):
+        self.transaction = Transaction.objects.create(
+            payment=self.payment,
+            code='fake-code',
+            status='done',
+            price=50.0
+        )
         self.assertEqual(self.member.get_days_to_next_payment(self.payment), 10)

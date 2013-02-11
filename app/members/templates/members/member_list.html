@@ -1,50 +1,89 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n tz gravatar %}
 {% block title %}{% trans "Members" %}{% endblock %}
 
 {% block content %}
     <h1>{% trans "Members" %}</h1>
 
     <div class="row">
-        <div class="span9">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>{% trans "Name" %}</th>
-                        <th>{% trans "Category" %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for member in object_list %}
-                    <tr>
-                        <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
-                        <td>{{ member.category.name }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <div class="span3">
+        <div class="span12">
             <div class="well">
-                <h3>{% trans "Search members:" %}</h3>
                 <form class="form-search">
-                  <input type="text" name="q" value= "{{ q }}" class="input-medium search-query">
-                  <button type="submit" class="btn">{% trans "Search" %}</button>
-                </form>
+                    <label><b>{% trans "Search members:" %}</b></label>
+                    <input type="text" name="q" value= "{{ q }}" class="input-medium search-query">
+                    <button type="submit" class="btn">{% trans "Search" %}</button>
 
-                <h3>{% trans "Filter by category:" %}</h3>
-                <ul>
-                    {% if q %}
-                    <li><a href="?q={{ q|urlencode }}">All</a></li>
-                    <li><a href="?q={{ q|urlencode }}&category=1">{% trans "Student" %}</a></li>
-                    <li><a href="?q={{ q|urlencode }}&category=2">{% trans "Member" %}</a></li>
-                    {% else %}
-                    <li><a href="?{{ q|urlencode:"=" }}">All</a></li>
-                    <li><a href="?category=1">{% trans "Student" %}</a></li>
-                    <li><a href="?category=2">{% trans "Member" %}</a></li>
-                    {% endif %}
-                </ul>
+                    <label><b>{% trans "Filter by category:" %}</b></label>
+                    <div class="btn-group">
+                    {% for category in categories %}
+                        {% if forloop.first %}
+                        <button class="btn{% if not active_category %} active{% endif %}">{% trans 'All' %}</button>
+                        {% endif %}
+
+                        {% if q %}
+                        <button class="btn{% if category.id == active_category %} active{% endif %}" name="category" value="{{ category.id }}">{{ category }}</button>
+                        {% else %}
+                        <button class="btn{% if category.id == active_category %} active{% endif %}" name="category" value="{{ category.id }}">{{ category }}</button>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <div class="row">
+                {% for member in object_list %}
+
+
+                <div class="span4">
+                    <div class="row">
+
+
+                        <div class="span1">
+                            {% if member.github %}
+                                <img class="img-polaroid" src="{{ member.github.avatar_url }}" alt="">
+                            {% else %}
+                                <img class="img-polaroid" src="{% gravatar_for_email member.user.email %}" alt="">
+                            {% endif %}
+                        </div>
+
+                        <div class="span3">
+                            {% if member.category_id == 1 %}
+                                <span class="label label-success">
+                                    <i class="icon-briefcase icon-white"></i>
+                                    {{ member.category }}
+                                </span>
+                            {% else %}
+                                <span class="label label-info">
+                                    <i class="icon-headphones icon-white"></i>
+                                    {{ member.category }}
+                                </span>
+                            {% endif %}
+
+                        {% if member.github and member.github.name %}
+                            <span class="clearfix">{{ member.github.name }}</span>
+                            <span class="clearfix">{{ member.github.company }}</span>
+                            <span class="clearfix">{{ member.github.location }}</span>
+                            <span class="clearfix">{{ member.github.blog|urlize }}</span>
+                        {% else %}
+                            <span class="clearfix">{{ member }}</span>
+                            {% if member.organization %}
+                                <span class="clearfix">{{ member.organization }}</span>
+                            {% endif %}
+                            {% if member.location %}
+                                <span class="clearfix">{{ member.location }}</span>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+
+
+                    </div>
+                </div>
+                {% endfor %}
+
             </div>
         </div>
     </div>

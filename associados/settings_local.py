@@ -43,6 +43,8 @@ INSTALLED_APPS.append(
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH = '/tmp/lead-messages'  # change this to a proper location
 
+EMAIL_CONTACT_ADDRESS = 'email@fake.com'
+
 PAGSEGURO['email'] = 'email@fake.com'
 PAGSEGURO['token'] = 'faketoken'
 
@@ -71,3 +73,6 @@ PIPELINE_COMPILERS = (
 )
 
 COMPRESS_OUTPUT_DIR = 'cache'
+
+GITHUB_CLIENT_SECRET = '029af1e17893ad8c07c03d1554d2cd90c2ae25ef'
+GITHUB_CLIENT_ID = '855b73a4cf48b9f3653f'

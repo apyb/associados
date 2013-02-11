@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'sorl.thumbnail',
     'gravatar',
+    'south'
 )
 
 
@@ -159,6 +160,9 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+# System contact email address
+EMAIL_CONTACT_ADDRESS = EMAIL_HOST_USER
+
 # 3rd party applications
 PAGSEGURO = {
     'email': os.environ.get('PAGSEGURO_EMAIL'),
@@ -174,3 +178,6 @@ PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
 PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAGSEGURO_TRANSACTIONS
 PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
+
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')

@@ -26,8 +26,7 @@ class MemberFormTest(TestCase):
 
             'cpf': '94463643104',
             'phone': '1199492911',
-            'city': 'Sao Paulo',
-            'state': 'SP',
+            'location': 'Sao Paulo',
             'category': '1',
             'relationship': 'think',
             'mailing': 1,
@@ -93,9 +92,8 @@ class ValidMemberFormTest(MemberFormTest):
     def test_form_must_be_valid(self):
         self.assertTrue(self.member_form.is_valid())
 
-    def test_should_store_a_city(self):
-        city = City.objects.get(name='Sao Paulo', state='SP')
-        self.assertEqual(self.member_instance.city, city)
+    def test_should_store_location(self):
+        self.assertEqual(self.member_instance.location, 'Sao Paulo')
 
     def test_should_store_organization(self):
         organization = Organization.objects.get(name='Home')
@@ -135,14 +133,6 @@ class InvalidMemberFormTest(MemberFormTest):
     def test_with_no_data_should_return_category_error(self):
         self.assertIn('category', self.member_form.errors)
 
-    def test_with_no_data_should_return_organization_error(self):
-        self.assertIn('organization', self.member_form.errors)
-
-    def test_with_no_data_should_return_state_error(self):
-        self.assertIn('state', self.member_form.errors)
-
     def test_with_no_data_should_return_cpf_error(self):
         self.assertIn('cpf', self.member_form.errors)
 
-    def test_with_no_data_should_return_city_error(self):
-        self.assertIn('city', self.member_form.errors)

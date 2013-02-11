@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
 from app.members.models import Member, Category
 
 
@@ -17,6 +18,7 @@ class Payment(models.Model):
     type = models.ForeignKey(PaymentType)
     date = models.DateTimeField(null=True, blank=True)
     valid_until = models.DateTimeField(null=True, blank=True)
+    last_transaction = models.ForeignKey('Transaction', null=True, blank=True, related_name='last_transaction')
 
     def done(self):
         return self.transaction_set.filter(status="done").exists()
@@ -32,3 +34,10 @@ class Transaction(models.Model):
 
     def get_checkout_url(self):
         return settings.PAGSEGURO_WEBCHECKOUT + self.code
+
+def update_payment_transaction(sender, instance, **kwargs):
+    payment = instance.payment
+    payment.last_transaction = instance
+    payment.save()
+
+post_save.connect(receiver=update_payment_transaction, sender=Transaction)

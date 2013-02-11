@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
@@ -117,24 +116,3 @@ class PaymentModelTestCase(MemberTestCase):
         self.assertIn(field_name, model._meta.get_all_field_names())
 
 
-class TransacitonModelTestCase(TestCase):
-    def test_should_have_code(self):
-        self.assert_field_in('code', Transaction)
-
-    def test_should_have_status(self):
-        self.assert_field_in('status', Transaction)
-
-    def test_should_have_payment(self):
-        self.assert_field_in('payment', Transaction)
-
-        payment_field = Transaction._meta.get_field_by_name('payment')[0]
-        self.assertIsInstance(payment_field, models.ForeignKey)
-        self.assertEqual(Payment, payment_field.related.parent_model)
-
-    def test_get_checkout_url(self):
-        t = Transaction(code="123")
-        expected_url = settings.PAGSEGURO_WEBCHECKOUT + "123"
-        self.assertEqual(expected_url, t.get_checkout_url())
-
-    def assert_field_in(self, field_name, model):
-        self.assertIn(field_name, model._meta.get_all_field_names())

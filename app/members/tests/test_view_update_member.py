@@ -18,7 +18,7 @@ class MemberChangeView(TestCase):
 
         self.data = {
             u'category': u'1',
-            u'city': u'editou',
+            u'location': u'editou',
             u'organization': u'editou',
             u'relation_with_community': u'editou',
             u'phone': u'12-1212-1212',
@@ -57,18 +57,29 @@ class MemberChangeView(TestCase):
         last_name = self.dom.cssselect('input[name=last_name]')[0]
         self.assertEqual(last_name.value, self.user.last_name)
 
+    def test_should_render_organization_name(self):
+        organization = Organization.objects.create(
+            name='organization fake'
+        )
+        self.user.member.organization = organization
+        self.user.member.save()
+
+        response = self.client.get(self.url)
+        dom = lhtml.fromstring(response.content)
+        organization_dom = dom.cssselect('input[name=organization]')[0]
+        self.assertEqual(organization_dom.value, organization.name)
+
     def test_post_with_correcly_data_should_update_a_member(self):
         response = self.client.post(self.url, self.data)
 
         member = Member.objects.get(user_id=self.user.id)
 
         self.assertEqual(member.category, Category.objects.get(id=1))
-        self.assertEqual(member.city, City.objects.get(name='editou'))
+        self.assertEqual(member.location, 'editou')
         self.assertEqual(member.organization, Organization.objects.get(name='editou'))
         self.assertEqual(member.relation_with_community, u'editou')
         self.assertEqual(member.phone, u'12-1212-1212')
         self.assertEqual(member.cpf, u'71763224490')
-        self.assertEqual(member.city.state, u'editou')
         self.assertEqual(member.address, u'address')
         self.assertEqual(member.partner, False)
         self.assertEqual(member.mailing, False)

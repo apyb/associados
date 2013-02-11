@@ -1,15 +1,13 @@
 {% load i18n %}
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="/">{% trans "Members of the Python Brazil Association" %}</a>
+            <a class="brand" href="/">{% trans "Python Brazil Association" %}</a>
 
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="i-bar"></span>
-                <span class="i-bar"></span>
-                <span class="i-bar"></span>
-            </a>
             <div class="nav-collapse">
+                <ul class="nav">
+                    <li><a href="{% url members-list %}">{% trans "members" %}</a></li>
+                </ul>
                 <ul class="nav pull-right">
                     {% if user.is_authenticated %}
                         <li class="dropdown" id="fat-menu">
@@ -20,6 +18,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{% url members-dashboard %}">{% trans "dashboard" %}</a></li>
                                 <li><a href="{% url auth-password-change %}">{% trans "change password" %}</a></li>
+                                <li><a href="{% url members-form %}">{% trans "update my profile" %}</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{% url auth-logout %}">{% trans "logout" %}</a></li>
                             </ul>
