@@ -18,7 +18,7 @@ class REST(TestCase):
         # Active member
         user_valid = create_user_with_member(
             first_name='active',
-            email='active@test.com'
+            email='active@test.com',
         )
         self.member_valid = user_valid.member
         payment_type = PaymentType.objects.create(
@@ -40,10 +40,9 @@ class REST(TestCase):
         )
     
         # Inactive member
-        create_user_with_member(
+        self.user_invalid = create_user_with_member(
             first_name='inactive',
-            last_name='Da Silva',
-            email='inactive@test.com'
+            email='inactive@test.com',
         )
 
     def test_should_have_a_route(self):
@@ -53,7 +52,7 @@ class REST(TestCase):
     def test_should_receive_error_json(self):
         request = self.client.get(self.url)
         response = json.loads(request.content)
-        expected = {"error": u"nenhum parâmetro válido informado. Opções: ['first_name', 'last_name', 'cpf', 'phone', 'organization', 'email']"}
+        expected = {"error": u"nenhum parâmetro válido informado. Opções: ['email', 'cpf']"}
 
         self.assertEqual(response, expected)
 
@@ -61,11 +60,21 @@ class REST(TestCase):
         """Testes usando os parametros de busca para encontrar usuario valido"""
         params = {
             'url': self.url,
-            'first_name': 'active',
-            'email': 'active@test.com'
+            'email': 'active@test.com',
+            'cpf': self.member_valid.cpf
         }
 
-        request = self.client.get("%(url)s?first_name=%(first_name)s&email=%(email)s" % (params))
+        request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
+        response = json.loads(request.content)
+        expected = {'status':'ativo'}
+        self.assertEqual(response, expected)
+
+        request = self.client.get("%(url)s?email=%(email)s" % (params))
+        response = json.loads(request.content)
+        expected = {'status':'ativo'}
+        self.assertEqual(response, expected)
+
+        request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
         response = json.loads(request.content)
         expected = {'status':'ativo'}
         self.assertEqual(response, expected)
@@ -74,20 +83,43 @@ class REST(TestCase):
         """Testes usando os parametros de busca para encontrar usuario invalido"""
         params = {
             'url': self.url,
-            'name': 'inactive',
-            'last_name': 'Da Silva',
-            'email': 'inactive@test.com'
+            'email': 'inactive@test.com',
+            'cpf': self.user_invalid.member.cpf
         }
 
-        request = self.client.get("%(url)s?last_name=%(last_name)s&email=%(email)s" % (params))
+        request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
+        response = json.loads(request.content)
+        expected = {'status':'inativo'}
+        self.assertEqual(response, expected)
+
+        request = self.client.get("%(url)s?email=%(email)s" % (params))
+        response = json.loads(request.content)
+        expected = {'status':'inativo'}
+        self.assertEqual(response, expected)
+
+        request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
         response = json.loads(request.content)
         expected = {'status':'inativo'}
         self.assertEqual(response, expected)
 
     def test_should_validate_non_existant_user(self):
-        params = {'url': self.url, 'first_name': 'invalid', 'email': 'invalid@test.com'}
+        params = {
+            'url': self.url, 
+            'email': 'invalid@test.com',
+            'cpf': '11122233344'
+        }
 
-        request = self.client.get("%(url)s?first_name=%(first_name)s&email=%(email)s" % (params))
+        request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
+        response = json.loads(request.content)
+        expected = {'status':'invalido'}
+        self.assertEqual(response, expected)
+
+        request = self.client.get("%(url)s?email=%(email)s" % (params))
+        response = json.loads(request.content)
+        expected = {'status':'invalido'}
+        self.assertEqual(response, expected)
+
+        request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
         response = json.loads(request.content)
         expected = {'status':'invalido'}
         self.assertEqual(response, expected)

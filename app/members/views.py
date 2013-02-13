@@ -121,12 +121,8 @@ def _search_member(params):
 
 def member_status(request):
     valid_parameters = {
-        'first_name': 'user__first_name',
-        'last_name': 'user__last_name',
         'email': 'user__email',
         'cpf': 'cpf',
-        'phone': 'phone',
-        'organization': 'organization'
     }
     response = ''
     params = _retrieve_parameters(request, valid_parameters)
