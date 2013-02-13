@@ -32,8 +32,8 @@ class Command(BaseCommand):
             print("importando {0}".format(membro['nome']))
             splitted_name = re.split(" :?", membro['nome'], 1)
             user = User.objects.create(
-                first_name = splitted_name[0],
-                last_name = splitted_name[1],
+                first_name=splitted_name[0][-30:],
+                last_name=splitted_name[1][-30:],
                 username=self.get_username(membro['email']),
                 email=membro['email']
             )
