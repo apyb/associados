@@ -65,6 +65,7 @@ class PaymentView(View):
 class NotificationView(View):
 
     def __init__(self, **kwargs):
+        self.transaction_code = None
         self.methods_by_status = {
             3: self.transaction_done,
             7: self.transaction_canceled,
@@ -101,8 +102,14 @@ class NotificationView(View):
         member.save()
 
     def _update_payment_dates(self, payment):
+        last_payment = payment.member.get_last_payment()
+        if last_payment:
+            payment.valid_until = last_payment.valid_until + timedelta(days=payment.type.duration)
+        else:
+            payment.valid_until = datetime.now(tz=timezone.get_default_timezone()) \
+                                  + timedelta(days=payment.type.duration)
+
         payment.date = datetime.now(tz=timezone.get_default_timezone())
-        payment.valid_until = datetime.now(tz=timezone.get_default_timezone()) + timedelta(days=payment.type.duration)
         payment.save()
 
     def _send_confirmation_email(self, payment):
@@ -113,17 +120,16 @@ class NotificationView(View):
 
     def transaction_done(self, payment_id):
         payment = Payment.objects.get(id=payment_id)
-
-        transaction = Transaction.objects.get(payment=payment)
-        transaction.status = "done"
-        transaction.save()
-
         self._update_payment_dates(payment)
         self._update_member_category(payment)
         self._send_confirmation_email(payment)
 
+        transaction = Transaction.objects.get(code=self.transaction_code, payment_id=payment_id)
+        transaction.status = "done"
+        transaction.save()
+
     def transaction_canceled(self, payment_id):
-        transaction = Transaction.objects.get(payment_id=payment_id)
+        transaction = Transaction.objects.get(code=self.transaction_code, payment_id=payment_id)
         transaction.status = "canceled"
         transaction.save()
 
@@ -132,10 +138,10 @@ class NotificationView(View):
         return super(NotificationView, self).dispatch(*args, **kwargs)
 
     def post(self, request):
-        notification_code = request.POST.get("notificationCode")
+        self.transaction_code = request.POST.get("notificationCode")
 
-        if notification_code:
-            status, payment_id = self.transaction(notification_code)
+        if self.transaction_code:
+            status, payment_id = self.transaction(self.transaction_code)
             method = self.methods_by_status.get(status)
 
             if method:

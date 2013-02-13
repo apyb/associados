@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import call_command
@@ -164,20 +164,28 @@ class NotificationViewTestCase(MemberTestCase):
     def test_transaction_done(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
 
-        NotificationView().transaction_done(payment.id)
+        view = NotificationView()
+        view.transaction_code = 'xpto'
+        view.transaction_done(payment.id)
+
         transaction = Transaction.objects.get(id=transaction.id)
         self.assertEqual("done", transaction.status)
 
     def test_transaction_done_update_member_category(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
-        NotificationView().transaction_done(payment.id)
+        view = NotificationView()
+        view.transaction_code = 'xpto'
+        view.transaction_done(payment.id)
+
         reloaded_member = Member.objects.get(id=self.member.id)
         self.assertEqual(reloaded_member.category, payment.type.category)
 
     def test_transaction_done_fill_payment_date(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
         self.assertFalse(payment.date)
-        NotificationView().transaction_done(payment.id)
+        view = NotificationView()
+        view.transaction_code = 'xpto'
+        view.transaction_done(payment.id)
 
         reloaded_payment = Payment.objects.get(id=payment.id)
         self.assertTrue(reloaded_payment.date)
@@ -189,7 +197,9 @@ class NotificationViewTestCase(MemberTestCase):
     def test_transaction_done_fill_payment_valid_until(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
         self.assertFalse(payment.valid_until)
-        NotificationView().transaction_done(payment.id)
+        view = NotificationView()
+        view.transaction_code = 'xpto'
+        view.transaction_done(payment.id)
 
         valid_until = timezone.now() + timedelta(days=payment.type.duration)
         reloaded_payment = Payment.objects.get(id=payment.id)
@@ -197,13 +207,32 @@ class NotificationViewTestCase(MemberTestCase):
         self.assertEqual(reloaded_payment.valid_until.strftime('%Y-%m-%d+%H:%M'),
                          valid_until.strftime('%Y-%m-%d+%H:%M'))
 
+    def test_transaction_done_should_respect_last_payment_date(self):
+        old_payment, old_transaction = self._make_transaction(status="done", code="xpto", price="123.54")
+        old_payment.date = timezone.datetime(2010, 01, 01)
+        old_payment.valid_until = timezone.datetime(2011, 01, 01)
+        old_payment.save()
+
+        payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
+        valid_until = old_payment.valid_until + timedelta(days=payment.type.duration)
+        view = NotificationView()
+        view.transaction_code = 'xpto'
+        view.transaction_done(payment.id)
+
+        reloaded_payment = Payment.objects.get(id=payment.id)
+        self.assertEqual(reloaded_payment.valid_until.strftime('%Y-%m-%d'),
+                         valid_until.strftime('%Y-%m-%d'))
+
     def test_transaction_done_send_email(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
 
         #make sure that the outbox is empty
         mail.outbox = []
 
-        NotificationView().transaction_done(payment.id)
+        view = NotificationView()
+        view.transaction_code = 'xpto'
+        view.transaction_done(payment.id)
+
 
         #get the created member
         #set the strings to be verified
@@ -219,7 +248,9 @@ class NotificationViewTestCase(MemberTestCase):
 
     def test_transaction_canceled(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="115.84")
-        NotificationView().transaction_canceled(payment.id)
+        view = NotificationView()
+        view.transaction_code = 'xpto'
+        view.transaction_canceled(payment.id)
         transaction = Transaction.objects.get(id=transaction.id)
         self.assertEqual("canceled", transaction.status)
 
@@ -232,7 +263,7 @@ class NotificationViewTestCase(MemberTestCase):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price='123.45')
         notification_view = NotificationView()
         notification_view.transaction = (lambda code: (3, 1))
-        request = RequestFactory().post("/", {"notificationCode": "123"})
+        request = RequestFactory().post("/", {"notificationCode": "xpto"})
 
         response = notification_view.post(request)
 
