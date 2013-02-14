@@ -30,7 +30,7 @@ class UserFormTest(TestCase):
         self.transaction = Transaction.objects.create(
             payment=self.payment,
             code='fake-code',
-            status='other',
+            status=0,
             price=50.0
         )
 
@@ -41,7 +41,7 @@ class UserFormTest(TestCase):
         self.transaction = Transaction.objects.create(
             payment=self.payment,
             code='fake-code',
-            status='done',
+            status=3,
             price=50.0
         )
         self.assertEqual(self.member.get_last_payment(), self.payment)
@@ -54,7 +54,7 @@ class UserFormTest(TestCase):
         self.transaction = Transaction.objects.create(
             payment=self.payment,
             code='fake-code',
-            status='done',
+            status=3,
             price=50.0
         )
         self.assertEqual(self.member.get_days_to_next_payment(self.payment), 10)

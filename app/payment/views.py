@@ -38,7 +38,7 @@ class PaymentView(View):
             transaction = Transaction.objects.create(
                 payment=payment,
                 code=transaction_code,
-                status='pending',
+                status=1,
                 price=price
             )
             return transaction
@@ -126,12 +126,12 @@ class NotificationView(View):
         self._send_confirmation_email(payment)
 
         transaction = Transaction.objects.get(code=self.transaction_code, payment_id=payment_id)
-        transaction.status = "done"
+        transaction.status = 3
         transaction.save()
 
     def transaction_canceled(self, payment_id):
         transaction = Transaction.objects.get(code=self.transaction_code, payment_id=payment_id)
-        transaction.status = "canceled"
+        transaction.status = 7
         transaction.save()
 
     @method_decorator(csrf_exempt)

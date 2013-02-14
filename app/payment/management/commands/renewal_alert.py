@@ -37,7 +37,6 @@ class Command(BaseCommand):
         expiration_dates += [today]
 
         filter_arg = None
-
         for d in expiration_dates:
             since = self._make_date_lookup_arg(d)
             until = self._make_date_lookup_arg(d + datetime.timedelta(days=1))
@@ -49,7 +48,6 @@ class Command(BaseCommand):
 
         if settings.USE_I18N:
             translation.activate(settings.LANGUAGE_CODE)
-
         for payment in Payment.objects.filter(filter_arg):
             valid_until_date = payment.valid_until.date()
             context = {

@@ -4,6 +4,17 @@ from django.db.models.signals import post_save
 from app.members.models import Member, Category
 
 
+TRANSACTION_STATUS = (
+    ('1', 'Awaiting Payment'),
+    ('2', 'In analysis'),
+    ('3', 'Paid'),
+    ('4', 'Available'),
+    ('5', 'In dispute'),
+    ('6', 'Returned'),
+    ('7', 'Cancelled'),
+)
+
+
 class PaymentType(models.Model):
     category = models.ForeignKey(Category)
     price = models.DecimalField(max_digits=5, decimal_places=2)
@@ -21,15 +32,16 @@ class Payment(models.Model):
     last_transaction = models.ForeignKey('Transaction', null=True, blank=True, related_name='last_transaction')
 
     def done(self):
-        return self.transaction_set.filter(status="done").exists()
+        return self.transaction_set.filter(status=3).exists()
 
     def __unicode__(self):
         return 'payment from {0}'.format(self.member)
 
+
 class Transaction(models.Model):
     payment = models.ForeignKey(Payment)
     code = models.CharField(max_length=50)
-    status = models.CharField(max_length=25)
+    status = models.CharField(max_length=1, choices=TRANSACTION_STATUS)
     price = models.DecimalField(max_digits=5, decimal_places=2)
 
     def get_checkout_url(self):
