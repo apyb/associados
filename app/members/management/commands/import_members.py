@@ -52,6 +52,6 @@ class Command(BaseCommand):
             transaction = Transaction.objects.create(
                 payment=payment,
                 code='0',
-                status='done',
+                status=3,
                 price=payment_type.price
             )
