@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Changing field 'Transaction.status'
-        db.alter_column('payment_transaction', 'status', self.gf('django.db.models.fields.CharField')(max_length=1))
+        db.alter_column('payment_transaction', 'status', self.gf('django.db.models.fields.CharField')(max_length=10))
 
     def backwards(self, orm):
 
