@@ -15,6 +15,7 @@ from app.authemail.forms import RegisterForm
 
 import json
 
+
 class MemberListView(ListView):
     model = Member
 
@@ -91,6 +92,7 @@ def member_form(request):
             'user_form': user_form
         }
     )
+
 
 def _retrieve_parameters(request, parameters_dict):
     received_parameters = {}

@@ -8,6 +8,7 @@ from app.members.tests.helpers import create_user_with_member
 from app.payment.models import Payment, PaymentType, Transaction
 import json
 
+
 class REST(TestCase):
 
     def setUp(self):
@@ -16,11 +17,11 @@ class REST(TestCase):
         self.url = reverse('members-status')
 
         # Active member
-        user_valid = create_user_with_member(
+        self.user_valid = create_user_with_member(
             first_name='active',
             email='active@test.com',
         )
-        self.member_valid = user_valid.member
+        self.member_valid = self.user_valid.member
         payment_type = PaymentType.objects.create(
             category=self.member_valid.category,
             price=50.0,
@@ -35,10 +36,10 @@ class REST(TestCase):
         self.transaction = Transaction.objects.create(
             payment=self.payment,
             code='fake-code',
-            status='done',
+            status=3,
             price=50.0
         )
-    
+
         # Inactive member
         self.user_invalid = create_user_with_member(
             first_name='inactive',
@@ -61,22 +62,22 @@ class REST(TestCase):
         params = {
             'url': self.url,
             'email': 'active@test.com',
-            'cpf': self.member_valid.cpf
+            'cpf': self.user_valid.member.cpf
         }
 
         request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'ativo'}
+        expected = {'status': 'ativo'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?email=%(email)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'ativo'}
+        expected = {'status': 'ativo'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'ativo'}
+        expected = {'status': 'ativo'}
         self.assertEqual(response, expected)
 
     def test_should_find_inactive_user(self):
@@ -89,37 +90,37 @@ class REST(TestCase):
 
         request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'inativo'}
+        expected = {'status': 'inativo'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?email=%(email)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'inativo'}
+        expected = {'status': 'inativo'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'inativo'}
+        expected = {'status': 'inativo'}
         self.assertEqual(response, expected)
 
     def test_should_validate_non_existant_user(self):
         params = {
-            'url': self.url, 
+            'url': self.url,
             'email': 'invalid@test.com',
             'cpf': '11122233344'
         }
 
         request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'invalido'}
+        expected = {'status': 'invalido'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?email=%(email)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'invalido'}
+        expected = {'status': 'invalido'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
         response = json.loads(request.content)
-        expected = {'status':'invalido'}
+        expected = {'status': 'invalido'}
         self.assertEqual(response, expected)
