@@ -162,17 +162,6 @@ class NotificationViewTestCase(MemberTestCase):
         self.assertEqual(3, ref)
         self.assertEqual(1.00, price)
 
-    def test_transaction_done(self):
-        payment, transaction = self._make_transaction(status=1, code="xpto", price="123.54")
-
-        view = NotificationView()
-        view.transaction_code = 'xpto'
-        view.transaction_done(payment.id)
-
-        transaction = Transaction.objects.get(id=transaction.id)
-
-        self.assertEqual('3', transaction.status)
-        self.assertEqual("Paid", transaction.get_status_display())
 
     def test_transaction_done_update_member_category(self):
         payment, transaction = self._make_transaction(status=1, code="xpto", price="123.54")
@@ -249,22 +238,7 @@ class NotificationViewTestCase(MemberTestCase):
         #verify the body string
         self.assertEqual(mail.outbox[0].body, body)
 
-    def test_transaction_canceled(self):
-        payment, transaction = self._make_transaction(status=1, code="xpto", price="115.84")
-        view = NotificationView()
-        view.transaction_code = 'xpto'
-        view.transaction_canceled(payment.id)
-        transaction = Transaction.objects.get(id=transaction.id)
-
-        self.assertEqual("7", transaction.status)
-        self.assertEqual("Cancelled", transaction.get_status_display())
-
-    def test_methods_by_status(self):
-        methods_by_status = NotificationView().methods_by_status
-        self.assertEqual("transaction_done", methods_by_status[3].__name__)
-        self.assertEqual("transaction_canceled", methods_by_status[7].__name__)
-
-    def test_post(self):
+    def test_post_with_status_done_should_return_payment_done(self):
         payment, transaction = self._make_transaction(status=1, code="xpto", price='123.45')
         notification_view = NotificationView()
         notification_view.transaction = (lambda code: (3, 1, 1))
@@ -273,7 +247,19 @@ class NotificationViewTestCase(MemberTestCase):
         response = notification_view.post(request)
 
         transaction = Transaction.objects.get(id=transaction.id)
-        self.assertEqual("3", transaction.status)
-        self.assertEqual("Paid", transaction.get_status_display())
 
+        self.assertTrue(payment.done())
+        self.assertEqual("OK", response.content)
+
+    def test_post_with_other_status_should_not_return_payment_done(self):
+        payment, transaction = self._make_transaction(status=1, code="xpto", price='123.45')
+        notification_view = NotificationView()
+        notification_view.transaction = (lambda code: (7, 1, 1))
+        request = RequestFactory().post("/", {"notificationCode": "xpto"})
+
+        response = notification_view.post(request)
+
+        transaction = Transaction.objects.get(id=transaction.id)
+
+        self.assertFalse(payment.done())
         self.assertEqual("OK", response.content)

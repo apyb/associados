@@ -47,6 +47,7 @@ class Transaction(models.Model):
     def get_checkout_url(self):
         return settings.PAGSEGURO_WEBCHECKOUT + self.code
 
+
 def update_payment_transaction(sender, instance, **kwargs):
     payment = instance.payment
     payment.last_transaction = instance

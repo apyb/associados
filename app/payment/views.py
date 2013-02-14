@@ -66,10 +66,6 @@ class NotificationView(View):
 
     def __init__(self, **kwargs):
         self.transaction_code = None
-        self.methods_by_status = {
-            3: self.transaction_done,
-            7: self.transaction_canceled,
-        }
         super(NotificationView, self).__init__(**kwargs)
 
     def transaction(self, transaction_code):
@@ -125,14 +121,13 @@ class NotificationView(View):
         self._update_member_category(payment)
         self._send_confirmation_email(payment)
 
-        transaction = Transaction.objects.get(code=self.transaction_code, payment_id=payment_id)
-        transaction.status = 3
-        transaction.save()
-
-    def transaction_canceled(self, payment_id):
-        transaction = Transaction.objects.get(code=self.transaction_code, payment_id=payment_id)
-        transaction.status = 7
-        transaction.save()
+    def create_transaction(self, payment_id, status, price, code):
+        transaction = Transaction.objects.create(
+            payment_id=payment_id,
+            code=code,
+            status=status,
+            price=price
+        )
 
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
@@ -140,12 +135,10 @@ class NotificationView(View):
 
     def post(self, request):
         self.transaction_code = request.POST.get("notificationCode")
-
         if self.transaction_code:
             status, payment_id, price = self.transaction(self.transaction_code)
-            method = self.methods_by_status.get(status)
-
-            if method:
-                method(payment_id)
+            if status == 3:
+                self.transaction_done(payment_id)
+            self.create_transaction(payment_id, status, price, self.transaction_code)
 
         return HttpResponse("OK")
