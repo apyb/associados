@@ -93,7 +93,8 @@ class NotificationView(View):
             dom = lhtml.fromstring(response.content)
             status_transacao = int(dom.xpath("//status")[0].text)
             referencia = int(dom.xpath("//reference")[0].text)
-            return status_transacao, referencia
+            valor = float(dom.xpath("//grossamount")[0].text)
+            return status_transacao, referencia, valor
         return None, None
 
     def _update_member_category(self, payment):
@@ -141,7 +142,7 @@ class NotificationView(View):
         self.transaction_code = request.POST.get("notificationCode")
 
         if self.transaction_code:
-            status, payment_id = self.transaction(self.transaction_code)
+            status, payment_id, price = self.transaction(self.transaction_code)
             method = self.methods_by_status.get(status)
 
             if method:

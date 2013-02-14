@@ -124,7 +124,7 @@ class NotificationViewTestCase(MemberTestCase):
         self.requests_original = views.requests
 
         class ResponseMock(object):
-            content = "<xml><status>3</status><reference>3</reference></xml>"
+            content = "<xml><status>3</status><reference>3</reference><grossAmount>1.00</grossAmount></xml>"
 
             def ok(self):
                 return True
@@ -157,9 +157,10 @@ class NotificationViewTestCase(MemberTestCase):
             self.fail("Reversal of url named 'notification' failed with NoReverseMatch")
 
     def test_transaction_should_get_info_about_transaction(self):
-        status, ref = NotificationView().transaction("code")
+        status, ref, price = NotificationView().transaction("code")
         self.assertEqual(3, status)
         self.assertEqual(3, ref)
+        self.assertEqual(1.00, price)
 
     def test_transaction_done(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price="123.54")
@@ -262,7 +263,7 @@ class NotificationViewTestCase(MemberTestCase):
     def test_post(self):
         payment, transaction = self._make_transaction(status="pending", code="xpto", price='123.45')
         notification_view = NotificationView()
-        notification_view.transaction = (lambda code: (3, 1))
+        notification_view.transaction = (lambda code: (3, 1, 1))
         request = RequestFactory().post("/", {"notificationCode": "xpto"})
 
         response = notification_view.post(request)
