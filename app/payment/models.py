@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
+from django.utils import timezone
 from app.members.models import Member, Category
 
 
@@ -28,6 +29,7 @@ class Payment(models.Model):
     member = models.ForeignKey(Member)
     type = models.ForeignKey(PaymentType)
     date = models.DateTimeField(null=True, blank=True)
+    code = models.CharField(max_length=50, null=True, blank=True)
     valid_until = models.DateTimeField(null=True, blank=True)
     last_transaction = models.ForeignKey('Transaction', null=True, blank=True, related_name='last_transaction')
 
@@ -40,6 +42,7 @@ class Payment(models.Model):
 
 class Transaction(models.Model):
     payment = models.ForeignKey(Payment)
+    date = models.DateTimeField(default=timezone.now().date())
     code = models.CharField(max_length=50)
     status = models.CharField(max_length=1, choices=TRANSACTION_STATUS)
     price = models.DecimalField(max_digits=5, decimal_places=2)

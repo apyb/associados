@@ -27,22 +27,16 @@ class PaymentView(View):
         payload["reference"] = "%d" % payment.pk
         return payload, price
 
-    def generate_transaction(self, payment):
+    def set_payment_code(self, payment):
         headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
         payload, price = self._create_payload(payment)
         response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
-
-            transaction = Transaction.objects.create(
-                payment=payment,
-                code=transaction_code,
-                status=1,
-                price=price
-            )
-            return transaction
-        return Transaction.objects.none()
+            payment.code = transaction_code
+            payment.save()
+        return payment
 
     def get(self, request, member_id):
         member = Member.objects.get(id=member_id)
@@ -51,14 +45,14 @@ class PaymentView(View):
             member=member,
             type=payment_type
         )
-        t = self.generate_transaction(payment)
+        payment_with_code = self.set_payment_code(payment)
 
-        if not t:
-            payment.delete()
+        if not payment_with_code.code:
+            payment_with_code.delete()
             url = '/'
             messages.error(request, ugettext("Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."), fail_silently=True)
         else:
-            url = settings.PAGSEGURO_WEBCHECKOUT + t.code
+            url = settings.PAGSEGURO_WEBCHECKOUT + payment_with_code.code
         return HttpResponseRedirect(url)
 
 
