@@ -37,7 +37,7 @@ class TransactionTestCase(TestCase):
         )
         transaction = Transaction.objects.create(
             payment=payment,
-            status='fake',
+            status=0,
             code='fakecode',
             price='0.0'
         )

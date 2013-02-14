@@ -106,7 +106,7 @@ class PaymentModelTestCase(MemberTestCase):
         )
         Transaction.objects.create(
             payment=payment,
-            status="done",
+            status=3,
             code="xpto",
             price="543.21"
         )

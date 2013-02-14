@@ -12,9 +12,9 @@ BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.path.pardi
 
 ADMINS = (
     ('Marcos Daniel Petry', 'marcospetry@gmail.com'),
-    ('Valder Gallo', 'valdergallo@gmail.com'),
-    ('Osvaldo Santana Neto', 'osantana@python.org.br'),
-    ('Carlos Leite', 'carlos.leite@znc.com.br'),
+    # ('Valder Gallo', 'valdergallo@gmail.com'),
+    # ('Osvaldo Santana Neto', 'osantana@python.org.br'),
+    # ('Carlos Leite', 'carlos.leite@znc.com.br'),
 )
 MANAGERS = ADMINS
 

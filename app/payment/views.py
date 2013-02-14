@@ -27,22 +27,16 @@ class PaymentView(View):
         payload["reference"] = "%d" % payment.pk
         return payload, price
 
-    def generate_transaction(self, payment):
+    def set_payment_code(self, payment):
         headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
         payload, price = self._create_payload(payment)
         response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
-
-            transaction = Transaction.objects.create(
-                payment=payment,
-                code=transaction_code,
-                status='pending',
-                price=price
-            )
-            return transaction
-        return Transaction.objects.none()
+            payment.code = transaction_code
+            payment.save()
+        return payment
 
     def get(self, request, member_id):
         member = Member.objects.get(id=member_id)
@@ -51,24 +45,21 @@ class PaymentView(View):
             member=member,
             type=payment_type
         )
-        t = self.generate_transaction(payment)
+        payment_with_code = self.set_payment_code(payment)
 
-        if not t:
-            payment.delete()
+        if not payment_with_code.code:
+            payment_with_code.delete()
             url = '/'
             messages.error(request, ugettext("Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."), fail_silently=True)
         else:
-            url = settings.PAGSEGURO_WEBCHECKOUT + t.code
+            url = settings.PAGSEGURO_WEBCHECKOUT + payment_with_code.code
         return HttpResponseRedirect(url)
 
 
 class NotificationView(View):
 
     def __init__(self, **kwargs):
-        self.methods_by_status = {
-            3: self.transaction_done,
-            7: self.transaction_canceled,
-        }
+        self.transaction_code = None
         super(NotificationView, self).__init__(**kwargs)
 
     def transaction(self, transaction_code):
@@ -92,7 +83,8 @@ class NotificationView(View):
             dom = lhtml.fromstring(response.content)
             status_transacao = int(dom.xpath("//status")[0].text)
             referencia = int(dom.xpath("//reference")[0].text)
-            return status_transacao, referencia
+            valor = float(dom.xpath("//grossamount")[0].text)
+            return status_transacao, referencia, valor
         return None, None
 
     def _update_member_category(self, payment):
@@ -101,8 +93,14 @@ class NotificationView(View):
         member.save()
 
     def _update_payment_dates(self, payment):
+        last_payment = payment.member.get_last_payment()
+        if last_payment:
+            payment.valid_until = last_payment.valid_until + timedelta(days=payment.type.duration)
+        else:
+            payment.valid_until = datetime.now(tz=timezone.get_default_timezone()) \
+                                  + timedelta(days=payment.type.duration)
+
         payment.date = datetime.now(tz=timezone.get_default_timezone())
-        payment.valid_until = datetime.now(tz=timezone.get_default_timezone()) + timedelta(days=payment.type.duration)
         payment.save()
 
     def _send_confirmation_email(self, payment):
@@ -113,32 +111,28 @@ class NotificationView(View):
 
     def transaction_done(self, payment_id):
         payment = Payment.objects.get(id=payment_id)
-
-        transaction = Transaction.objects.get(payment=payment)
-        transaction.status = "done"
-        transaction.save()
-
         self._update_payment_dates(payment)
         self._update_member_category(payment)
         self._send_confirmation_email(payment)
 
-    def transaction_canceled(self, payment_id):
-        transaction = Transaction.objects.get(payment_id=payment_id)
-        transaction.status = "canceled"
-        transaction.save()
+    def create_transaction(self, payment_id, status, price, code):
+        transaction = Transaction.objects.create(
+            payment_id=payment_id,
+            code=code,
+            status=status,
+            price=price
+        )
 
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
         return super(NotificationView, self).dispatch(*args, **kwargs)
 
     def post(self, request):
-        notification_code = request.POST.get("notificationCode")
-
-        if notification_code:
-            status, payment_id = self.transaction(notification_code)
-            method = self.methods_by_status.get(status)
-
-            if method:
-                method(payment_id)
+        self.transaction_code = request.POST.get("notificationCode")
+        if self.transaction_code:
+            status, payment_id, price = self.transaction(self.transaction_code)
+            if status == 3:
+                self.transaction_done(payment_id)
+            self.create_transaction(payment_id, status, price, self.transaction_code)
 
         return HttpResponse("OK")

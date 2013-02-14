@@ -13,8 +13,23 @@
             <fieldset>
                 <legend>{% trans 'Log in' %}</legend>
                 {% for field in form %}
-                    {% include 'registration/form_field.html' %}
-                {% endfor %}
+                    <div class="clearfix">
+                        {% if field.name == 'username' %}
+                            <label for="id_username">{% trans "Username or email" %}</label>
+                        {% else %}
+                            {{ field.label_tag }}
+                        {% endif %}
+                        <div class="controls {% if field.errors %} control-group error{% endif %}">
+                            {{ field }}
+
+                            {% if field.errors %}
+                                <span class='help-inline control-group error'>{{ field.errors|join:'<br />' }}</span>
+                            {% endif %}
+
+                            <span class="help-block">{{ field.help_text }}</span>
+
+                        </div>
+                    </div>                {% endfor %}
                 <div class="actions">
                     <input type="submit" class="btn btn-primary" value="{% trans 'Log in' %}">&nbsp;<button type="reset" class="btn">{% trans 'Cancel' %}</button>
                 </div>

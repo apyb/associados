@@ -5,6 +5,7 @@ from app.payment.models import Payment, Transaction, PaymentType
 class TransactionInline(admin.StackedInline):
     model = Transaction
     readonly_fields = ('code', 'status', 'price')
+    extra = 0
 
 #    def has_delete_permission(self, request, obj=None):
 #        return False

@@ -62,21 +62,19 @@
                                     {{ member.category }}
                                 </span>
                             {% endif %}
+                            <span class="clearfix">{{ member.github.name|default:member }}</span>
+                        
+                            {%if member.organization or member.github.company %}
+                            <span class="clearfix">{{ member.github.company|default:member.organization }}</span>
+                            {% endif %}
 
-                        {% if member.github and member.github.name %}
-                            <span class="clearfix">{{ member.github.name }}</span>
-                            <span class="clearfix">{{ member.github.company }}</span>
-                            <span class="clearfix">{{ member.github.location }}</span>
+                            {%if member.location or  member.github.location %}
+                            <span class="clearfix">{{ member.github.location|default:member.location }}</span>
+                            {% endif %}
+
+                            {%if member.github.blog %}
                             <span class="clearfix">{{ member.github.blog|urlize }}</span>
-                        {% else %}
-                            <span class="clearfix">{{ member }}</span>
-                            {% if member.organization %}
-                                <span class="clearfix">{{ member.organization }}</span>
                             {% endif %}
-                            {% if member.location %}
-                                <span class="clearfix">{{ member.location }}</span>
-                            {% endif %}
-                        {% endif %}
                         </div>
 
 
