@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
@@ -12,6 +12,8 @@ from django.views.generic.edit import FormView
 from app.members.models import Category, Member
 from app.members.forms import MemberForm, UserForm
 from app.authemail.forms import RegisterForm
+
+import json
 
 
 class MemberListView(ListView):
@@ -90,6 +92,50 @@ def member_form(request):
             'user_form': user_form
         }
     )
+
+
+def _retrieve_parameters(request, parameters_dict):
+    received_parameters = {}
+
+    querydict = request.GET
+    for query_key in querydict:
+        for param_key, param_value in parameters_dict.items():
+            if param_key == query_key:
+                received_parameters[param_value] = querydict[query_key]
+
+    return received_parameters
+
+
+def _search_member(params):
+    result = ''
+    member = Member.objects.filter(**params)
+
+    if member:
+        days_to_next_payment = member[0].get_days_to_next_payment(member[0].get_last_payment())
+        if days_to_next_payment > 0:
+            result = 'ativo'
+        else:
+            result = 'inativo'
+    else:
+        result = 'invalido'
+    return {'status': result}
+
+
+def member_status(request):
+    valid_parameters = {
+        'email': 'user__email',
+        'cpf': 'cpf',
+    }
+    response = ''
+    params = _retrieve_parameters(request, valid_parameters)
+
+    if params == {}:
+        error_message = u'nenhum parâmetro válido informado. Opções: %s' % valid_parameters.keys()
+        response = {'error': error_message}
+    else:
+        response = _search_member(params)
+
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 @login_required
