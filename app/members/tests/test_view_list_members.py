@@ -11,7 +11,7 @@ class MemberListViewTest(TestCase):
         super(MemberListViewTest, self).setUp()
 
         category = Category.objects.get(id=2)
-        create_user_with_member(first_name='test', last_name='test')
+        create_user_with_member(first_name='teste', last_name='teste')
         create_user_with_member(first_name='dolor', last_name='sit')
         create_user_with_member(first_name='lorem', last_name='ipsum', category=category)
         create_user_with_member(first_name='amet', last_name='consectetur', category=category)
@@ -26,14 +26,14 @@ class MemberListViewTest(TestCase):
         self.assertTemplateUsed(self.response, 'members/member_list.html')
 
     def test_should_render_the_members(self):
-        self.assertIn('test test', self.response.rendered_content)
+        self.assertIn('teste teste', self.response.rendered_content)
         self.assertIn('Estudante', self.response.rendered_content)
 
     def test_should_search_members(self):
         response = self.client.get(self.url, {
             'q': 'te',
         })
-        self.assertIn('test test', response.rendered_content)
+        self.assertIn('teste teste', response.rendered_content)
         self.assertIn('amet consectetur', response.rendered_content)
         self.assertNotIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
@@ -42,7 +42,7 @@ class MemberListViewTest(TestCase):
         response = self.client.get(self.url, {
             'category': 1,
         })
-        self.assertIn('test test', response.rendered_content)
+        self.assertIn('teste teste', response.rendered_content)
         self.assertIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
         self.assertNotIn('amet consectetur', response.rendered_content)
@@ -52,7 +52,7 @@ class MemberListViewTest(TestCase):
             'q': 'te',
             'category': 1,
         })
-        self.assertIn('test test', response.rendered_content)
+        self.assertIn('teste teste', response.rendered_content)
         self.assertNotIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
         self.assertNotIn('amet consectetur', response.rendered_content)
