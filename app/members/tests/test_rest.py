@@ -58,7 +58,7 @@ class REST(TestCase):
         self.assertEqual(response, expected)
 
     def test_should_find_active_user(self):
-        """Testes usando os parametros de busca para encontrar usuario valido"""
+        """Tests using the search parameters to find an 'active' member"""
         params = {
             'url': self.url,
             'email': 'active@test.com',
