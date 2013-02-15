@@ -113,12 +113,12 @@ def _search_member(params):
     if member:
         days_to_next_payment = member[0].get_days_to_next_payment(member[0].get_last_payment())
         if days_to_next_payment > 0:
-            result = 'ativo'
+            result = u'active'
         else:
-            result = 'inativo'
+            result = u'inactive'
     else:
-        result = 'invalido'
-    return {'status': result}
+        result = u'invalid'
+    return {u'status': result}
 
 
 def member_status(request):
@@ -130,8 +130,8 @@ def member_status(request):
     params = _retrieve_parameters(request, valid_parameters)
 
     if params == {}:
-        error_message = u'nenhum parâmetro válido informado. Opções: %s' % valid_parameters.keys()
-        response = {'error': error_message}
+        error_message = u'Could not find any valid parameters. Options: %s' % valid_parameters.keys()
+        response = {u'error': error_message}
     else:
         response = _search_member(params)
 
