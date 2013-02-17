@@ -14,6 +14,8 @@ clean:
 test: clean
 	@python manage.py test --settings associados.settings_test --verbosity=2
 
+shell:
+	@python manage.py shell --settings=associados.settings_local
 
 help:
 	@grep '^[^#[:space:]].*:' Makefile | awk -F ":" '{print $$1}'
