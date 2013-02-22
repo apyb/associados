@@ -17,5 +17,5 @@ def create_user_with_member(first_name='test', last_name='test', email='test@tes
     user.last_name = last_name
     user.save()
 
-    G(Member, user=user, category=category)
+    G(Member, user=user, category=category, github_user=None)
     return user
