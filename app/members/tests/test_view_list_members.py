@@ -39,6 +39,8 @@ class MemberListViewTest(TestCase):
         self.assertNotIn('lorem ipsum', response.rendered_content)
 
     def test_should_filter_members(self):
+
+
         response = self.client.get(self.url, {
             'category': 1,
         })

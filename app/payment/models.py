@@ -2,6 +2,7 @@ from datetime import datetime
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
+
 from app.members.models import Member, Category
 
 
@@ -37,6 +38,7 @@ class Payment(models.Model):
         return self.transaction_set.filter(status=3).exists()
 
     def __unicode__(self):
+
         return 'payment from {0}'.format(self.member)
 
 

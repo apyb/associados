@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 
@@ -59,12 +60,12 @@ class SignupView(FormView):
             username=self.request.POST['email'],
             password=self.request.POST['password1'])
         login(self.request, user)
-        messages.success(self.request, 'Você está cadastrado! Complete os seus dados para\
-            prosseguir com o registro na associação!')
+        messages.success(self.request, _('You\'re already registered! Complete your details to proceed\
+                                         with the registration in the pool! '))
         return super(SignupView, self).form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'Houve um erro ao cadastrar-se')
+        messages.error(self.request, _('There was an error register'))
         return super(SignupView, self).form_invalid(form)
 
 
@@ -80,10 +81,10 @@ def member_form(request):
         if member_form.is_valid() and user_form.is_valid():
             member_form.save(user=request.user)
             user_form.save()
-            messages.add_message(request, messages.INFO, 'Seus dados foram atualizados com sucesso')
+            messages.add_message(request, messages.INFO, _('Your data was updated successfully'))
             return HttpResponseRedirect(reverse('members-dashboard'))
         else:
-            messages.add_message(request, messages.ERROR, 'Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo.')
+            messages.add_message(request, messages.ERROR, _('An error occurred while trying to save your data. check the form below. '))
 
     return render(
         request,
@@ -143,7 +144,7 @@ def dashboard(request):
     try:
         payment_results = request.user.member.get_payment_check_list()
     except Member.DoesNotExist:
-        messages.add_message(request, messages.INFO, 'Para acessar os dashboard, você precisa completar os seus dados')
+        messages.add_message(request, messages.INFO, _('To access the dashboard, you need to complete your data'))
         return HttpResponseRedirect(reverse('members-form'))
 
     return render(
