@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-04 13:38-0200\n"
+"POT-Creation-Date: 2013-02-22 00:42-0300\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Marcos Daniel Petry <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -173,6 +173,22 @@ msgstr "Enviar"
 msgid "Members"
 msgstr "Associados"
 
+#: app/members/templates/members/member_list.html:12
+msgid "Search members:"
+msgstr "Buscar associados:"
+
+#: app/members/templates/members/member_list.html:14
+msgid "Search"
+msgstr "Buscar"
+
+#: app/members/templates/members/member_list.html:16
+msgid "Filter by category:"
+msgstr "Filtrar por categoria:"
+
+#: app/members/templates/members/member_list.html:20
+msgid "All"
+msgstr "Todos"
+
 #: app/members/templates/members/member_register.html:7
 msgid "Python Brazil Association Registration"
 msgstr "Pagamento do registro na Associação Python Brasil"
@@ -185,7 +201,7 @@ msgstr "Registrar"
 msgid "Brazilian Python Association registration payment"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
-#: app/payment/views.py:59
+#: app/payment/views.py:53
 msgid ""
 "Failed to generate a transaction within the payment gateway. Please contact "
 "the staff to complete your registration."
@@ -265,16 +281,20 @@ msgstr ""
 "distinção entre maiúsculas e minúsculas."
 
 #: associados/templates/registration/login.html:14
-#: associados/templates/registration/login.html:19
+#: associados/templates/registration/login.html:34
 msgid "Log in"
 msgstr "Entrar"
 
-#: associados/templates/registration/login.html:19
+#: associados/templates/registration/login.html:18
+msgid "Username or email"
+msgstr "Usuário ou E-mail"
+
+#: associados/templates/registration/login.html:34
 #: associados/templates/registration/password_change_form.html:25
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: associados/templates/registration/login.html:23
+#: associados/templates/registration/login.html:38
 #: associados/templates/registration/password_reset_form.html:24
 msgid "Reset my password"
 msgstr "Redefinir minha senha"
@@ -377,15 +397,6 @@ msgstr "carregando"
 
 #~ msgid "membership dues"
 #~ msgstr "obrigações dos associados"
-
-#~ msgid "Search members:"
-#~ msgstr "Buscar associados:"
-
-#~ msgid "Search"
-#~ msgstr "Buscar"
-
-#~ msgid "Filter by category:"
-#~ msgstr "Filtrar por categoria:"
 
 #~ msgid "Student"
 #~ msgstr "Estudante"
