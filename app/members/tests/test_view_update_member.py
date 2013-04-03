@@ -110,4 +110,4 @@ class MemberChangeWithErrorView(TestCase):
     def test_post_with_correcly_data_should_update_a_member(self):
         response = self.client.post(self.url, self.data)
 
-        self.assertIn('Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo.', response.content)
+        self.assertIn('An error occurred while trying to save your data. check the form below.', response.content)
