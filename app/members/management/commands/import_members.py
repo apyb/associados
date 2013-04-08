@@ -69,3 +69,17 @@ class Command(BaseCommand):
                     status=3,
                     price=payment_type.price
                 )
+            )
+            payment = Payment.objects.create(
+                member=member,
+                type=payment_type,
+                date = membro['renovada'].date,
+                valid_until = membro['renovada'].date + datetime.timedelta(days=payment_type.duration)
+            )
+            transaction = Transaction.objects.create(
+                payment=payment,
+                code='0',
+                status=3,
+                price=payment_type.price
+            )
+>>>>>>> 99ba2cb... Gera um pagamento para cada data do registro de associados.
