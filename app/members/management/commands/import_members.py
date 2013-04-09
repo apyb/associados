@@ -55,3 +55,17 @@ class Command(BaseCommand):
                 status=3,
                 price=payment_type.price
             )
+            # Só cria dois pagamentos quando a data for diferente.
+            if membro['data'].date != membro['renovada'].date:
+                payment = Payment.objects.create(
+                    member=member,
+                    type=payment_type,
+                    date = membro['renovada'].date,
+                    valid_until = membro['renovada'].date + datetime.timedelta(days=payment_type.duration)
+                )
+                transaction = Transaction.objects.create(
+                    payment=payment,
+                    code='0',
+                    status=3,
+                    price=payment_type.price
+                )
