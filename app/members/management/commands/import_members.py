@@ -82,4 +82,31 @@ class Command(BaseCommand):
                 status=3,
                 price=payment_type.price
             )
->>>>>>> 99ba2cb... Gera um pagamento para cada data do registro de associados.
+            payment = Payment.objects.create(
+                member=member,
+                type=payment_type,
+                date = membro['renovada'].date,
+                valid_until = membro['renovada'].date + datetime.timedelta(days=payment_type.duration)
+            )
+            transaction = Transaction.objects.create(
+                payment=payment,
+                code='0',
+                status=3,
+                price=payment_type.price
+            )
+=======
+            # Só cria dois pagamentos quando a data for diferente.
+            if membro['data'].date != membro['renovada'].date:
+                payment = Payment.objects.create(
+                    member=member,
+                    type=payment_type,
+                    date = membro['renovada'].date,
+                    valid_until = membro['renovada'].date + datetime.timedelta(days=payment_type.duration)
+                )
+                transaction = Transaction.objects.create(
+                    payment=payment,
+                    code='0',
+                    status=3,
+                    price=payment_type.price
+                )
+>>>>>>> 60d695b... Evita gerar dois pagamentos quando a data de associação e renovação são a mesma.
