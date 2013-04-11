@@ -104,9 +104,9 @@ MIDDLEWARE_CLASSES = (
 INSTALLED_APPS = (
     #apps
     'associados',
+    'app.members',
     'app.payment',
     'app.core',
-    'app.members',
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
