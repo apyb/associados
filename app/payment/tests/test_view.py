@@ -114,7 +114,7 @@ class NotificationViewTestCase(MemberTestCase):
     def setUp(self):
         super(NotificationViewTestCase, self).setUp()
 
-        self.user = User.objects.get(pk=1)
+        self.user = User.objects.get(username="Wolverine")
         self.requests_original = views.requests
 
         class ResponseMock(object):
