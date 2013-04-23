@@ -162,7 +162,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # System contact email address
-EMAIL_CONTACT_ADDRESS = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = "contato@python.org.br"
+EMAIL_CONTACT_ADDRESS = DEFAULT_FROM_EMAIL
 
 # 3rd party applications
 PAGSEGURO = {
