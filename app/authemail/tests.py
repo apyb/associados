@@ -21,7 +21,7 @@ class ValidFormTest(TestCase):
     def test_should_create_a_user(self):
         self.form.is_valid()
         user = self.form.save()
-        self.assertEqual(user, User.objects.get(email=self.data['email']))
+        self.assertEqual(user, User.objects.get(email=self.data[u'email']))
 
     def test_should_persist_user_data(self):
         self.form.is_valid()
