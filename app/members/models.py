@@ -68,6 +68,12 @@ class Member(models.Model):
             return dif.days
         return 0
 
+    def get_first_payment(self):
+        payments = self.payment_set.filter(last_transaction__status=3).order_by('date')
+        if not payments:
+            return None
+        return payments[0]
+
     def get_last_payment(self):
         payments = self.payment_set.filter(last_transaction__status=3).order_by('-date')
         if not payments:
@@ -75,12 +81,14 @@ class Member(models.Model):
         return payments[0]
 
     def get_payment_check_list(self):
+        first_payment = self.get_first_payment()
         last_payment = self.get_last_payment()
         days_left = self.get_days_to_next_payment(last_payment)
         return {
             'expired': days_left <= 0,
             'days_left': days_left,
-            'last_payment': last_payment
+            'last_payment': last_payment,
+            'first_payment': first_payment,
         }
 
     @property
