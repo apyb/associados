@@ -1,16 +1,20 @@
-#!/usr/bin/env python
-# encoding: utf-8
-from django.db import models
-from django.utils import timezone
+# -*- coding: utf-8 -*-
+
+
 import slumber
+
+from django.db import models
+from django.conf import settings
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.contrib.localflavor.br.br_states import STATE_CHOICES
+from django.contrib.auth.models import User
+
 from app.core.models import DefaultFields
 
-from django.contrib.localflavor.br.br_states import STATE_CHOICES
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import User
-from django.conf import settings
 
 github_api = slumber.API("https://api.github.com/", append_slash=False)
+
 
 class Organization(DefaultFields):
     name = models.CharField(_('Name'), max_length=250)
@@ -64,19 +68,27 @@ class Member(models.Model):
             return dif.days
         return 0
 
+    def get_first_payment(self):
+        payments = self.payment_set.filter(last_transaction__status=3).order_by('date')
+        if not payments:
+            return None
+        return payments[0]
+
     def get_last_payment(self):
         payments = self.payment_set.filter(last_transaction__status=3).order_by('-date')
         if not payments:
             return None
-        return payments.order_by('-date')[0]
+        return payments[0]
 
     def get_payment_check_list(self):
+        first_payment = self.get_first_payment()
         last_payment = self.get_last_payment()
         days_left = self.get_days_to_next_payment(last_payment)
         return {
             'expired': days_left <= 0,
             'days_left': days_left,
-            'last_payment': last_payment
+            'last_payment': last_payment,
+            'first_payment': first_payment,
         }
 
     @property
