@@ -53,7 +53,7 @@ class Command(BaseCommand):
             context = {
                 'contact_email': contact_email,
                 'member': payment.member,
-                'url': '%s%s' % (Site.objects.get_current().domain, reverse('payment', args=[payment.member.id])),
+                'url': '%s%s' % (Site.objects.get_current().domain, reverse('payment', args=[payment.member.pk])),
             }
 
             if valid_until_date == today:

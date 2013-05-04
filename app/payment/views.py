@@ -1,24 +1,26 @@
 # -*- coding: utf-8 -*-
+
+
 from datetime import datetime, timedelta
-from django.utils import timezone
+
 import requests
+from lxml import html as lhtml
 
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse
-
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from lxml import html as lhtml
 
 from app.members.models import Member
 from app.payment.models import Payment, Transaction, PaymentType
 
 
 class PaymentView(View):
-
     def _create_payload(self, payment):
         payload = settings.PAGSEGURO
         price = payment.type.price
@@ -39,7 +41,7 @@ class PaymentView(View):
         return payment
 
     def get(self, request, member_id):
-        member = Member.objects.get(id=member_id)
+        member = get_object_or_404(Member, pk=member_id)
         payment_type = PaymentType.objects.get(category=member.category)
         payment = Payment.objects.create(
             member=member,
@@ -50,14 +52,15 @@ class PaymentView(View):
         if not payment_with_code.code:
             payment_with_code.delete()
             url = '/'
-            messages.error(request, ugettext("Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."), fail_silently=True)
+            messages.error(request, ugettext(
+                "Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."),
+                           fail_silently=True)
         else:
             url = settings.PAGSEGURO_WEBCHECKOUT + payment_with_code.code
         return HttpResponseRedirect(url)
 
 
 class NotificationView(View):
-
     def __init__(self, **kwargs):
         self.transaction_code = None
         super(NotificationView, self).__init__(**kwargs)
@@ -85,7 +88,7 @@ class NotificationView(View):
             referencia = int(dom.xpath("//reference")[0].text)
             valor = float(dom.xpath("//grossamount")[0].text)
             return status_transacao, referencia, valor
-        return None, None
+        return None, None, None
 
     def _update_member_category(self, payment):
         member = payment.member
@@ -131,6 +134,10 @@ class NotificationView(View):
         self.transaction_code = request.POST.get("notificationCode")
         if self.transaction_code:
             status, payment_id, price = self.transaction(self.transaction_code)
+
+            if status is None or payment_id is None or price is None:
+                return HttpResponseBadRequest("Error processing transaction")
+
             if status == 3:
                 self.transaction_done(payment_id)
             self.create_transaction(payment_id, status, price, self.transaction_code)
