@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-05 02:14-0300\n"
+"POT-Creation-Date: 2013-05-05 11:28-0300\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Marcos Daniel Petry <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -246,11 +246,26 @@ msgstr ""
 "Falha no processamento da transação com o gateway de pagamento. Entre em "
 "contato com a Associação Python Brasil para completar seu cadastramento."
 
-#: associados/templates/base.html:6
+#: associados/templates/base.html:6 associados/templates/navbar.html:5
+msgid "Python Brazil Association"
+msgstr "Associação Python Brasil"
+
+#: associados/templates/base.html:6 associados/templates/base.html.py:7
+#: associados/templates/base.html:33 associados/templates/base.html.py:38
 msgid "Members of the Python Brazil Association"
 msgstr "Membros da Associação Python Brasil"
 
-#: associados/templates/base.html:54
+#: associados/templates/base.html:8 associados/templates/base.html.py:37
+msgid ""
+"The Python Brazil Association was formed in April 2007 with the goal of "
+"supporting the communities related to the Python language and related "
+"technologies."
+msgstr ""
+"A Associação Python Brasil foi formada em Abril de 2007 com a meta de "
+"suportar as comunidades relacionadas à linguagem Python e suas tecnologias "
+"derivadas."
+
+#: associados/templates/base.html:63
 msgid ""
 "\n"
 "      <h1>Bootstrap starter template</h1>\n"
@@ -265,13 +280,9 @@ msgstr ""
 "p>\n"
 "      "
 
-#: associados/templates/base.html:63
+#: associados/templates/base.html:72
 msgid "Back to top"
 msgstr "Voltar pro topo"
-
-#: associados/templates/navbar.html:5
-msgid "Python Brazil Association"
-msgstr "Associação Python Brasil"
 
 #: associados/templates/navbar.html:9
 msgid "members"
