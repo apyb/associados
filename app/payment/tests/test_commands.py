@@ -1,21 +1,20 @@
-# coding: utf-8
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.core import mail
-from django.core.exceptions import ImproperlyConfigured
-from django.core.management import call_command
-from django.test import TestCase
-from django.utils import timezone
-from django_dynamic_fixture import G
-from app.members.models import Member
-from app.payment.models import Payment, Transaction, PaymentType
+# -*- coding: utf-8 -*-
+
 
 import datetime
 
-class RenewalAlertConfigTest(TestCase):
-    def test_renewal_alert_config_error(self):
-        with self.assertRaises(ImproperlyConfigured):
-            call_command('renewal_alert')
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.core import mail
+from django.core.management import call_command
+from django.test import TestCase
+from django.utils import timezone
+
+from django_dynamic_fixture import G
+
+from app.members.models import Member
+from app.payment.models import Payment, PaymentType
+
 
 class RenewalAlertTest(TestCase):
     def setUp(self):
@@ -36,7 +35,7 @@ class RenewalAlertTest(TestCase):
         now = timezone.now()
         expiration_days = (30, 15, 7)
         expiration_dates = [now - datetime.timedelta(days=d)
-            for d in expiration_days]
+                            for d in expiration_days]
         expiration_dates += [now]
 
         payment_type = PaymentType.objects.create(
@@ -47,17 +46,17 @@ class RenewalAlertTest(TestCase):
 
         self.payments = [
             Payment.objects.create(member=self.members[0],
-                type=payment_type,
-                valid_until=expiration_dates[0]),
+                                   type=payment_type,
+                                   valid_until=expiration_dates[0]),
             Payment.objects.create(member=self.members[1],
-                type=payment_type,
-                valid_until=expiration_dates[1]),
+                                   type=payment_type,
+                                   valid_until=expiration_dates[1]),
             Payment.objects.create(member=self.members[2],
-                type=payment_type,
-                valid_until=expiration_dates[2]),
+                                   type=payment_type,
+                                   valid_until=expiration_dates[2]),
             Payment.objects.create(member=self.members[3],
-                type=payment_type,
-                valid_until=expiration_dates[3]),
+                                   type=payment_type,
+                                   valid_until=expiration_dates[3]),
         ]
 
         settings.EMAIL_CONTACT_ADDRESS = 'email@fake.com'
