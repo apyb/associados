@@ -2,12 +2,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from app.authemail.forms import RegisterForm
-
+from app.authemail.backends import EmailBackend
 
 class ValidFormTest(TestCase):
     def setUp(self):
-        super(ValidFormTest, self).setUp()
-
         self.data = {
             u'email': u'fake_user@fake.com',
             u'password1': u'fake_pass',
@@ -45,9 +43,6 @@ class ValidFormTest(TestCase):
 
 
 class InValidFormTest(TestCase):
-    def setUp(self):
-        super(InValidFormTest, self).setUp()
-
     def test_should_be_invalid(self):
         data = {
             u'email': u'',
@@ -83,3 +78,35 @@ class InValidFormTest(TestCase):
         self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())
         self.assertEqual(self.form.errors['email'][0], "This email address already exists. Did you forget your password?")
+
+
+
+class EmailBackendTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create(username='test_username', email='test@test.com')
+        self.user.set_password('test')
+        self.user.save()
+
+        self.backends = EmailBackend()
+
+    def test_if_user_is_invalid(self):
+        invalid_user = self.backends.authenticate(username='test_invalid_user')
+        self.assertFalse(invalid_user)
+
+    def test_if_user_is_valid(self):
+        valid_user = self.backends.authenticate(username=self.user.username, password='test')
+        self.assertTrue(valid_user)
+
+    def test_if_user_is_valid_with_email(self):
+        valid_user = self.backends.authenticate(username=self.user.email, password='test')
+        self.assertTrue(valid_user)
+
+    def test_invalid_password(self):
+        invalid_user = self.backends.authenticate(username=self.user.email, password='password_error')
+        self.assertFalse(invalid_user)
+
+
+
+
+
