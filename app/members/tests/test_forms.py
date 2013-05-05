@@ -6,40 +6,36 @@ from app.members.models import Organization, City, User, Category
 
 
 class UserFormTest(TestCase):
-    def setUp(self):
-        self.data = {
-            'first_name': 'Valder',
-            'last_name': 'Gallo Jr',
-            'email': 'valdergallo@gmail.com',
-        }
+    data = {
+        'first_name': 'Valder',
+        'last_name': 'Gallo Jr',
+        'email': 'valdergallo@gmail.com',
+    }
 
 
 class MemberFormTest(TestCase):
-    def setUp(self):
-        self.data = {
-            'first_name': 'Valder',
-            'last_name': 'Gallo Jr',
-            'email': 'valdergallo@gmail.com',
+    data = {
+        'first_name': 'Valder',
+        'last_name': 'Gallo Jr',
+        'email': 'valdergallo@gmail.com',
 
-            'organization': 'Home',
-            'address': 'Rua XXX',
+        'organization': 'Home',
+        'address': 'Rua XXX',
 
-            'cpf': '94463643104',
-            'phone': '1199492911',
-            'location': 'Sao Paulo',
-            'category': '1',
-            'relationship': 'think',
-            'mailing': 1,
-            'contact': 1,
-            'partner': 1,
-            'relation_with_community': 'fake relation'
-        }
+        'cpf': '94463643104',
+        'phone': '1199492911',
+        'location': 'Sao Paulo',
+        'category': '1',
+        'relationship': 'think',
+        'mailing': 1,
+        'contact': 1,
+        'partner': 1,
+        'relation_with_community': 'fake relation'
+    }
 
 
 class ValidUserFormTest(UserFormTest):
     def setUp(self):
-        super(ValidUserFormTest, self).setUp()
-
         self.user_form = UserForm(self.data)
         self.user_form.is_valid()
         self.new_user = self.user_form.save()
@@ -79,8 +75,6 @@ class InvalidUserFormTest(TestCase):
 
 class ValidMemberFormTest(MemberFormTest):
     def setUp(self):
-        super(ValidMemberFormTest, self).setUp()
-
         self.user_form = UserForm(self.data)
         self.user_form.is_valid()
 
@@ -124,7 +118,6 @@ class ValidMemberFormTest(MemberFormTest):
 
 class InvalidMemberFormTest(MemberFormTest):
     def setUp(self):
-        super(InvalidMemberFormTest, self).setUp()
         self.member_form = MemberForm({})
 
     def test_must_be_invalid(self):
