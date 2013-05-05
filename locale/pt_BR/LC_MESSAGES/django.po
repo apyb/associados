@@ -45,6 +45,10 @@ msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha ?"
 msgid "First Name"
 msgstr "Primeiro Nome"
 
+#: app/members/forms.py:69
+msgid "You can't change your category with pending payments"
+msgstr "Você não pode mudar a sua categoria com pagamentos pendentes"
+
 #: app/members/forms.py:36
 msgid "Last Name"
 msgstr "Sobrenome"
