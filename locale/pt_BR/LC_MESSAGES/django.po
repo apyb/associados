@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 22:41-0300\n"
+"POT-Creation-Date: 2013-05-05 02:14-0300\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Marcos Daniel Petry <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -33,6 +33,10 @@ msgstr "Senha"
 msgid "Password confirmation"
 msgstr "Confirmação da senha"
 
+#: app/authemail/forms.py:17
+msgid "Enter the same password as above, for verification."
+msgstr "Entre a mesma senha para verificação"
+
 #: app/authemail/forms.py:42
 msgid "This email address already exists. Did you forget your password?"
 msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha ?"
@@ -49,11 +53,11 @@ msgstr "Sobrenome"
 msgid "Email"
 msgstr "Email"
 
-#: app/members/forms.py:46 app/members/models.py:53
+#: app/members/forms.py:46 app/members/models.py:57
 msgid "CPF"
 msgstr "CPF"
 
-#: app/members/forms.py:47 app/members/models.py:54
+#: app/members/forms.py:47 app/members/models.py:58
 msgid "Phone"
 msgstr "Fone"
 
@@ -65,51 +69,51 @@ msgstr "Usuário no GitHub"
 msgid "Organization"
 msgstr "Empresa"
 
-#: app/members/forms.py:50 app/members/models.py:56
+#: app/members/forms.py:50 app/members/models.py:60
 msgid "Location"
 msgstr "Localicação"
 
-#: app/members/models.py:16 app/members/models.py:28
+#: app/members/models.py:20 app/members/models.py:32
 msgid "Name"
 msgstr "Nome"
 
-#: app/members/models.py:20
+#: app/members/models.py:24
 msgid "Organizations"
 msgstr "Empresas"
 
-#: app/members/models.py:27
+#: app/members/models.py:31
 msgid "State"
 msgstr "Estado"
 
-#: app/members/models.py:32
+#: app/members/models.py:36
 msgid "Cities"
 msgstr "Cidades"
 
-#: app/members/models.py:42
+#: app/members/models.py:46
 msgid "Categories"
 msgstr "Categoria"
 
-#: app/members/models.py:50
+#: app/members/models.py:54
 msgid "Category"
 msgstr "Categoria"
 
-#: app/members/models.py:51
+#: app/members/models.py:55
 msgid "Github User"
 msgstr "Usuário no GitHub"
 
-#: app/members/models.py:55
+#: app/members/models.py:59
 msgid "Address"
 msgstr "Endereço"
 
-#: app/members/models.py:57
+#: app/members/models.py:61
 msgid "Relation with community"
 msgstr "Relação com a comunidade"
 
-#: app/members/models.py:58
+#: app/members/models.py:62
 msgid "Mailing"
 msgstr "Correspondência"
 
-#: app/members/models.py:59
+#: app/members/models.py:63
 msgid "Partner"
 msgstr "Parceiro"
 
@@ -155,13 +159,14 @@ msgstr "Email de Contato"
 msgid "Member since"
 msgstr "Associado desde"
 
-#: app/members/templates/members/dashboard.html:25
-msgid "Last Payment"
-msgstr "Último Pagamento"
-
+#: app/members/templates/members/dashboard.html:22
 #: app/members/templates/members/dashboard.html:26
 msgid "unrealized"
 msgstr "não realizado"
+
+#: app/members/templates/members/dashboard.html:25
+msgid "Last Payment"
+msgstr "Último Pagamento"
 
 #: app/members/templates/members/dashboard.html:29
 msgid "Status of the Association"
@@ -225,15 +230,15 @@ msgstr "Registrar"
 msgid "Set last transactions as paid"
 msgstr "Marcar último lançamento como pago"
 
-#: app/payment/admin.py:26
+#: app/payment/admin.py:29
 msgid "Last Transaction"
 msgstr "Última Transação"
 
-#: app/payment/views.py:26
+#: app/payment/views.py:28
 msgid "Brazilian Python Association registration payment"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
-#: app/payment/views.py:53
+#: app/payment/views.py:56
 msgid ""
 "Failed to generate a transaction within the payment gateway. Please contact "
 "the staff to complete your registration."
@@ -316,21 +321,29 @@ msgstr ""
 "Informe o usuário e senha corretamente. Note que ambos os campos fazem "
 "distinção entre maiúsculas e minúsculas."
 
-#: associados/templates/registration/login.html:14
-#: associados/templates/registration/login.html:34
+#: associados/templates/registration/login.html:10
+msgid "Your first time here?!"
+msgstr "Sua primeira vez aqui?!"
+
+#: associados/templates/registration/login.html:10
+msgid "Reset your password before login!"
+msgstr "Redefina sua senha antes de entrar!"
+
+#: associados/templates/registration/login.html:15
+#: associados/templates/registration/login.html:35
 msgid "Log in"
 msgstr "Entrar"
 
-#: associados/templates/registration/login.html:18
+#: associados/templates/registration/login.html:19
 msgid "Username or email"
 msgstr "Usuário ou E-mail"
 
-#: associados/templates/registration/login.html:34
+#: associados/templates/registration/login.html:35
 #: associados/templates/registration/password_change_form.html:25
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: associados/templates/registration/login.html:38
+#: associados/templates/registration/login.html:39
 #: associados/templates/registration/password_reset_form.html:24
 msgid "Reset my password"
 msgstr "Redefinir minha senha"
