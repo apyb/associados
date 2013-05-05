@@ -3,43 +3,41 @@
 from django.test import TestCase
 from app.members.forms import MemberForm, UserForm
 from app.members.models import Organization, City, User, Category
+from app.payment.models import Payment, PaymentType, Transaction
+from django import forms
 
 
 class UserFormTest(TestCase):
-    def setUp(self):
-        self.data = {
-            'first_name': 'Valder',
-            'last_name': 'Gallo Jr',
-            'email': 'valdergallo@gmail.com',
-        }
+    data = {
+        'first_name': 'Valder',
+        'last_name': 'Gallo Jr',
+        'email': 'valdergallo@gmail.com',
+    }
 
 
 class MemberFormTest(TestCase):
-    def setUp(self):
-        self.data = {
-            'first_name': 'Valder',
-            'last_name': 'Gallo Jr',
-            'email': 'valdergallo@gmail.com',
+    data = {
+        'first_name': 'Valder',
+        'last_name': 'Gallo Jr',
+        'email': 'valdergallo@gmail.com',
 
-            'organization': 'Home',
-            'address': 'Rua XXX',
+        'organization': 'Home',
+        'address': 'Rua XXX',
 
-            'cpf': '94463643104',
-            'phone': '1199492911',
-            'location': 'Sao Paulo',
-            'category': '1',
-            'relationship': 'think',
-            'mailing': 1,
-            'contact': 1,
-            'partner': 1,
-            'relation_with_community': 'fake relation'
-        }
+        'cpf': '94463643104',
+        'phone': '1199492911',
+        'location': 'Sao Paulo',
+        'category': '1',
+        'relationship': 'think',
+        'mailing': 1,
+        'contact': 1,
+        'partner': 1,
+        'relation_with_community': 'fake relation'
+    }
 
 
 class ValidUserFormTest(UserFormTest):
     def setUp(self):
-        super(ValidUserFormTest, self).setUp()
-
         self.user_form = UserForm(self.data)
         self.user_form.is_valid()
         self.new_user = self.user_form.save()
@@ -79,8 +77,6 @@ class InvalidUserFormTest(TestCase):
 
 class ValidMemberFormTest(MemberFormTest):
     def setUp(self):
-        super(ValidMemberFormTest, self).setUp()
-
         self.user_form = UserForm(self.data)
         self.user_form.is_valid()
 
@@ -112,6 +108,28 @@ class ValidMemberFormTest(MemberFormTest):
         category = Category.objects.get(id=self.data.get('category'))
         self.assertEqual(self.member_instance.category, category)
 
+    def test_change_category_with_pending_payments(self):
+        payment = Payment.objects.create(
+            member = self.member_instance,
+            type = PaymentType.objects.get(id=1)
+        )
+
+        transaction = Transaction.objects.create(
+            payment=payment,
+            status=0,
+            code='fakecode',
+            price='0.0'
+        )
+
+        self.member_instance.save()
+
+        member_form = MemberForm(instance=self.member_instance, data={'category': 2})
+
+        self.assertFalse(self.member_instance.get_payment_status())
+        self.assertFalse(member_form.is_valid())
+
+        self.assertEqual(member_form.errors['category'], [u"You can't change your category with pending payments"])
+
     def test_should_store_relation_with_community(self):
         self.assertEqual(self.member_instance.relation_with_community, self.data.get('relation_with_community'))
 
@@ -124,7 +142,6 @@ class ValidMemberFormTest(MemberFormTest):
 
 class InvalidMemberFormTest(MemberFormTest):
     def setUp(self):
-        super(InvalidMemberFormTest, self).setUp()
         self.member_form = MemberForm({})
 
     def test_must_be_invalid(self):

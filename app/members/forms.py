@@ -9,7 +9,7 @@ from django.forms.util import flatatt
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from app.members.models import  Organization, Member
+from app.members.models import  Organization, Member, Category
 
 class OrganizationInput(TextInput):
     def _format_value(self, value):
@@ -54,6 +54,20 @@ class MemberForm(forms.ModelForm):
         exclude = ('user', )
         fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location',
                   'relation_with_community', 'mailing', 'partner')
+
+    def __init__(self, *args, **kwargs):
+        super(MemberForm, self).__init__(*args,**kwargs)
+        if self.instance:
+            if not self.instance.get_payment_status():
+                self.fields['category'].widget.attrs['disabled'] = 'disabled'
+
+    def clean_category(self):
+        category = self.cleaned_data['category']
+        if self.instance.id:
+            if not self.instance.get_payment_status():
+                if self.instance.category != category:
+                    raise forms.ValidationError(_("You can't change your category with pending payments"))
+        return category
 
     def clean_organization(self):
         organization = self.cleaned_data['organization']

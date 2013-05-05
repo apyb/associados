@@ -7,8 +7,6 @@ from app.members.tests.helpers import create_user_with_member
 class DashboardView(TestCase):
 
     def setUp(self):
-        super(DashboardView, self).setUp()
-
         self.url = reverse('members-dashboard')
         self.user = create_user_with_member(first_name='test', last_name='fake')
         self.client.login(username='testfake', password='pass')

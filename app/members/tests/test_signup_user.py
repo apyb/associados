@@ -5,8 +5,6 @@ from django.test import TestCase
 
 class MemberSignupView(TestCase):
     def setUp(self):
-        super(MemberSignupView, self).setUp()
-
         self.url = reverse('members-signup')
 
         self.empty_data = {

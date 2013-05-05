@@ -8,8 +8,6 @@ from lxml import html as lhtml
 
 class MemberChangeView(TestCase):
     def setUp(self):
-        super(MemberChangeView, self).setUp()
-
         self.url = reverse('members-form')
         self.user = create_user_with_member(first_name='test', last_name='fake')
         self.client.login(username='testfake', password='pass')
@@ -90,8 +88,6 @@ class MemberChangeView(TestCase):
 
 class MemberChangeWithErrorView(TestCase):
     def setUp(self):
-        super(MemberChangeWithErrorView, self).setUp()
-
         self.url = reverse('members-form')
         self.user = create_user_with_member(first_name='test', last_name='fake')
         self.client.login(username='testfake', password='pass')

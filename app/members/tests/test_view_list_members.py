@@ -8,8 +8,6 @@ from app.members.tests.helpers import create_user_with_member
 class MemberListViewTest(TestCase):
 
     def setUp(self):
-        super(MemberListViewTest, self).setUp()
-
         category = Category.objects.get(id=2)
         create_user_with_member(first_name='teste', last_name='teste')
         create_user_with_member(first_name='dolor', last_name='sit')
