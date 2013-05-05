@@ -94,7 +94,6 @@ class Command(BaseCommand):
                 status=3,
                 price=payment_type.price
             )
-=======
             # Só cria dois pagamentos quando a data for diferente.
             if membro['data'].date != membro['renovada'].date:
                 payment = Payment.objects.create(
@@ -109,4 +108,3 @@ class Command(BaseCommand):
                     status=3,
                     price=payment_type.price
                 )
->>>>>>> 60d695b... Evita gerar dois pagamentos quando a data de associação e renovação são a mesma.
