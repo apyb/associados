@@ -3,9 +3,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{% trans "Members of the Python Brazil Association" %}{% endblock %}</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <title>{% trans "Python Brazil Association" %} | {% block title %}{% trans "Members of the Python Brazil Association" %}{% endblock %}</title>
+    <meta name="description" content="{% trans "Members of the Python Brazil Association" %}">
+    <meta name="author" content="{% trans "The Python Brazil Association was formed in April 2007 with the goal of supporting the communities related to the Python language and related technologies." %}">
+    <link rel="image_src" href="{{ STATIC_URL }}images/python-logo-official.png" / >
 
     <!-- IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
@@ -24,11 +25,19 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ STATIC_URL }}ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ STATIC_URL }}ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ STATIC_URL }}ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://associacao.python.org.br/favicon.ico">
+    <link rel="apple-touch-icon" href="http://associacao.python.org.br/touch_icon.png">
+
+
+    <!-- share configurations -->
+    <meta property="og:site_name" content="{% trans "Members of the Python Brazil Association" %}">
+    <meta property="og:image" content="http://associacao.python.org.br/logo.jpg">
+    <meta property="og:url" content="http://associacao.python.org.br/associacao/sobre">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="{% trans "The Python Brazil Association was formed in April 2007 with the goal of supporting the communities related to the Python language and related technologies." %}">
+    <meta property="og:title" content="{% trans "Members of the Python Brazil Association" %}">
+    <meta property="fb:app_id" content="178374868904020">
+    <meta property="og:image" content="http://associacao.python.org.br/logo.jpg/@@facebook-thumbnail">
 
 </head>
 
