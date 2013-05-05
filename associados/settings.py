@@ -182,3 +182,10 @@ PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?c
 
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
 GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')
+
+
+# Local settings
+try:
+    execfile('associados/settings_local.py')
+except IOError:
+    pass
