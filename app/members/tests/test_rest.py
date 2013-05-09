@@ -12,8 +12,6 @@ import json
 class REST(TestCase):
 
     def setUp(self):
-        super(REST, self).setUp()
-
         self.url = reverse('members-status')
 
         # Active member

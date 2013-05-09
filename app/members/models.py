@@ -80,6 +80,11 @@ class Member(models.Model):
             return None
         return payments[0]
 
+    def get_payment_status(self):
+        last_payment = self.get_last_payment()
+        days_left = self.get_days_to_next_payment(last_payment)
+        return days_left > 1
+
     def get_payment_check_list(self):
         first_payment = self.get_first_payment()
         last_payment = self.get_last_payment()
