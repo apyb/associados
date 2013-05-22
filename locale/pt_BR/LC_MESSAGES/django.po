@@ -35,11 +35,11 @@ msgstr "Confirmação da senha"
 
 #: app/authemail/forms.py:17
 msgid "Enter the same password as above, for verification."
-msgstr "Entre a mesma senha para verificação"
+msgstr "Entre com a mesma senha para verificação"
 
 #: app/authemail/forms.py:42
 msgid "This email address already exists. Did you forget your password?"
-msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha ?"
+msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha?"
 
 #: app/members/forms.py:35
 msgid "First Name"
@@ -47,7 +47,7 @@ msgstr "Primeiro Nome"
 
 #: app/members/forms.py:69
 msgid "You can't change your category with pending payments"
-msgstr "Você não pode mudar a sua categoria com pagamentos pendentes"
+msgstr "Você não pode mudar sua categoria com pagamentos pendentes"
 
 #: app/members/forms.py:36
 msgid "Last Name"
@@ -55,7 +55,7 @@ msgstr "Sobrenome"
 
 #: app/members/forms.py:37
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: app/members/forms.py:46 app/members/models.py:57
 msgid "CPF"
@@ -95,7 +95,7 @@ msgstr "Cidades"
 
 #: app/members/models.py:46
 msgid "Categories"
-msgstr "Categoria"
+msgstr "Categorias"
 
 #: app/members/models.py:54
 msgid "Category"
@@ -127,7 +127,7 @@ msgid ""
 "proceed                                         with the registration in the "
 "pool! "
 msgstr ""
-"Você está cadastrado! Complete os seus dados para prosseguir com o registro "
+"Você está cadastrado! Complete seus dados para prosseguir com o registro "
 "na associação!"
 
 #: app/members/views.py:68
@@ -157,7 +157,7 @@ msgstr "Usuário"
 
 #: app/members/templates/members/dashboard.html:17
 msgid "Email for contact"
-msgstr "Email de Contato"
+msgstr "E-mail de Contato"
 
 #: app/members/templates/members/dashboard.html:21
 msgid "Member since"
