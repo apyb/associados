@@ -96,14 +96,9 @@ class NotificationView(View):
         member.save()
 
     def _update_payment_dates(self, payment):
-        last_payment = payment.member.get_last_payment()
-        if last_payment:
-            payment.valid_until = last_payment.valid_until + timedelta(days=payment.type.duration)
-        else:
-            payment.valid_until = datetime.now(tz=timezone.get_default_timezone()) \
-                                  + timedelta(days=payment.type.duration)
-
-        payment.date = datetime.now(tz=timezone.get_default_timezone())
+        # TODO: we need to think more about this rule and define it...
+        payment.valid_until = timezone.now() + timedelta(days=payment.type.duration)
+        payment.date = timezone.now()
         payment.save()
 
     def _send_confirmation_email(self, payment):
