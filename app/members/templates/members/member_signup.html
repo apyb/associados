@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}{% load bootstrap_toolkit %}
 {% block title %}{{ flatpage.title }}{% endblock %}
+{% block navbar_signup %}<li class="active"><a href="{% url members-signup %}">{% trans "Sign up" %}</a></li>{% endblock %}
 
 {% block content %}
     <h1>{% trans Signup %}</h1>
