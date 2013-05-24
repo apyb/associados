@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, datetime
+
+
+from datetime import timedelta
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import call_command
@@ -8,12 +11,12 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.utils import timezone
 from django_dynamic_fixture import G
-from app.members.models import Member, Category
+from django.core import mail
 
+from app.members.models import Member, Category
 from app.payment import views
 from app.payment.models import Payment, Transaction, PaymentType
 from app.payment.views import PaymentView, NotificationView
-from django.core import mail
 
 
 class MemberTestCase(TestCase):
@@ -194,13 +197,8 @@ class NotificationViewTestCase(MemberTestCase):
                          valid_until.strftime('%Y-%m-%d+%H:%M'))
 
     def test_transaction_done_should_respect_last_payment_date(self):
-        old_payment, old_transaction = self._make_transaction(status=3, code="xpto", price="123.54")
-        old_payment.date = timezone.datetime(2010, 01, 01)
-        old_payment.valid_until = timezone.datetime(2011, 01, 01)
-        old_payment.save()
-
         payment, transaction = self._make_transaction(status=1, code="xpto", price="123.54")
-        valid_until = old_payment.valid_until + timedelta(days=payment.type.duration)
+        valid_until = timezone.now() + timedelta(days=payment.type.duration)
         view = NotificationView()
         view.transaction_code = 'xpto'
         view.transaction_done(payment.id)
