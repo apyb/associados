@@ -15,4 +15,4 @@ Caso tenha alguma dúvida é só entrar em contato conosco através do e-mail: {
 Obrigado,
 Equipe da Associação Python Brasil
 
-PS. O sistema de controle de associados está em fase de implantação. Caso tenha encontrado algum problema pedimos a gentileza de nos avisar através do mesmo endereço de e-mail: {{ contact_email }}.
+PS. O sistema de controle de associados está em fase de implantação. Caso encontre algum problema pedimos a gentileza de nos avisar através do mesmo endereço de e-mail: {{ contact_email }}.
