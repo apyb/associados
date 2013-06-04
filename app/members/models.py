@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 import slumber
 
 from django.db import models
