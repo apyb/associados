@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 
-from datetime import datetime, timedelta
-
 import requests
+import logging
+
+from datetime import timedelta
 from lxml import html as lhtml
 
 from django.conf import settings
@@ -18,6 +19,9 @@ from django.views.generic import View
 
 from app.members.models import Member
 from app.payment.models import Payment, Transaction, PaymentType
+
+
+logger = logging.getLogger(__name__)
 
 
 class PaymentView(View):
@@ -85,7 +89,13 @@ class NotificationView(View):
         if response.ok:
             dom = lhtml.fromstring(response.content)
             status_transacao = int(dom.xpath("//status")[0].text)
-            referencia = int(dom.xpath("//reference")[0].text)
+
+            referencia = dom.xpath("//reference")[0].text
+            try:
+                referencia = int(referencia)
+            except ValueError:
+                logger.error(u"Incorrect reference: {}".format(referencia))
+
             valor = float(dom.xpath("//grossamount")[0].text)
             return status_transacao, referencia, valor
         return None, None, None
@@ -96,14 +106,9 @@ class NotificationView(View):
         member.save()
 
     def _update_payment_dates(self, payment):
-        last_payment = payment.member.get_last_payment()
-        if last_payment:
-            payment.valid_until = last_payment.valid_until + timedelta(days=payment.type.duration)
-        else:
-            payment.valid_until = datetime.now(tz=timezone.get_default_timezone()) \
-                                  + timedelta(days=payment.type.duration)
-
-        payment.date = datetime.now(tz=timezone.get_default_timezone())
+        # TODO: we need to think more about this rule and define it...
+        payment.valid_until = timezone.now() + timedelta(days=payment.type.duration)
+        payment.date = timezone.now()
         payment.save()
 
     def _send_confirmation_email(self, payment):

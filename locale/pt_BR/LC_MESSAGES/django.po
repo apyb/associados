@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-05 11:28-0300\n"
+"POT-Creation-Date: 2013-05-24 00:53-0300\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Marcos Daniel Petry <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -35,19 +35,15 @@ msgstr "Confirmação da senha"
 
 #: app/authemail/forms.py:17
 msgid "Enter the same password as above, for verification."
-msgstr "Entre a mesma senha para verificação"
+msgstr "Entre com a mesma senha para verificação"
 
 #: app/authemail/forms.py:42
 msgid "This email address already exists. Did you forget your password?"
-msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha ?"
+msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha?"
 
 #: app/members/forms.py:35
 msgid "First Name"
 msgstr "Primeiro Nome"
-
-#: app/members/forms.py:69
-msgid "You can't change your category with pending payments"
-msgstr "Você não pode mudar a sua categoria com pagamentos pendentes"
 
 #: app/members/forms.py:36
 msgid "Last Name"
@@ -55,7 +51,7 @@ msgstr "Sobrenome"
 
 #: app/members/forms.py:37
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: app/members/forms.py:46 app/members/models.py:57
 msgid "CPF"
@@ -77,6 +73,10 @@ msgstr "Empresa"
 msgid "Location"
 msgstr "Localicação"
 
+#: app/members/forms.py:69
+msgid "You can't change your category with pending payments"
+msgstr "Você não pode mudar a sua categoria com pagamentos pendentes"
+
 #: app/members/models.py:20 app/members/models.py:32
 msgid "Name"
 msgstr "Nome"
@@ -95,7 +95,7 @@ msgstr "Cidades"
 
 #: app/members/models.py:46
 msgid "Categories"
-msgstr "Categoria"
+msgstr "Categorias"
 
 #: app/members/models.py:54
 msgid "Category"
@@ -127,8 +127,8 @@ msgid ""
 "proceed                                         with the registration in the "
 "pool! "
 msgstr ""
-"Você está cadastrado! Complete os seus dados para prosseguir com o registro "
-"na associação!"
+"Você está cadastrado! Complete seus dados para prosseguir com o registro na "
+"associação!"
 
 #: app/members/views.py:68
 msgid "There was an error register"
@@ -157,7 +157,7 @@ msgstr "Usuário"
 
 #: app/members/templates/members/dashboard.html:17
 msgid "Email for contact"
-msgstr "Email de Contato"
+msgstr "E-mail de Contato"
 
 #: app/members/templates/members/dashboard.html:21
 msgid "Member since"
@@ -202,23 +202,25 @@ msgid "Submit"
 msgstr "Enviar"
 
 #: app/members/templates/members/member_list.html:3
-#: app/members/templates/members/member_list.html:6
+#: app/members/templates/members/member_list.html:4
+#: app/members/templates/members/member_list.html:7
+#: associados/templates/base.html:75
 msgid "Members"
 msgstr "Associados"
 
-#: app/members/templates/members/member_list.html:12
+#: app/members/templates/members/member_list.html:13
 msgid "Search members:"
 msgstr "Buscar associados:"
 
-#: app/members/templates/members/member_list.html:14
+#: app/members/templates/members/member_list.html:15
 msgid "Search"
 msgstr "Buscar"
 
-#: app/members/templates/members/member_list.html:16
+#: app/members/templates/members/member_list.html:17
 msgid "Filter by category:"
 msgstr "Filtrar por categoria:"
 
-#: app/members/templates/members/member_list.html:20
+#: app/members/templates/members/member_list.html:21
 msgid "All"
 msgstr "Todos"
 
@@ -226,7 +228,12 @@ msgstr "Todos"
 msgid "Python Brazil Association Registration"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
-#: app/members/templates/members/member_signup.html:14
+#: app/members/templates/members/member_signup.html:4
+#: associados/templates/base.html:79
+msgid "Sign up"
+msgstr "Inscreva-se"
+
+#: app/members/templates/members/member_signup.html:15
 msgid "Signup"
 msgstr "Registrar"
 
@@ -238,11 +245,11 @@ msgstr "Marcar último lançamento como pago"
 msgid "Last Transaction"
 msgstr "Última Transação"
 
-#: app/payment/views.py:28
+#: app/payment/views.py:32
 msgid "Brazilian Python Association registration payment"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
-#: app/payment/views.py:56
+#: app/payment/views.py:60
 msgid ""
 "Failed to generate a transaction within the payment gateway. Please contact "
 "the staff to complete your registration."
@@ -250,7 +257,7 @@ msgstr ""
 "Falha no processamento da transação com o gateway de pagamento. Entre em "
 "contato com a Associação Python Brasil para completar seu cadastramento."
 
-#: associados/templates/base.html:6 associados/templates/navbar.html:5
+#: associados/templates/base.html:6 associados/templates/base.html.py:50
 msgid "Python Brazil Association"
 msgstr "Associação Python Brasil"
 
@@ -269,7 +276,32 @@ msgstr ""
 "suportar as comunidades relacionadas à linguagem Python e suas tecnologias "
 "derivadas."
 
-#: associados/templates/base.html:63
+#: associados/templates/base.html:54
+msgid "Association Website"
+msgstr "Site da Associação"
+
+#: associados/templates/base.html:66
+msgid "dashboard"
+msgstr "painel do usuário"
+
+#: associados/templates/base.html:67
+msgid "change password"
+msgstr "alterar senha"
+
+#: associados/templates/base.html:68
+msgid "update my profile"
+msgstr "atualizar meus dados"
+
+#: associados/templates/base.html:70
+msgid "logout"
+msgstr "sair"
+
+#: associados/templates/base.html:77
+#: associados/templates/registration/login.html:3
+msgid "Login"
+msgstr "Entrar"
+
+#: associados/templates/base.html:102
 msgid ""
 "\n"
 "      <h1>Bootstrap starter template</h1>\n"
@@ -284,37 +316,9 @@ msgstr ""
 "p>\n"
 "      "
 
-#: associados/templates/base.html:72
+#: associados/templates/base.html:111
 msgid "Back to top"
 msgstr "Voltar pro topo"
-
-#: associados/templates/navbar.html:9
-msgid "members"
-msgstr "associados"
-
-#: associados/templates/navbar.html:19
-msgid "dashboard"
-msgstr "painel do usuário"
-
-#: associados/templates/navbar.html:20
-msgid "change password"
-msgstr "alterar senha"
-
-#: associados/templates/navbar.html:21
-msgid "update my profile"
-msgstr "atualizar meus dados"
-
-#: associados/templates/navbar.html:23
-msgid "logout"
-msgstr "sair"
-
-#: associados/templates/navbar.html:27
-msgid "Login"
-msgstr "Entrar"
-
-#: associados/templates/navbar.html:28
-msgid "Sign up"
-msgstr "Inscreva-se"
 
 #: associados/templates/registration/logged_out.html:6
 msgid "Thanks for spending some quality time with the Web site today."
@@ -324,11 +328,11 @@ msgstr "Obrigado pelo seu tempo neste site."
 msgid "Log in again"
 msgstr "Entrar novamente"
 
-#: associados/templates/registration/login.html:9
+#: associados/templates/registration/login.html:10
 msgid "Oh snap!"
 msgstr "Danou-se!"
 
-#: associados/templates/registration/login.html:9
+#: associados/templates/registration/login.html:10
 msgid ""
 "Please enter a correct username and password. Note that both fields are case-"
 "sensitive."
@@ -336,29 +340,39 @@ msgstr ""
 "Informe o usuário e senha corretamente. Note que ambos os campos fazem "
 "distinção entre maiúsculas e minúsculas."
 
-#: associados/templates/registration/login.html:10
+#: associados/templates/registration/login.html:11
 msgid "Your first time here?!"
 msgstr "Sua primeira vez aqui?!"
 
-#: associados/templates/registration/login.html:10
+#: associados/templates/registration/login.html:11
 msgid "Reset your password before login!"
 msgstr "Redefina sua senha antes de entrar!"
 
-#: associados/templates/registration/login.html:15
-#: associados/templates/registration/login.html:35
+#: associados/templates/registration/login.html:16
+msgid "Passwords are lost during migration from old system. Please "
+msgstr ""
+"As senhas foram perdidas no processo de migração do sistema antigo. Por "
+"favor, "
+
+#: associados/templates/registration/login.html:16
+msgid "reset your password"
+msgstr "regere sua senha"
+
+#: associados/templates/registration/login.html:21
+#: associados/templates/registration/login.html:41
 msgid "Log in"
 msgstr "Entrar"
 
-#: associados/templates/registration/login.html:19
+#: associados/templates/registration/login.html:25
 msgid "Username or email"
 msgstr "Usuário ou E-mail"
 
-#: associados/templates/registration/login.html:35
+#: associados/templates/registration/login.html:41
 #: associados/templates/registration/password_change_form.html:25
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: associados/templates/registration/login.html:39
+#: associados/templates/registration/login.html:45
 #: associados/templates/registration/password_reset_form.html:24
 msgid "Reset my password"
 msgstr "Redefinir minha senha"
@@ -452,21 +466,3 @@ msgstr ""
 #: associados/templates/registration/password_reset_form.html:24
 msgid "loading"
 msgstr "carregando"
-
-#~ msgid "City"
-#~ msgstr "Cidade"
-
-#~ msgid "Public Key"
-#~ msgstr "Chave Pública"
-
-#~ msgid "membership dues"
-#~ msgstr "obrigações dos associados"
-
-#~ msgid "Student"
-#~ msgstr "Estudante"
-
-#~ msgid "Member"
-#~ msgstr "Associado"
-
-#~ msgid "You are already registered!"
-#~ msgstr "Você já está registrado!"

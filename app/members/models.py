@@ -107,6 +107,8 @@ class Member(models.Model):
             return github_api.users(self.github_user).get(client_id=settings.GITHUB_CLIENT_ID, client_secret=settings.GITHUB_CLIENT_SECRET)
         except slumber.exceptions.HttpClientError:
             return None
+        except slumber.exceptions.HttpServerError:
+            return None
 
     def __unicode__(self):
         return self.user.get_full_name()

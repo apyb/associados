@@ -1,4 +1,8 @@
 # coding: utf-8
+
+
+import datetime
+
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
@@ -8,15 +12,13 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone, translation
-from app.members.models import Member
+
 from app.payment.models import Payment
 
-import datetime
 
 class Command(BaseCommand):
-
     def _make_date_lookup_arg(self, value):
-        value = datetime.datetime.combine(value, datetime.time.min)
+        value = timezone.datetime.combine(value, datetime.time.min)
         if settings.USE_TZ:
             value = timezone.make_aware(value, timezone.get_current_timezone())
         return value
@@ -27,19 +29,16 @@ class Command(BaseCommand):
         if contact_email is None:
             raise ImproperlyConfigured('EMAIL_CONTACT_ADDRESS must be configured')
 
-        if settings.USE_TZ:
-            today = timezone.now().date()
-        else:
-            today = datetime.date.today()
+        today = timezone.now().date()
 
         expiration_days = (30, 15, 7)
-        expiration_dates = [today - datetime.timedelta(days=d) for d in expiration_days]
+        expiration_dates = [today - timezone.timedelta(days=d) for d in expiration_days]
         expiration_dates += [today]
 
         filter_arg = None
         for d in expiration_dates:
             since = self._make_date_lookup_arg(d)
-            until = self._make_date_lookup_arg(d + datetime.timedelta(days=1))
+            until = self._make_date_lookup_arg(d + timezone.timedelta(days=1))
 
             if filter_arg is None:
                 filter_arg = Q(valid_until__gte=since, valid_until__lt=until)
@@ -60,16 +59,16 @@ class Command(BaseCommand):
                 context['date'] = today
                 subject = '[Associação Python Brasil] Anuidade vencida'
                 message = render_to_string('payment/valid_until_today_email.txt',
-                    context)
+                                           context)
             else:
                 date_diff = today - valid_until_date
                 context['days'] = date_diff.days
                 subject = '[Associação Python Brasil] Aviso de renovação'
                 message = render_to_string('payment/valid_until_email.txt',
-                    context)
+                                           context)
 
             send_mail(subject, message, contact_email,
-                [payment.member.user.email], fail_silently=False)
+                      [payment.member.user.email], fail_silently=False)
 
         if settings.USE_I18N:
             translation.deactivate()
