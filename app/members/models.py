@@ -81,6 +81,9 @@ class Member(models.Model):
         return payments[0]
 
     def get_payment_status(self):
+        if not self.id:
+            return True
+
         last_payment = self.get_last_payment()
         days_left = self.get_days_to_next_payment(last_payment)
         return days_left > 1
