@@ -2,9 +2,9 @@
 # encoding: utf-8
 from django.test import TestCase
 from app.members.forms import MemberForm, UserForm
-from app.members.models import Organization, City, User, Category
+from app.members.models import Organization, User, Category, Member
 from app.payment.models import Payment, PaymentType, Transaction
-from django import forms
+from app.members.tests.helpers import create_user_with_member
 
 
 class UserFormTest(TestCase):
@@ -110,8 +110,8 @@ class ValidMemberFormTest(MemberFormTest):
 
     def test_change_category_with_pending_payments(self):
         payment = Payment.objects.create(
-            member = self.member_instance,
-            type = PaymentType.objects.get(id=1)
+            member=self.member_instance,
+            type=PaymentType.objects.get(id=1)
         )
 
         transaction = Transaction.objects.create(
@@ -153,3 +153,16 @@ class InvalidMemberFormTest(MemberFormTest):
     def test_with_no_data_should_return_cpf_error(self):
         self.assertIn('cpf', self.member_form.errors)
 
+
+class CreateNewMember(MemberFormTest):
+    def setUp(self):
+        self.member_form = MemberForm(self.data)
+
+    def test_if_form_is_valid(self):
+        self.assertTrue(self.member_form.is_valid())
+
+    def test_save_form(self):
+        user = User.objects.create(username='test')
+        self.member_form.is_valid()
+        self.member_form.save(user)
+        self.assertEqual(Member.objects.count(), 1)

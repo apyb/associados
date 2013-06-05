@@ -9,7 +9,8 @@ from django.forms.util import flatatt
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from app.members.models import  Organization, Member, Category
+from app.members.models import Organization, Member, Category
+
 
 class OrganizationInput(TextInput):
     def _format_value(self, value):
@@ -30,6 +31,7 @@ class OrganizationInput(TextInput):
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(self._format_value(value))
         return mark_safe(u'<input%s />' % flatatt(final_attrs))
+
 
 class UserForm(forms.ModelForm):
     first_name = forms.CharField(label=_("First Name"))
