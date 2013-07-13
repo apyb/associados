@@ -48,6 +48,17 @@ class Command(BaseCommand):
         if settings.USE_I18N:
             translation.activate(settings.LANGUAGE_CODE)
         for payment in Payment.objects.filter(filter_arg):
+            last_payment = payment.member.get_last_payment()
+
+            if last_payment:
+                last_payment_date = last_payment.valid_until.date()
+                status = [last_payment_date > d for d in expiration_dates]
+                already_renewed = all(status)
+
+                # skip to send notification if already renewed
+                if already_renewed:
+                    continue
+
             valid_until_date = payment.valid_until.date()
             context = {
                 'contact_email': contact_email,
