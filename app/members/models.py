@@ -67,13 +67,13 @@ class Member(models.Model):
         return 0
 
     def get_first_payment(self):
-        payments = self.payment_set.filter(last_transaction__status=3).order_by('date')
+        payments = self.payment_set.filter(last_transaction__status__in=[3, 4]).order_by('date')
         if not payments:
             return None
         return payments[0]
 
     def get_last_payment(self):
-        payments = self.payment_set.filter(last_transaction__status=3).order_by('-date')
+        payments = self.payment_set.filter(last_transaction__status__in=[3, 4]).order_by('-date')
         if not payments:
             return None
         return payments[0]
