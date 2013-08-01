@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 
 from django.contrib import admin
@@ -33,6 +33,7 @@ class PaymentAdmin(admin.ModelAdmin):
     inlines = [
         TransactionInline,
     ]
+    search_fields = ('member__user__first_name', 'member__user__last_name', 'member__user__email')
     list_display = ('member', 'type', 'date', 'valid_until', last_transaction_name)
     actions = [make_paid]
 

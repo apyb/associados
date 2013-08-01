@@ -114,6 +114,9 @@ class Member(models.Model):
         except requests.ConnectionError:
             return None
 
+    def full_name(self):
+        return self.user.get_full_name() or self.user.username
+
     def __unicode__(self):
-        return self.user.get_full_name()
+        return self.full_name()
 

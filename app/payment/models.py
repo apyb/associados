@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from django.conf import settings
 from django.db import models
@@ -9,13 +9,13 @@ from app.members.models import Member, Category
 
 
 TRANSACTION_STATUS = (
-    ('1', 'Awaiting Payment'),
-    ('2', 'In analysis'),
-    ('3', 'Paid'),
-    ('4', 'Available'),
-    ('5', 'In dispute'),
-    ('6', 'Returned'),
-    ('7', 'Cancelled'),
+    ('1', u'Awaiting Payment'),
+    ('2', u'In analysis'),
+    ('3', u'Paid'),
+    ('4', u'Available'),
+    ('5', u'In dispute'),
+    ('6', u'Returned'),
+    ('7', u'Cancelled'),
 )
 
 
