@@ -37,7 +37,7 @@ class City(DefaultFields):
         verbose_name_plural = _('Cities')
 
     def __unicode__(self):
-        return "{0} - {1}".format(self.name, self.state)
+        return u"{0} - {1}".format(self.name, self.state)
 
 
 class Category(models.Model):
