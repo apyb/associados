@@ -53,6 +53,13 @@ class Transaction(models.Model):
     def get_checkout_url(self):
         return settings.PAGSEGURO_WEBCHECKOUT + self.code
 
+    @property
+    def status_display(self):
+        return dict(TRANSACTION_STATUS).get(self.status, u"Unknown")
+
+    def __unicode__(self):
+        return u"{self.date} - {self.status_display} - {self.price:.2f}".format(self=self)
+
 
 def update_payment_transaction(sender, instance, **kwargs):
     payment = instance.payment
