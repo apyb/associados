@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
+
+
+import requests
 import slumber
 
 from django.db import models
@@ -102,10 +105,13 @@ class Member(models.Model):
         if not self.github_user:
             return None
         try:
-            return github_api.users(self.github_user).get(client_id=settings.GITHUB_CLIENT_ID, client_secret=settings.GITHUB_CLIENT_SECRET)
+            return github_api.users(self.github_user).get(client_id=settings.GITHUB_CLIENT_ID,
+                                                          client_secret=settings.GITHUB_CLIENT_SECRET)
         except slumber.exceptions.HttpClientError:
             return None
         except slumber.exceptions.HttpServerError:
+            return None
+        except requests.ConnectionError:
             return None
 
     def __unicode__(self):
