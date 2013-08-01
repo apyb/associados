@@ -37,7 +37,7 @@ class Payment(models.Model):
     last_transaction = models.ForeignKey('Transaction', null=True, blank=True, related_name='last_transaction')
 
     def done(self):
-        return self.transaction_set.filter(status=3).exists()
+        return self.transaction_set.filter(status__in=[3, 4]).exists()
 
     def __unicode__(self):
         return u'payment from {0}'.format(self.member)
