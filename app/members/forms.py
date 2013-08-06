@@ -2,15 +2,16 @@
 # encoding: utf-8
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.localflavor.br.forms import BRCPFField, BRPhoneNumberField
+from django.contrib.localflavor.br.forms import BRCPFField
 from django.forms import TextInput
 from django.forms.util import flatatt
 
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from app.members.models import Organization, Member, Category
 
+from .models import Organization, Member, Category
+from .fields import BRPhoneNumberField
 
 class OrganizationInput(TextInput):
     def _format_value(self, value):

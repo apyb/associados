@@ -85,6 +85,15 @@ class MemberChangeView(TestCase):
         self.assertEqual(member.user.first_name, u'editou')
         self.assertEqual(member.user.last_name, u'editou')
 
+    def test_post_with_nine_digits_phone_should_update_a_member(self):
+        phone_nine_digits = u'11-98765-4321'
+        self.data.update(phone=phone_nine_digits)
+
+        response = self.client.post(self.url, self.data)
+        member = Member.objects.get(user_id=self.user.id)
+
+        self.assertEqual(member.phone, phone_nine_digits)
+
 
 class MemberChangeWithErrorView(TestCase):
     def setUp(self):
