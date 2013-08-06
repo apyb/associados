@@ -1,8 +1,2 @@
-coverage==3.5.2
-django-debug-toolbar==0.9.4
-django-dynamic-fixture==1.6.3
-django-extensions==0.9
-ipdb==0.6.1
-ipython==0.12.1
+-r requirements_test_osx.txt
 wsgiref==0.1.2
-django-nose==1.1

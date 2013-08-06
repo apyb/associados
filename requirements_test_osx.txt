@@ -1,7 +1,7 @@
+-r requirements.txt
 coverage==3.5.2
 django-debug-toolbar==0.9.4
 django-dynamic-fixture==1.6.3
-django-extensions==0.9
 ipdb==0.6.1
 ipython==0.12.1
 django-nose==1.1

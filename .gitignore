@@ -37,6 +37,9 @@ nbproject
 node_modules
 .coverage
 
+# Virtualenvs
+env*
+
 settings_local.py
 associados/static/docs/*
 htmlcov/*
