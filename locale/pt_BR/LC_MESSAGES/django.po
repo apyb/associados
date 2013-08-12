@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-24 00:53-0300\n"
+"POT-Creation-Date: 2013-08-12 00:37-0300\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Marcos Daniel Petry <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -41,87 +41,87 @@ msgstr "Entre com a mesma senha para verificação"
 msgid "This email address already exists. Did you forget your password?"
 msgstr "Este endereço de e-mail já existe. Você esqueceu sua senha?"
 
-#: app/members/forms.py:35
+#: app/members/forms.py:38
 msgid "First Name"
 msgstr "Primeiro Nome"
 
-#: app/members/forms.py:36
+#: app/members/forms.py:39
 msgid "Last Name"
 msgstr "Sobrenome"
 
-#: app/members/forms.py:37
+#: app/members/forms.py:40
 msgid "Email"
 msgstr "E-mail"
 
-#: app/members/forms.py:46 app/members/models.py:57
+#: app/members/forms.py:49 app/members/models.py:58
 msgid "CPF"
 msgstr "CPF"
 
-#: app/members/forms.py:47 app/members/models.py:58
+#: app/members/forms.py:50 app/members/models.py:59
 msgid "Phone"
 msgstr "Fone"
 
-#: app/members/forms.py:48
+#: app/members/forms.py:51
 msgid "GitHub User"
 msgstr "Usuário no GitHub"
 
-#: app/members/forms.py:49
+#: app/members/forms.py:52
 msgid "Organization"
 msgstr "Empresa"
 
-#: app/members/forms.py:50 app/members/models.py:60
+#: app/members/forms.py:53 app/members/models.py:61
 msgid "Location"
 msgstr "Localicação"
 
-#: app/members/forms.py:69
+#: app/members/forms.py:72
 msgid "You can't change your category with pending payments"
 msgstr "Você não pode mudar a sua categoria com pagamentos pendentes"
 
-#: app/members/models.py:20 app/members/models.py:32
+#: app/members/models.py:21 app/members/models.py:33
 msgid "Name"
 msgstr "Nome"
 
-#: app/members/models.py:24
+#: app/members/models.py:25
 msgid "Organizations"
 msgstr "Empresas"
 
-#: app/members/models.py:31
+#: app/members/models.py:32
 msgid "State"
 msgstr "Estado"
 
-#: app/members/models.py:36
+#: app/members/models.py:37
 msgid "Cities"
 msgstr "Cidades"
 
-#: app/members/models.py:46
+#: app/members/models.py:47
 msgid "Categories"
 msgstr "Categorias"
 
-#: app/members/models.py:54
+#: app/members/models.py:55
 msgid "Category"
 msgstr "Categoria"
 
-#: app/members/models.py:55
+#: app/members/models.py:56
 msgid "Github User"
 msgstr "Usuário no GitHub"
 
-#: app/members/models.py:59
+#: app/members/models.py:60
 msgid "Address"
 msgstr "Endereço"
 
-#: app/members/models.py:61
+#: app/members/models.py:62
 msgid "Relation with community"
 msgstr "Relação com a comunidade"
 
-#: app/members/models.py:62
+#: app/members/models.py:63
 msgid "Mailing"
 msgstr "Correspondência"
 
-#: app/members/models.py:63
+#: app/members/models.py:64
 msgid "Partner"
 msgstr "Parceiro"
 
-#: app/members/views.py:63
+#: app/members/views.py:68
 msgid ""
 "You're already registered! Complete your details to "
 "proceed                                         with the registration in the "
@@ -130,20 +130,20 @@ msgstr ""
 "Você está cadastrado! Complete seus dados para prosseguir com o registro na "
 "associação!"
 
-#: app/members/views.py:68
+#: app/members/views.py:73
 msgid "There was an error register"
 msgstr "Houve um erro ao cadastrar-se"
 
-#: app/members/views.py:84
+#: app/members/views.py:89
 msgid "Your data was updated successfully"
 msgstr "Seus dados foram atualizados com sucesso"
 
-#: app/members/views.py:87
+#: app/members/views.py:92
 msgid ""
 "An error occurred while trying to save your data. check the form below. "
 msgstr "Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo."
 
-#: app/members/views.py:147
+#: app/members/views.py:152
 msgid "To access the dashboard, you need to complete your data"
 msgstr "Para acessar os dashboard, você precisa completar os seus dados"
 
@@ -204,7 +204,7 @@ msgstr "Enviar"
 #: app/members/templates/members/member_list.html:3
 #: app/members/templates/members/member_list.html:4
 #: app/members/templates/members/member_list.html:7
-#: associados/templates/base.html:75
+#: associados/templates/base.html:90
 msgid "Members"
 msgstr "Associados"
 
@@ -229,7 +229,7 @@ msgid "Python Brazil Association Registration"
 msgstr "Pagamento do registro na Associação Python Brasil"
 
 #: app/members/templates/members/member_signup.html:4
-#: associados/templates/base.html:79
+#: associados/templates/base.html:94
 msgid "Sign up"
 msgstr "Inscreva-se"
 
@@ -276,32 +276,52 @@ msgstr ""
 "suportar as comunidades relacionadas à linguagem Python e suas tecnologias "
 "derivadas."
 
-#: associados/templates/base.html:54
+#: associados/templates/base.html:55
+msgid "Useful Links"
+msgstr "Links Úteis"
+
+#: associados/templates/base.html:58
 msgid "Association Website"
 msgstr "Site da Associação"
 
-#: associados/templates/base.html:66
+#: associados/templates/base.html:61
+msgid "PythonBrasil Conference"
+msgstr "Conferência PythonBrasil"
+
+#: associados/templates/base.html:63
+msgid "Python BR"
+msgstr "Python BR"
+
+#: associados/templates/base.html:65
+msgid "Django Framework"
+msgstr "Framework Django"
+
+#: associados/templates/base.html:67
+msgid "Planet Python"
+msgstr "Planet Python"
+
+#: associados/templates/base.html:81
 msgid "dashboard"
 msgstr "painel do usuário"
 
-#: associados/templates/base.html:67
+#: associados/templates/base.html:82
 msgid "change password"
 msgstr "alterar senha"
 
-#: associados/templates/base.html:68
+#: associados/templates/base.html:83
 msgid "update my profile"
 msgstr "atualizar meus dados"
 
-#: associados/templates/base.html:70
+#: associados/templates/base.html:85
 msgid "logout"
 msgstr "sair"
 
-#: associados/templates/base.html:77
+#: associados/templates/base.html:92
 #: associados/templates/registration/login.html:3
 msgid "Login"
 msgstr "Entrar"
 
-#: associados/templates/base.html:102
+#: associados/templates/base.html:117
 msgid ""
 "\n"
 "      <h1>Bootstrap starter template</h1>\n"
@@ -316,7 +336,7 @@ msgstr ""
 "p>\n"
 "      "
 
-#: associados/templates/base.html:111
+#: associados/templates/base.html:126
 msgid "Back to top"
 msgstr "Voltar pro topo"
 
