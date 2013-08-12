@@ -49,11 +49,26 @@
         <div class="container">
             <a class="brand" href="/">{% trans "Python Brazil Association" %}</a>
 
-            <ul class="nav">
+            <ul class="nav" role="navigation">
                 <li class="divider-vertical"></li>
-                <li><a href="http://associacao.python.org.br/">{% trans "Association Website" %}</a></li>
+                <li class="dropdown">
+                <a id="links-drop" class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% trans "Useful Links" %}<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="links-drop">
+                      <li role="presentation">
+                          <a role="menuitem" target="_blank" tabindex="-1" href="http://associacao.python.org.br/">{% trans "Association Website" %}</a>
+                      </li>
+                      <li role="presentation">
+                          <a role="menuitem" target="_blank" tabindex="-1" href="http://www.pythonbrasil.org.br/">{% trans "PythonBrasil" %}</a>
+                      </li>                      <li role="presentation">
+                          <a role="menuitem" target="_blank" tabindex="-1" href="http://www.python.org.br/">{% trans "Python BR" %}</a>
+                      </li>                      <li role="presentation">
+                          <a role="menuitem" target="_blank" tabindex="-1" href="http://djangoproject.com/">{% trans "Django Framework" %}</a>
+                      </li>                      <li role="presentation">
+                          <a role="menuitem" target="_blank" tabindex="-1" href="http://planet.python.org/">{% trans "Planet Python" %}</a>
+                      </li>
+                    </ul>
+                </li>
             </ul>
-
             <ul class="nav pull-right">
                 {% if user.is_authenticated %}
                     <li class="dropdown" id="fat-menu">

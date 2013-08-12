@@ -27,10 +27,13 @@ class MemberListView(ListView):
         queryset = self.get_queryset()
 
         if self.query:
-            queryset = queryset.filter(
-                Q(user__first_name__icontains=self.query) |
-                Q(user__last_name__icontains=self.query)
-            )
+            users = Member.objects.all()
+            q = Q()
+            for term in self.query.split():
+                q |= Q(user__first_name__icontains = term)
+                q |= Q(user__last_name__icontains = term)
+                users = users.filter(q)
+            queryset = users
 
         if self.category:
             queryset = queryset.filter(category__id=self.category)

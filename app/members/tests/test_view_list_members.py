@@ -13,6 +13,9 @@ class MemberListViewTest(TestCase):
         create_user_with_member(first_name='dolor', last_name='sit')
         create_user_with_member(first_name='lorem', last_name='ipsum', category=category)
         create_user_with_member(first_name='amet', last_name='consectetur', category=category)
+        create_user_with_member(first_name='python',
+                                last_name='long name user',
+                                category=category)
 
         self.url = reverse('members-list')
         self.response = self.client.get(self.url)
@@ -53,6 +56,16 @@ class MemberListViewTest(TestCase):
             'category': 1,
         })
         self.assertIn('teste teste', response.rendered_content)
+        self.assertNotIn('dolor sit', response.rendered_content)
+        self.assertNotIn('lorem ipsum', response.rendered_content)
+        self.assertNotIn('amet consectetur', response.rendered_content)
+
+    def test_should_search_by_first_and_last_name(self):
+        response = self.client.get(self.url, {
+            'q': 'python long name user',
+            'category': 1,
+        })
+        self.assertIn('python long name user', response.rendered_content)
         self.assertNotIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
         self.assertNotIn('amet consectetur', response.rendered_content)
