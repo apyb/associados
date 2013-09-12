@@ -32,14 +32,13 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="span12">
             <div class="row">
                 {% for member in object_list %}
 
 
-                <div class="span4">
+                <div class="span4 member">
                     <div class="row">
 
 
@@ -64,7 +63,7 @@
                                 </span>
                             {% endif %}
                             <span class="clearfix">{{ member.github.name|default:member }}</span>
-                        
+
                             {%if member.organization or member.github.company %}
                             <span class="clearfix">{{ member.github.company|default:member.organization }}</span>
                             {% endif %}
@@ -84,6 +83,7 @@
                 {% endfor %}
 
             </div>
+            {% include "pagination.html" %}
         </div>
     </div>
 {% endblock %}
