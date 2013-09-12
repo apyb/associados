@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: associados 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-12 00:37-0300\n"
+"POT-Creation-Date: 2013-09-11 23:22-0300\n"
 "PO-Revision-Date: 2012-08-18 01:04-0300\n"
 "Last-Translator: Marcos Daniel Petry <osantana@python.org.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -121,7 +121,7 @@ msgstr "Correspondência"
 msgid "Partner"
 msgstr "Parceiro"
 
-#: app/members/views.py:68
+#: app/members/views.py:66
 msgid ""
 "You're already registered! Complete your details to "
 "proceed                                         with the registration in the "
@@ -130,20 +130,20 @@ msgstr ""
 "Você está cadastrado! Complete seus dados para prosseguir com o registro na "
 "associação!"
 
-#: app/members/views.py:73
+#: app/members/views.py:71
 msgid "There was an error register"
 msgstr "Houve um erro ao cadastrar-se"
 
-#: app/members/views.py:89
+#: app/members/views.py:87
 msgid "Your data was updated successfully"
 msgstr "Seus dados foram atualizados com sucesso"
 
-#: app/members/views.py:92
+#: app/members/views.py:90
 msgid ""
 "An error occurred while trying to save your data. check the form below. "
 msgstr "Ocorreu um erro ao tentar salvar seus dados. verifique o form abaixo."
 
-#: app/members/views.py:152
+#: app/members/views.py:150
 msgid "To access the dashboard, you need to complete your data"
 msgstr "Para acessar os dashboard, você precisa completar os seus dados"
 
@@ -285,8 +285,8 @@ msgid "Association Website"
 msgstr "Site da Associação"
 
 #: associados/templates/base.html:61
-msgid "PythonBrasil Conference"
-msgstr "Conferência PythonBrasil"
+msgid "PythonBrasil"
+msgstr "PythonBrasil"
 
 #: associados/templates/base.html:63
 msgid "Python BR"
