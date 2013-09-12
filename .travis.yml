@@ -14,7 +14,7 @@ before_install:
   - sudo apt-get install -y libxml2-dev libxslt-dev
 
 script:
-  - coverage run manage.py test --settings=associados.settings_test --verbosity=2
+  - coverage run --source=app manage.py test --settings=associados.settings_test --verbosity=2
 
 install:
   - pip install -r requirements_test.txt --use-mirrors
