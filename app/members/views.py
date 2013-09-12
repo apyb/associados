@@ -19,6 +19,7 @@ import json
 
 class MemberListView(ListView):
     model = Member
+    paginate_by = 18
 
     def get(self, request, *args, **kwargs):
         self.query = request.GET.get('q')
