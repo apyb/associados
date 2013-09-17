@@ -4,11 +4,7 @@ python:
   - 2.7
 
 env:
-  - DJANGO_VERSION=1.4.1
-  - DJANGO_VERSION=1.4.2
-  - DJANGO_VERSION=1.4.3
-  - DJANGO_VERSION=1.4.5
-  - DJANGO_VERSION=1.4.7
+  - DJANGO_VERSION=1.5.4
 
 before_install:
   - sudo apt-get install -y libxml2-dev libxslt-dev
