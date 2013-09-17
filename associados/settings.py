@@ -185,6 +185,12 @@ PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?c
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
 GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')
 
+DSN = os.getenv("DJANGO_DSN")
+if DSN:
+    RAVEN_CONFIG = {'dsn': DSN}
+    INSTALLED_APPS = INSTALLED_APPS + (
+        'raven.contrib.django.raven_compat',
+    )
 
 # Local settings
 try:
