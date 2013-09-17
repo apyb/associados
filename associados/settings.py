@@ -76,6 +76,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('members-dashboard')
 AUTHENTICATION_BACKENDS = (
     'app.authemail.backends.EmailBackend',
 )
+ALLOWED_HOSTS = [".herokuapp.com"]
 
 
 # Templates & Middlewares
