@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block navbar_login %}<li class="active"><a href="{% url auth-login %}">{% trans "Login" %}</a></li>{% endblock %}
+{% block navbar_login %}<li class="active"><a href="{% url 'auth-login' %}">{% trans "Login" %}</a></li>{% endblock %}
 
 {% block content %}
     <div class="content">
@@ -8,15 +8,15 @@
             <div class="alert alert-block fade in">
                 <a class="close" data-dismiss="alert" href="#">×</a>
                 <p><strong>{% trans "Oh snap!" %}</strong> {% trans "Please enter a correct username and password. Note that both fields are case-sensitive." %}</p>
-                <p><strong>{% trans "Your first time here?!" %} <a href="{% url django.contrib.auth.views.password_reset %}">{% trans "Reset your password before login!" %}</a></p>
+                <p><strong>{% trans "Your first time here?!" %} <a href="{% url 'django.contrib.auth.views.password_reset' %}">{% trans "Reset your password before login!" %}</a></p>
             </div>
         {% else %}
             <div class="alert alert-block fade in">
                     <a class="close" data-dismiss="alert" href="#">×</a>
-                    <p>{% trans "Passwords are lost during migration from old system. Please " %}<a href="{% url django.contrib.auth.views.password_reset %}">{% trans "reset your password" %}</a>.</p>
+                    <p>{% trans "Passwords are lost during migration from old system. Please " %}<a href="{% url 'django.contrib.auth.views.password_reset' %}">{% trans "reset your password" %}</a>.</p>
             </div>
         {% endif %}
-        <form action="{% url django.contrib.auth.views.login %}" method="post" id="login-form">{% csrf_token %}
+        <form action="{% url 'django.contrib.auth.views.login' %}" method="post" id="login-form">{% csrf_token %}
             <fieldset>
                 <legend>{% trans 'Log in' %}</legend>
                 {% for field in form %}
@@ -42,7 +42,7 @@
                 </div>
             </fieldset>
         </form>
-        <p><a href="{% url django.contrib.auth.views.password_reset %}">{% trans "Reset my password" %}</a></p>
+        <p><a href="{% url 'django.contrib.auth.views.password_reset' %}">{% trans "Reset my password" %}</a></p>
         <script type="text/javascript">
             $(function(){
                 $(".alert-message").alert();

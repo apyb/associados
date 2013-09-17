@@ -1,15 +1,15 @@
-Django==1.4.5
+Django==1.5.4
 django-extensions==1.1.1
 sorl-thumbnail==11.12
 django-gravatar==0.1.0
 django-pipeline==1.2.11
 requests==1.2.0
--e git+https://github.com/petry/django-bootstrap-toolkit.git@e7d01e86bc6b4ca7efebd2a97437489e6c583d12#egg=django_bootstrap_toolkit-dev
+-e git+https://github.com/pythonbrasil/django-bootstrap-toolkit.git@v1-associados#egg=django_bootstrap_toolkit-dev
 dj-database-url==0.2.1
 psycopg2==2.4.6
 gunicorn==0.17.2
 lxml==2.3.4
--e git+https://github.com/petry/django-s3-folder-storage.git@d7e8b7939b554e8fdc6815da5fa349bf7d5d8aaa#egg=django_s3_folder_storage-dev
+-e git+https://github.com/pythonbrasil/django-s3-folder-storage.git@v1-associados#egg=django_s3_folder_storage-dev
 South==0.7.6
 slumber==0.6.0
 boto==2.8.0

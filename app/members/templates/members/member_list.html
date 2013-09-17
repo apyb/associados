@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n tz gravatar %}
 {% block title %}{% trans "Members" %}{% endblock %}
-{% block navbar_members %}<li class="active"><a href="{% url members-list %}">{% trans "Members" %}</a></li>{% endblock %}
+{% block navbar_members %}<li class="active"><a href="{% url 'members-list' %}">{% trans "Members" %}</a></li>{% endblock %}
 
 {% block content %}
     <h1>{% trans "Members" %}</h1>
