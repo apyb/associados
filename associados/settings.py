@@ -6,7 +6,7 @@ import os
 import dj_database_url
 from django.core.urlresolvers import reverse_lazy
 
-DEBUG = False
+DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 TEMPLATE_DEBUG = DEBUG
 BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
