@@ -46,6 +46,11 @@ USE_TZ = True
 TIME_ZONE = 'America/Sao_Paulo'
 
 
+#PYBR 10
+
+PYBR10_AUTH_TOKEN = os.environ.get('TOKEN', 'PYBR10ROCKS')
+
+
 # Media & Static
 DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
 DEFAULT_S3_PATH = "media"
@@ -108,6 +113,7 @@ INSTALLED_APPS = (
     'app.members',
     'app.payment',
     'app.core',
+    'app.api',
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
