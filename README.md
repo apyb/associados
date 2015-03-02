@@ -23,6 +23,21 @@ Rodando os testes
 
     $ make test
 
+Rodando localmente com Docker
+-----------------------------
+
+Para rodar usando o docker, siga as instruções de instalação da ferramenta:
+
+Instalação: http://docs.docker.com/compose/install
+
+Depois de instalar e configurar a ferramenta, execute o comando abaixo:
+
+	$ docker-compose up
+
+Quando rodar toda a configuração do projeto, acesse no navegador o sistema:
+
+	http://[DOCKER_IP]:8000
+
 
 Como contribuir?
 ----------------
