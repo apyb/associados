@@ -10,15 +10,16 @@ DEBUG = True
 #     'NAME': os.path.join(BASEDIR, 'associados.sqlite')
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'associados',
-        'USER': 'osantana',
-        'PASSWORD': '',
-        'HOST': 'localhost'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': '',
+#         'HOST': 'db',
+#         'PORT': 5432,
+#     }
+# }
 
 USE_TZ = True
 
