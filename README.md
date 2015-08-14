@@ -34,9 +34,13 @@ Depois de instalar e configurar a ferramenta, execute o comando abaixo:
 
 	$ docker-compose up
 
+Verifique o ip que o docker gerou do seu container web:
+
+	$ docker-compose run web env
+
 Quando rodar toda a configuração do projeto, acesse no navegador o sistema:
 
-	http://[DOCKER_IP]:8000
+	http://[DOCKER_WEB_IP]:8000
 
 
 Como contribuir?
