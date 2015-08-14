@@ -5,22 +5,6 @@ from settings import *
 
 DEBUG = True
 
-# DATABASES['default'] = {
-#     'ENGINE': 'django.db.backends.psycopg2',
-#     'NAME': os.path.join(BASEDIR, 'associados.sqlite')
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': '',
-#         'HOST': 'db',
-#         'PORT': 5432,
-#     }
-# }
-
 USE_TZ = True
 
 INTERNAL_IPS = ('127.0.0.1',)
