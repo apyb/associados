@@ -5,4 +5,3 @@ django-dynamic-fixture==1.6.3
 ipdb==0.6.1
 ipython==0.12.1
 django-nose==1.2
-docker-compose==1.1.0
