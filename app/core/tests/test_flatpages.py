@@ -7,6 +7,8 @@ from lxml import html as lhtml
 
 class FlatpagesTest(TestCase):
 
+    fixtures = ['site_init.json']
+
     def setUp(self):
         super(FlatpagesTest, self).setUp()
         self.flatpage = FlatPage.objects.get(id=1)

@@ -46,7 +46,7 @@
                             {% if member.github %}
                                 <img class="img-polaroid" src="{{ member.github.avatar_url }}" alt="">
                             {% else %}
-                                <img class="img-polaroid" src="{% gravatar_for_email member.user.email %}" alt="">
+                                <img class="img-polaroid" src="{% gravatar_url member.user.email %}" alt="">
                             {% endif %}
                         </div>
 

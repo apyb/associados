@@ -1,36 +1,25 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'TestDefaultFields'
-        db.create_table('core_testdefaultfields', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('active', self.gf('django.db.models.fields.BooleanField')(default=True, db_index=True)),
-        ))
-        db.send_create_signal('core', ['TestDefaultFields'])
+    dependencies = [
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'TestDefaultFields'
-        db.delete_table('core_testdefaultfields')
-
-
-    models = {
-        'core.testdefaultfields': {
-            'Meta': {'object_name': 'TestDefaultFields'},
-            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'db_index': 'True'}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        }
-    }
-
-    complete_apps = ['core']
+    operations = [
+        migrations.CreateModel(
+            name='TestDefaultFields',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('active', models.BooleanField(default=True, db_index=True)),
+            ],
+            options={
+                'abstract': False,
+            },
+        ),
+    ]

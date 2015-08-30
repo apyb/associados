@@ -20,6 +20,7 @@ class MemberTestCase(TestCase):
             category=Category.objects.get(id=1)
         )
 
+
 class PaymentTypeTestCase(TestCase):
     def test_should_output_payment_type_information(self):
         self.payment_type = PaymentType.objects.create(
@@ -28,6 +29,7 @@ class PaymentTypeTestCase(TestCase):
             duration = 20
         )
         self.assertEqual(unicode(self.payment_type), 'Efetivo - 34.34 for 20 days')
+
 
 class PaymentModelTestCase(MemberTestCase):
 
@@ -57,7 +59,7 @@ class PaymentModelTestCase(MemberTestCase):
     def test_member_should_be_a_foreign_key(self):
         member_field = Payment._meta.get_field_by_name('member')[0]
         self.assertIsInstance(member_field, models.ForeignKey)
-        self.assertEqual(Member, member_field.related.parent_model)
+        self.assertEqual(Member, member_field.related.model)
 
     def test_should_have_date(self):
         self.assert_field_in('date', Payment)
@@ -79,7 +81,7 @@ class PaymentModelTestCase(MemberTestCase):
     def test_type_should_be_a_foreign_key(self):
         type_field = Payment._meta.get_field_by_name('type')[0]
         self.assertIsInstance(type_field, models.ForeignKey)
-        self.assertEqual(PaymentType, type_field.related.parent_model)
+        self.assertEqual(PaymentType, type_field.related.model)
 
     def test_payment_done_should_be_false_if_has_not_a_transaction(self):
         self.assertFalse(Payment().done())
@@ -92,7 +94,7 @@ class PaymentModelTestCase(MemberTestCase):
         )
         Transaction.objects.create(
             payment=payment,
-            status="pending",
+            status=1,
             code="xpto",
             price="897.02"
         )

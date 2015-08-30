@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 from datetime import timedelta
 
 from django.conf import settings
@@ -20,6 +18,7 @@ from app.payment.views import PaymentView, NotificationView
 
 
 class MemberTestCase(TestCase):
+
     def setUp(self):
         self.user = User.objects.create(username="Wolverine")
         self.member = G(
@@ -33,11 +32,13 @@ class PaymentViewTestCase(MemberTestCase):
 
     @classmethod
     def setUpClass(cls):
-        call_command("loaddata", "profiles.json", verbosity=0)
+        #call_command("loaddata", "profiles.json", verbosity=0)
+        pass
 
     @classmethod
     def tearDownClass(cls):
-        call_command("flush", interactive=False, verbosity=0)
+        #call_command("flush", interactive=False, verbosity=0)
+        pass
 
     def setUp(self):
         super(PaymentViewTestCase, self).setUp()
@@ -108,11 +109,13 @@ class NotificationViewTestCase(MemberTestCase):
 
     @classmethod
     def setUpClass(cls):
-        call_command("loaddata", "profiles.json", verbosity=0)
+        #call_command("loaddata", "profiles.json", verbosity=0)
+        pass
 
     @classmethod
     def tearDownClass(cls):
-        call_command("flush", interactive=False, verbosity=0)
+        #call_command("flush", interactive=False, verbosity=0)
+        pass
 
     def setUp(self):
         super(NotificationViewTestCase, self).setUp()
@@ -158,7 +161,6 @@ class NotificationViewTestCase(MemberTestCase):
         self.assertEqual(3, status)
         self.assertEqual(3, ref)
         self.assertEqual(1.00, price)
-
 
     def test_transaction_done_update_member_category(self):
         payment, transaction = self._make_transaction(status=1, code="xpto", price="123.54")
@@ -233,7 +235,7 @@ class NotificationViewTestCase(MemberTestCase):
     def test_post_with_status_done_should_return_payment_done(self):
         payment, transaction = self._make_transaction(status=1, code="xpto", price='123.45')
         notification_view = NotificationView()
-        notification_view.transaction = (lambda code: (3, 1, 1))
+        notification_view.transaction = (lambda code: (3, payment.id, transaction.price))
         request = RequestFactory().post("/", {"notificationCode": "xpto"})
 
         response = notification_view.post(request)
@@ -246,7 +248,7 @@ class NotificationViewTestCase(MemberTestCase):
     def test_post_with_other_status_should_not_return_payment_done(self):
         payment, transaction = self._make_transaction(status=1, code="xpto", price='123.45')
         notification_view = NotificationView()
-        notification_view.transaction = (lambda code: (7, 1, 1))
+        notification_view.transaction = (lambda code: (7, payment.id, transaction.price))
         request = RequestFactory().post("/", {"notificationCode": "xpto"})
 
         response = notification_view.post(request)

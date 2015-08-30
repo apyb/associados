@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db import models
-from django.utils.unittest.case import TestCase
+from unittest.case import TestCase
 from app.members.tests.helpers import create_user_with_member
 from app.payment.models import Payment, PaymentType, Transaction
+
 
 class TransacitonModelTestCase(TestCase):
     def test_should_have_code(self):
@@ -17,7 +18,7 @@ class TransacitonModelTestCase(TestCase):
 
         payment_field = Transaction._meta.get_field_by_name('payment')[0]
         self.assertIsInstance(payment_field, models.ForeignKey)
-        self.assertEqual(Payment, payment_field.related.parent_model)
+        self.assertEqual(Payment, payment_field.related.model)
 
     def test_get_checkout_url(self):
         t = Transaction(code="123")
@@ -29,6 +30,7 @@ class TransacitonModelTestCase(TestCase):
 
 
 class TransactionTestCase(TestCase):
+
     def test_should_upgrade_last_payment(self):
         user = create_user_with_member()
         payment = Payment.objects.create(

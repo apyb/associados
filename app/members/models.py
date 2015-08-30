@@ -8,7 +8,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib.localflavor.br.br_states import STATE_CHOICES
+from localflavor.br.br_states import STATE_CHOICES
 from django.contrib.auth.models import User
 
 from app.core.models import DefaultFields
