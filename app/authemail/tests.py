@@ -5,6 +5,7 @@ from django.test import TestCase
 from app.authemail.forms import RegisterForm
 from app.authemail.backends import EmailBackend
 
+
 class ValidFormTest(TestCase):
     def setUp(self):
         self.data = {
@@ -80,8 +81,7 @@ class InValidFormTest(TestCase):
 
         self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())
-        self.assertEqual(self.form.errors['email'][0], "This email address already exists. Did you forget your password?")
-
+        self.assertEqual(self.form.errors['email'][0], _("This email address already exists. Did you forget your password?"))
 
 
 class EmailBackendTest(TestCase):

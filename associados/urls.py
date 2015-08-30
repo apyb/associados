@@ -22,7 +22,7 @@ urlpatterns += patterns(
     url(r'^password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'password_reset_confirm'),
     url(r'^password/reset/done/$', 'password_reset_complete'),
     url(r'^password/change/$', 'password_change', name='auth-password-change'),
-    url(r'^password/change/done/$', 'password_change_done')
+    url(r'^password/change/done/$', 'password_change_done'),
 )
 
 if settings.DEBUG:

@@ -52,6 +52,7 @@ class MemberForm(forms.ModelForm):
     organization = forms.CharField(label=_("Organization"), widget=OrganizationInput, required=False)
     location = forms.CharField(label=_("Location"), required=False)
 
+
     class Meta:
         model = Member
         exclude = ('user', )
