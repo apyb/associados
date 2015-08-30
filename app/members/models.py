@@ -63,8 +63,10 @@ class Member(models.Model):
     relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
     mailing = models.BooleanField(_('Mailing'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
+
     diretoria = models.NullBooleanField('Diretoria', default=False, null=True)
     thumb_image = models.CharField('Thumbimage', max_length=100, null=True, blank=True)
+    municipio_codigo = models.IntegerField('MunicipioCodigo', null=True, blank=True)
 
     def get_days_to_next_payment(self, payment):
         if payment and payment.done() and payment.valid_until is not None:
