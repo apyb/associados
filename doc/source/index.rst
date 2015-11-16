@@ -6,13 +6,20 @@
 Documentação do projeto Associados
 ======================================================
 
-Bem-vindo a documentação do projeto Associados, do Python Brasil. Foi criado para 
-controlar os associados da comunidade.
+Bem-vindo a documentação do projeto Associados, do Python Brasil. Aqui contêm toda informação
+necessária para o uso do sistema, como também em como contribuir.
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
+
+   introducao
+   arquitetura
+   instalacao
+   configuracao
+   funcionalidades
+   contribuicao
 
 
 
