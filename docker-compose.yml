@@ -1,0 +1,13 @@
+db:
+  image: postgres
+  ports:
+    - "5432:5432"
+web:
+  build: .
+  command: make setup run
+  environment:
+    DATABASE_URL: 'postgres://postgres:postgres@db:5432/postgres'
+  ports:
+    - "8000:8000"
+  links:
+    - db
