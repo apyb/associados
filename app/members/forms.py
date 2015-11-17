@@ -62,7 +62,7 @@ class MemberForm(forms.ModelForm):
         super(MemberForm, self).__init__(*args,**kwargs)
         if self.instance:
             if not self.instance.get_payment_status():
-                self.fields['category'].widget.attrs['disabled'] = 'disabled'
+                self.fields['category'].widget.attrs['readonly'] = True
 
     def clean_category(self):
         category = self.cleaned_data['category']
