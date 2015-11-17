@@ -28,3 +28,13 @@
     </form>
 </div>
 {% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function() {
+            $('form').submit(function () {
+                $('#id_category').prop('disabled', false);
+            });
+        });
+    </script>
+{% endblock js %}
