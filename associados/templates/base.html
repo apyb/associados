@@ -74,7 +74,7 @@
                     <li class="dropdown" id="fat-menu">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-user"></i>
-                            {{ user.get_full_name|default:user.email }}
+                            {{ user.get_full_name|default:user.username }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'members-dashboard' %}">{% trans "Dashboard" %}</a></li>
