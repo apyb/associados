@@ -31,8 +31,8 @@ class MemberListView(ListView):
             users = Member.objects.all()
             q = Q()
             for term in self.query.split():
-                q |= Q(user__first_name__icontains = term)
-                q |= Q(user__last_name__icontains = term)
+                q |= Q(user__first_name__icontains=term)
+                q |= Q(user__last_name__icontains=term)
                 users = users.filter(q)
             queryset = users
 
@@ -88,7 +88,9 @@ def member_form(request):
             messages.add_message(request, messages.INFO, _('Your data was updated successfully'))
             return HttpResponseRedirect(reverse('members-dashboard'))
         else:
-            messages.add_message(request, messages.ERROR, _('An error occurred while trying to save your data. check the form below. '))
+            messages.add_message(
+                request, messages.ERROR,
+                _('An error occurred while trying to save your data. check the form below. '))
 
     return render(
         request,

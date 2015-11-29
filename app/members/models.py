@@ -1,6 +1,5 @@
 # coding: utf-8
 
-
 import requests
 import slumber
 
@@ -66,7 +65,10 @@ class Member(models.Model):
 
     diretoria = models.NullBooleanField('Diretoria', default=False, null=True)
     thumb_image = models.CharField('Thumbimage', max_length=100, null=True, blank=True)
-    municipio_codigo = models.IntegerField('MunicipioCodigo', null=True, blank=True)
+    municipio = models.ForeignKey('municipios.Municipio',
+                                  verbose_name=u"Município",
+                                  related_name="municipio_org_mun",
+                                  null=True, blank=True)
 
     def get_days_to_next_payment(self, payment):
         if payment and payment.done() and payment.valid_until is not None:

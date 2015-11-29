@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from localflavor.br.forms import BRCPFField, BRPhoneNumberField
 from municipios.widgets import SelectMunicipioWidget
+
 from django.forms import TextInput
 from django.forms.utils import flatatt
 
@@ -52,13 +53,13 @@ class MemberForm(forms.ModelForm):
     github_user = forms.CharField(label=_("GitHub User"), required=False)
     organization = forms.CharField(label=_("Organization"), widget=OrganizationInput, required=False)
     location = forms.CharField(label=_("Location"), required=False)
-    municipio_codigo = forms.IntegerField(label=u"UF - Município", widget=SelectMunicipioWidget)
+    municipio = forms.IntegerField(label=u"UF - Município", widget=SelectMunicipioWidget)
 
     class Meta:
         model = Member
         exclude = ('user', )
         fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location',
-                  'municipio_codigo',
+                  'municipio',
                   'relation_with_community', 'mailing', 'partner')
 
     def __init__(self, *args, **kwargs):
