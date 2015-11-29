@@ -5,6 +5,33 @@ Projeto open source para o controle de associados da associação PythonBrasil
 
 O projeto é desenvolvido por voluntários, utilizando principamente Python e Django e Twitter Bootstrap
 
+Preparando o ambiente
+---------------------
+
+Você precisa instalar o postgresql em sua máquina.
+
+No Ubuntu:
+
+   $ sudo apt-get install postgresql
+
+No Mac OS X com Homebrew:
+
+   $ brew install postgresql
+
+Consulte sua distribuição para saber como preparar o postgres.
+
+Exemplo, para instalar o banco de dados em /tmp/pgdata (temporário):
+
+   $ pg_ctl initdb -D /tmp/pgdata
+   $ pc_ctl start -D /tmp/pgdata
+   $ psql -d postgres
+   # create user associados createdb createuser password 'assocdev';
+   # create database associados owner associados;
+   # \q
+
+Você pode mudar os parâmetros de acesso ao banco de dados, modificando o arquivo:
+associados/settings_local_model.py antes de realizar o setup ou editando o arquivo
+associados/settings_local.py, após o setup.
 
 Instalar
 --------
