@@ -53,7 +53,7 @@ class MemberForm(forms.ModelForm):
     github_user = forms.CharField(label=_("GitHub User"), required=False)
     organization = forms.CharField(label=_("Organization"), widget=OrganizationInput, required=False)
     location = forms.CharField(label=_("Location"), required=False)
-    #municipio = forms.IntegerField(label=u"UF - Município", widget=SelectMunicipioWidget)
+
 
     class Meta:
         model = Member
@@ -65,9 +65,9 @@ class MemberForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MemberForm, self).__init__(*args,**kwargs)
-        if self.instance:
-            if not self.instance.get_payment_status():
-                self.fields['category'].widget.attrs['disabled'] = 'disabled'
+        # if self.instance:
+        #     if not self.instance.get_payment_status():
+        #         self.fields['category'].widget.attrs['disabled'] = 'disabled'
 
     def clean_category(self):
         category = self.cleaned_data['category']
