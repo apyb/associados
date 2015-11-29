@@ -53,11 +53,12 @@ class MemberForm(forms.ModelForm):
     github_user = forms.CharField(label=_("GitHub User"), required=False)
     organization = forms.CharField(label=_("Organization"), widget=OrganizationInput, required=False)
     location = forms.CharField(label=_("Location"), required=False)
-    municipio = forms.IntegerField(label=u"UF - Município", widget=SelectMunicipioWidget)
+    #municipio = forms.IntegerField(label=u"UF - Município", widget=SelectMunicipioWidget)
 
     class Meta:
         model = Member
         exclude = ('user', )
+        widgets = {'municipio': SelectMunicipioWidget}
         fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location',
                   'municipio',
                   'relation_with_community', 'mailing', 'partner')
