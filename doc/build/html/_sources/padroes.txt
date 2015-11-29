@@ -1,0 +1,2 @@
+Padrões usados no projeto
+=========================

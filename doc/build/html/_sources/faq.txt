@@ -1,0 +1,2 @@
+FAQ - Perguntas mais frequentes
+===============================
