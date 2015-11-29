@@ -28,9 +28,9 @@ Exemplo, para instalar o banco de dados em /tmp/pgdata (temporário):
     $ pg_ctl initdb -D /tmp/pgdata
     $ pc_ctl start -D /tmp/pgdata
     $ psql -d postgres
-    # create user associados createdb createuser password 'assocdev';
-    # create database associados owner associados;
-    # \q
+    postgres=# create user associados createdb createuser password 'assocdev';
+    postgres=# create database associados owner associados;
+    postgres=# \q
 
 Você pode mudar os parâmetros de acesso ao banco de dados, modificando o arquivo:
 `associados/settings_local_model.py` antes de realizar o setup ou editando o arquivo
