@@ -1,21 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
-import sys
+
 from settings import *
 
 DEBUG = True
-
-# DATABASES['default'] = {
-#     'ENGINE': 'django.db.backends.psycopg2',
-#     'NAME': os.path.join(BASEDIR, 'associados.sqlite')
-# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'associados',
-        'USER': 'osantana',
-        'PASSWORD': '',
+        'USER': 'associados',
+        'PASSWORD': 'assocdev',
         'HOST': 'localhost'
     }
 }
@@ -42,12 +37,12 @@ COMPRESS_PRECOMPILERS = (
 #     'debug_toolbar.panels.logger.LoggingPanel',
 # )
 
-MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
+#MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
 # MIDDLEWARE_CLASSES.append(
 #     'debug_toolbar.middleware.DebugToolbarMiddleware'
 # )
 
-INSTALLED_APPS = list(INSTALLED_APPS)
+#INSTALLED_APPS = list(INSTALLED_APPS)
 # INSTALLED_APPS.append(
 #     'debug_toolbar'
 # )
