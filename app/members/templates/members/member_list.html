@@ -42,9 +42,9 @@
                     <div class="row">
                         <div class="span1">
                             {% if member.thumb_image %}
-                                <img class="img-polaroid" src="{{ member.thumb_image }}" alt="">
+                                <img class="img-polaroid" style="width: 70px; height: 70px" src="{{ member.thumb_image }}" alt="">
                             {% else %}
-                                <img class="img-polaroid" src="{{ member.update_thumbnail }}" alt="">
+                                <img class="img-polaroid" style="width: 70px; height: 70px"src="{{ member.update_thumbnail }}" alt="">
                             {% endif %}
                         </div>
 
@@ -63,8 +63,6 @@
                             <span class="clearfix">{{ member.full_name }}</span>
 
                         </div>
-
-
                     </div>
                 </div>
                 {% endfor %}
