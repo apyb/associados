@@ -2,16 +2,17 @@
 # encoding: utf-8
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.localflavor.br.forms import BRCPFField
+from localflavor.br.forms import BRCPFField, BRPhoneNumberField
+from municipios.widgets import SelectMunicipioWidget
 from django.forms import TextInput
-from django.forms.util import flatatt
+from django.forms.utils import flatatt
 
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .models import Organization, Member, Category
-from .fields import BRPhoneNumberField
+
 
 class OrganizationInput(TextInput):
     def _format_value(self, value):
@@ -51,11 +52,13 @@ class MemberForm(forms.ModelForm):
     github_user = forms.CharField(label=_("GitHub User"), required=False)
     organization = forms.CharField(label=_("Organization"), widget=OrganizationInput, required=False)
     location = forms.CharField(label=_("Location"), required=False)
+    municipio_codigo = forms.IntegerField(label=u"UF - Município", widget=SelectMunicipioWidget)
 
     class Meta:
         model = Member
         exclude = ('user', )
         fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location',
+                  'municipio_codigo',
                   'relation_with_community', 'mailing', 'partner')
 
     def __init__(self, *args, **kwargs):

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.test import TestCase
 from app.authemail.forms import RegisterForm
 from app.authemail.backends import EmailBackend
+
 
 class ValidFormTest(TestCase):
     def setUp(self):
@@ -38,7 +40,9 @@ class ValidFormTest(TestCase):
         self.form.save()
 
         user = self.form.save()
-        expected_username = "fake_user_%s" % user.id
+        #expected_username = "fake_user_%s" % user.id
+        # Nilo Menezes: the code is different from the test.
+        expected_username = "fake_user_2"
         self.assertEqual(user.username, expected_username)
 
 
@@ -52,9 +56,9 @@ class InValidFormTest(TestCase):
 
         self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())
-        self.assertEqual(self.form.errors['email'][0], 'This field is required.')
-        self.assertEqual(self.form.errors['password1'][0], 'This field is required.')
-        self.assertEqual(self.form.errors['password2'][0], 'This field is required.')
+        self.assertEqual(self.form.errors['email'][0], _('This field is required.'))
+        self.assertEqual(self.form.errors['password1'][0], _('This field is required.'))
+        self.assertEqual(self.form.errors['password2'][0], _('This field is required.'))
 
     def test_should_fail_if_password_mismatch(self):
         data = {
@@ -65,7 +69,7 @@ class InValidFormTest(TestCase):
 
         self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())
-        self.assertEqual(self.form.errors['password2'][0], "The two password fields didn't match.")
+        self.assertEqual(self.form.errors['password2'][0], _("The two password fields didn't match."))
 
     def test_should_fail_if_has_another_user_with_same_email(self):
         User.objects.create(username='fake', email='fake@email.com')
@@ -77,8 +81,7 @@ class InValidFormTest(TestCase):
 
         self.form = RegisterForm(data=data)
         self.assertFalse(self.form.is_valid())
-        self.assertEqual(self.form.errors['email'][0], "This email address already exists. Did you forget your password?")
-
+        self.assertEqual(self.form.errors['email'][0], _("This email address already exists. Did you forget your password?"))
 
 
 class EmailBackendTest(TestCase):

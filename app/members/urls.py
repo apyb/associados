@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from app.members.views import MemberListView, member_form, dashboard, SignupView, member_status
 
 urlpatterns = patterns(

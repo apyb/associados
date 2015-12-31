@@ -1,0 +1,26 @@
+Como Contribuir?
+================
+
+Depois que leu boa parte da documentação, e quer saber como faz para contribuir com o projeto. Então vamos lá:
+
+ - **Saiba programar**: Para ajudar nas funcionalidades feitas e nas que pretendemos fazer, você precisa de experiência com as tecnologias que citamos em :doc:`arquitetura`. Caso seja para tradução e outras ações que não seja programa, ignore esse item.
+ - **Conheça o Github**: Todo o código, as discussões, bugs encontrados, etc estão no `Github <https://github.com>`_ nesse repositório `aqui <https://github.com/pythonbrasil/associados>`_. Assim, é importante que tenha familiaridade com o controle de versão `git <http://git-scm.com/>`_.
+
+Tendo esses requisitos preenchidos, vamos continuar.
+
+Envio de soluções
+-----------------
+
+Caso programe alguma correção ou nova feature, antes de mais nada precisa fazer o `fork <https://help.github.com/articles/fork-a-repo/>`_ do repositório oficial. Com suas codificações feitas, envie por meio do `Pull Request <https://help.github.com/articles/creating-a-pull-request/>`_.
+
+Issues
+------
+
+As issues são ticket que são abertos no repositório, sinalizando algum bug encontrado, melhoria vista e até uma nova funcionalidade pensada. Assim, se tiver algum que lhe interesse, comenta lá o seu interesse e associe ele ao seu usuário.
+
+Issues do projeto: `https://github.com/pythonbrasil/associados/issues <https://github.com/pythonbrasil/associados/issues>`_
+
+Documentação
+------------
+
+A documentação é uma ferramenta importante para inserir novos contribuidores ao projeto, e precisamos sempre que ele seja atualizado. na seção de :doc:`padroes` falamos que em qualquer mudança, atualize a documentação.

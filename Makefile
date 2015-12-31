@@ -1,9 +1,9 @@
 deps:
-	@bash -c "./setup_os.sh"
+	@bash -c "./setup.sh"
 
 setup: deps
-	@python manage.py syncdb --settings associados.settings_local
-	@python manage.py migrate --settings associados.settings_local
+	@python manage.py syncdb --settings associados.settings_local --noinput
+	@python manage.py migrate --settings associados.settings_local --noinput
 
 run:
 	@python manage.py runserver 0.0.0.0:8000 --settings associados.settings_local

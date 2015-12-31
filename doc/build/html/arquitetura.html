@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Arquitetura do Projeto &mdash; Python Brasil - Associados 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Python Brasil - Associados 1.0.0 documentation" href="index.html"/>
+        <link rel="next" title="Instalação" href="instalacao.html"/>
+        <link rel="prev" title="Introdução" href="introducao.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Python Brasil - Associados
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introducao.html">Introdução</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Arquitetura do Projeto</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bibliotecas-usadas">Bibliotecas usadas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#django-extensions">Django Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sorl-thumbnail">Sorl Thumbnail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#django-gravatar">Django Gravatar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#django-pipeline">Django Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#django-bootstrap-toolkit">Django Bootstrap Toolkit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dj-database-url">DJ Database Url</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gunicorn">Gunicorn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#django-storages">Django Storages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#six">Six</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#estrutura-do-projeto">Estrutura do Projeto</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#raiz-do-projeto">Raiz do Projeto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pasta-app">Pasta app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pasta-associados">Pasta associados</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="instalacao.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuracao.html">Configuração</a></li>
+<li class="toctree-l1"><a class="reference internal" href="funcionalidades.html">Funcionalidades</a></li>
+<li class="toctree-l1"><a class="reference internal" href="padroes.html">Padrões usados no projeto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ - Perguntas mais frequentes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="como_contribuir.html">Como Contribuir?</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Python Brasil - Associados</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Arquitetura do Projeto</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/arquitetura.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="arquitetura-do-projeto">
+<h1>Arquitetura do Projeto<a class="headerlink" href="#arquitetura-do-projeto" title="Permalink to this headline">¶</a></h1>
+<p>O projeto foi construído em cima das ferramentas <a class="reference external" href="https://www.python.org">Python</a>, <a class="reference external" href="http://www.djangoproject.com">Django</a> e <a class="reference external" href="http://postgresql.org">PostgreSQL</a>. Além disso, foram usadas algumas bibliotecas para auxiliar no desenvolvimento do projeto, que são descritas abaixo.</p>
+<div class="section" id="bibliotecas-usadas">
+<h2>Bibliotecas usadas<a class="headerlink" href="#bibliotecas-usadas" title="Permalink to this headline">¶</a></h2>
+<p>Aqui descrevemos uma visão geral de cada biblioteca usado no projeto, e que estão listados com suas versões no arquivo <cite>requirements.txt</cite>.</p>
+<div class="section" id="django-extensions">
+<h3>Django Extensions<a class="headerlink" href="#django-extensions" title="Permalink to this headline">¶</a></h3>
+<p>Foi idealizado para armazenar uma coleção de extensões customizadas, que inclui comandos de gerenciamento por meio do manage.py, campos de models adicionais, extensões para o django-admin e muito mais.</p>
+<p>Link do Projeto: <a class="reference external" href="https://github.com/django-extensions/django-extensions">https://github.com/django-extensions/django-extensions</a></p>
+</div>
+<div class="section" id="sorl-thumbnail">
+<h3>Sorl Thumbnail<a class="headerlink" href="#sorl-thumbnail" title="Permalink to this headline">¶</a></h3>
+<p>Ele é usado para fazer tratamentos de imagens, em projetos Django. Ele é comumente usado para thumbnails, e pode usar como suporte o <a class="reference external" href="http://pillow.readthedocs.org/en/latest/">Pillow</a>, <a class="reference external" href="http://www.imagemagick.org/script/index.php">ImageMagick</a>, <a class="reference external" href="http://www.pythonware.com/products/pil/">PIL</a>, <a class="reference external" href="http://docs.wand-py.org/">Wand</a> e <a class="reference external" href="http://pgmagick.readthedocs.org/en/latest/">pgmagick</a>. Traz varias funcionalidades como:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Suporte a partir do Django 1.4 em diante;</li>
+<li>Suporte ao Python 3;</li>
+<li>Suporte ao uso de banco de cache no modelo chave-valor como Redis;</li>
+<li>Integração do admin do Django;</li>
+<li>Geração de placeholder;</li>
+<li>Dentre vários.</li>
+</ul>
+</div></blockquote>
+<p>Link do Projeto: <a class="reference external" href="https://github.com/mariocesar/sorl-thumbnail">https://github.com/mariocesar/sorl-thumbnail</a></p>
+</div>
+<div class="section" id="django-gravatar">
+<h3>Django Gravatar<a class="headerlink" href="#django-gravatar" title="Permalink to this headline">¶</a></h3>
+<p>Traz funções e template tags auxiliares para trazer suporte do Gravatar ao projeto Django.</p>
+<p>Link do Projeto: <a class="reference external" href="https://github.com/twaddington/django-gravatar">https://github.com/twaddington/django-gravatar</a></p>
+</div>
+<div class="section" id="django-pipeline">
+<h3>Django Pipeline<a class="headerlink" href="#django-pipeline" title="Permalink to this headline">¶</a></h3>
+<p>Oferece o mecanismo de concatenação e compressão de arquivos estáticos como Javascript e CSS.</p>
+<p>Link do Projeto: <a class="reference external" href="https://github.com/cyberdelia/django-pipeline">https://github.com/cyberdelia/django-pipeline</a></p>
+</div>
+<div class="section" id="django-bootstrap-toolkit">
+<h3>Django Bootstrap Toolkit<a class="headerlink" href="#django-bootstrap-toolkit" title="Permalink to this headline">¶</a></h3>
+<p>Ele foi idealizado para tornar mais simples a integração do <a class="reference external" href="https://getbootstrap.com">Twitter Bootstrap</a> ao projeto Django, oferecendo template tags para renderizar formulário, além de outras funcionalidades.</p>
+<p>Link do Projeto: <a class="reference external" href="https://github.com/dyve/django-bootstrap-toolkit">https://github.com/dyve/django-bootstrap-toolkit</a>
+Fork do Projeto: <a class="reference external" href="https://github.com/pythonbrasil/django-bootstrap-toolkit">https://github.com/pythonbrasil/django-bootstrap-toolkit</a></p>
+</div>
+<div class="section" id="dj-database-url">
+<h3>DJ Database Url<a class="headerlink" href="#dj-database-url" title="Permalink to this headline">¶</a></h3>
+<p>É um pequeno utilitário para usar as boas práticas definidas no <a class="reference external" href="http://www.12factor.net/backing-services">12factor</a>, inspirado na variável de ambiente <cite>DATABASE_URL</cite>, para configurar a conexão com o banco de dados em projetos Django.</p>
+<p>Link do Projeto: <a class="reference external" href="https://github.com/kennethreitz/dj-database-url">https://github.com/kennethreitz/dj-database-url</a></p>
+</div>
+<div class="section" id="gunicorn">
+<h3>Gunicorn<a class="headerlink" href="#gunicorn" title="Permalink to this headline">¶</a></h3>
+<p>Ele é um servidor que implementa o padrão WSGI, para ambientes Unix.</p>
+<p>Link do Projeto: <a class="reference external" href="http://gunicorn.org/">http://gunicorn.org/</a></p>
+</div>
+<div class="section" id="django-storages">
+<h3>Django Storages<a class="headerlink" href="#django-storages" title="Permalink to this headline">¶</a></h3>
+<p>Uma aplicação Django, criado para auxiliar no procedimento de coleta de arquivos estáticos por meio do <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/contrib/staticfiles/">collectstatic</a> do Django. O que ele faz é dar a opção de escolhar o storage que esses arquivos vão ser reunidos, que normalmente é armazenado na Amazon S3, que nesse projeto usa juntamente com a Heroku.</p>
+<p>Link do Projeto: <a class="reference external" href="https://github.com/jschneier/django-storages">https://github.com/jschneier/django-storages</a></p>
+</div>
+<div class="section" id="six">
+<h3>Six<a class="headerlink" href="#six" title="Permalink to this headline">¶</a></h3>
+<p>Biblioteca que auxilia na compatibilização de projetos que precisam rodar nas versões Python 2.x e 3.x.</p>
+<p>Link do Projeto: <a class="reference external" href="https://pypi.python.org/pypi/six">https://pypi.python.org/pypi/six</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="estrutura-do-projeto">
+<h1>Estrutura do Projeto<a class="headerlink" href="#estrutura-do-projeto" title="Permalink to this headline">¶</a></h1>
+<p>Abaixo mostra a organização do projeto, na questão do seu código-fonte:</p>
+<div class="highlight-bash"><div class="highlight"><pre>├── app
+├── associados
+├── cover.sh
+├── doc
+├── docker-compose.yml
+├── Dockerfile
+├── lista_associados.py
+├── locale
+├── Makefile
+├── manage.py
+├── Procfile
+├── README.md
+├── requirements_test_osx.txt
+├── requirements_test.txt
+├── requirements.txt
+├── setup.sh
+</pre></div>
+</div>
+<p>Agora vamos explicar cada parte dessa estrutura.</p>
+<div class="section" id="raiz-do-projeto">
+<h2>Raiz do Projeto<a class="headerlink" href="#raiz-do-projeto" title="Permalink to this headline">¶</a></h2>
+<p>Vamos descrever os arquivos na raiz do projeto:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>cover.sh</strong>: Script shell que automatiza a geração de relatório de cobertura de testes do projeto.</li>
+<li><strong>docker-compose.yml</strong>: Arquivo que configura e orquestra as imagens dos containers docker do projeto. Veja mais na documentação do <a class="reference external" href="http://docs.docker.com/compose/">docker-compose</a>.</li>
+<li><strong>Dockerfile</strong>: Configura a imagem que vai rodar o projeto.</li>
+<li><strong>Makefile</strong>: Automatiza tarefas comuns no projeto.</li>
+<li><strong>manage.py</strong>: Arquivo de gerenciamento do projeto Django.</li>
+<li><strong>Procfile</strong>: Configuração para o deploy do projeto na Heroku.</li>
+<li><strong>README.md</strong>: Informações gerais do projeto.</li>
+<li><strong>requirements_test_osx.txt</strong>: Lista de bibliotecas necessárias para rodar os testes do projeto no OSX.</li>
+<li><strong>requirements-text.txt</strong>: Lista de bibliotecas necessárias para rodar os testes do projeto.</li>
+<li><strong>requirements.txt</strong>: Lista de bibliotecas que são essenciais para o funcionamento do projeto.</li>
+<li><strong>setup.sh</strong>: Script shell que automatiza a configuração do ambiente local do projeto.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="pasta-app">
+<h2>Pasta app<a class="headerlink" href="#pasta-app" title="Permalink to this headline">¶</a></h2>
+<p>É aqui que as aplicações do projeto estarão armazenadas, com isso cada nova funcionalidade que seja criada e que precise de uma nova app, deve ser armazenada aqui. Segue sua estrutura interna:</p>
+<div class="highlight-bash"><div class="highlight"><pre>app
+├── authemail
+├── core
+├── __init__.py
+├── members
+└── payment
+</pre></div>
+</div>
+<p>O que é cada funcionalidade está sendo explicada na seção <a class="reference internal" href="funcionalidades.html"><em>Funcionalidades</em></a>.</p>
+</div>
+<div class="section" id="pasta-associados">
+<h2>Pasta associados<a class="headerlink" href="#pasta-associados" title="Permalink to this headline">¶</a></h2>
+<p>Nessa pasta fica armazenada as configurações do projeto, de como será implantado por meio do WSGI, como também os templates base. Segue sua estrutura:</p>
+<div class="highlight-bash"><div class="highlight"><pre>associados
+├── __init__.py
+├── settings_local_model.py
+├── settings.py
+├── settings_test.py
+├── static
+│   ├── css
+│   ├── ico
+│   ├── img
+│   ├── js
+│   ├── less
+│   ├── LICENSE
+│   ├── Makefile
+│   └── package.json
+├── templates
+│   ├── 404.html
+│   ├── 500.html
+│   ├── base.html
+│   ├── flatpages
+│   ├── pagination.html
+│   └── registration
+├── urls.py
+├── wsgi.py
+</pre></div>
+</div>
+<p>Vamos descrever os principais arquivos e pastas:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>settings.py</strong>: Arquivo que possui as configurações base do projeto.</li>
+<li><strong>settings_local_model.py</strong>: Arquivo de modelo, para sobrescrever configurações  do arquivo <cite>settings.py</cite>, para sua necessidade.</li>
+<li><strong>settings_test.py</strong>: Arquivo que define configurações específicas para rodar os testes.</li>
+<li><strong>404.html</strong>: Template que implementa a página quando retornar um código de status 404.</li>
+<li><strong>500.html</strong>: Template que implementa a página quando retornar um código de status 500.</li>
+<li><strong>base.html</strong>: Template que define o &#8220;esqueleto&#8221; de toda página implementada no sistema.</li>
+<li><strong>flatpages</strong>: Pasta que contém templates que são usados para conteúdos estáticos, usando o <a class="reference external" href="https://docs.djangoproject.com/en/1.8/ref/contrib/flatpages/">contrib.flatpages</a> do Django.</li>
+<li><strong>registration</strong>: Pasta que contém templates que sobrescrevem páginas usadas pelo <a class="reference external" href="https://docs.djangoproject.com/en/1.8/ref/contrib/auth">contrib.auth</a> do Django.</li>
+<li><strong>pagination.html</strong>: Template que contem a estrutura básica de uma paginação de dados.</li>
+<li><strong>urls.py</strong>: Contêm o mapeamento de todas as rotas do projeto.</li>
+<li><strong>wsgi.py</strong>: Configura o projeto para ser servido usando qualquer servidor com suporte ao WSGI.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="instalacao.html" class="btn btn-neutral float-right" title="Instalação" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introducao.html" class="btn btn-neutral" title="Introdução" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Osvaldo Santana, Marcos Daniel, Valder Gallo, Carlos Leite, Filipe Mondaini, Elyezer Rezende, Ramiro Batista, Christian Perone, Fernando Macedo, Tania Andrea, Ellison Leao, Gilson Filho.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

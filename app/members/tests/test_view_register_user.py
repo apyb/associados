@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from app.members.models import Member, Category, City, Organization
 from django_dynamic_fixture import G
+from django.utils.translation import ugettext_lazy as _
 
 
 class UserRegisterView(TestCase):
@@ -34,9 +35,9 @@ class UserRegisterView(TestCase):
 
     def test_post_with_blank_fields_should_return_error(self):
         response = self.client.post(self.url, {'email': '', 'password1': '', 'password2': ''})
-        self.assertFormError(response, 'form', 'email', u'This field is required.')
-        self.assertFormError(response, 'form', 'password1', u'This field is required.')
-        self.assertFormError(response, 'form', 'password2', u'This field is required.')
+        self.assertFormError(response, 'form', 'email', _(u'This field is required.'))
+        self.assertFormError(response, 'form', 'password1', _(u'This field is required.'))
+        self.assertFormError(response, 'form', 'password2', _(u'This field is required.'))
 
     def test_post_with_correcly_data_should_create_a_user(self):
         self.response = self.client.post(self.url, data=self.user_data)

@@ -43,8 +43,8 @@ env*
 settings_local.py
 associados/static/docs/*
 htmlcov/*
+.ropeproject
 
 # Database
 associados.sqlite
 test.py
-

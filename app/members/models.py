@@ -8,10 +8,11 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib.localflavor.br.br_states import STATE_CHOICES
+from localflavor.br.br_states import STATE_CHOICES
 from django.contrib.auth.models import User
 
 from app.core.models import DefaultFields
+from django_gravatar.helpers import get_gravatar_url
 
 
 github_api = slumber.API("https://api.github.com/", append_slash=False)
@@ -62,6 +63,10 @@ class Member(models.Model):
     relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
     mailing = models.BooleanField(_('Mailing'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
+
+    diretoria = models.NullBooleanField('Diretoria', default=False, null=True)
+    thumb_image = models.CharField('Thumbimage', max_length=100, null=True, blank=True)
+    municipio_codigo = models.IntegerField('MunicipioCodigo', null=True, blank=True)
 
     def get_days_to_next_payment(self, payment):
         if payment and payment.done() and payment.valid_until is not None:
@@ -114,9 +119,23 @@ class Member(models.Model):
         except requests.ConnectionError:
             return None
 
+    @property
+    def update_thumbnail(self):
+        try:
+            g = self.github
+            if g:
+                self.thumb_image = g["avatar_url"]
+            else:
+                self.thumb_image = get_gravatar_url(self.user.email, size=150)
+            self.save()
+        except Exception, e:
+            raise e
+        return self.thumb_image
+
     def full_name(self):
         return self.user.get_full_name() or self.user.username
 
     def __unicode__(self):
         return self.full_name()
+
 

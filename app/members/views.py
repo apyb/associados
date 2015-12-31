@@ -39,7 +39,7 @@ class MemberListView(ListView):
         if self.category:
             queryset = queryset.filter(category__id=self.category)
 
-        self.queryset = queryset
+        self.queryset = queryset.select_related("category", "user", "organization")
 
         return super(MemberListView, self).get(request, args, kwargs)
 

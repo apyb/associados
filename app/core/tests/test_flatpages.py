@@ -3,9 +3,12 @@ from django.contrib.flatpages.models import FlatPage
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from lxml import html as lhtml
+from django.utils.translation import ugettext_lazy as _
 
 
 class FlatpagesTest(TestCase):
+
+    fixtures = ['site_init.json']
 
     def setUp(self):
         super(FlatpagesTest, self).setUp()
@@ -25,7 +28,7 @@ class FlatpagesTest(TestCase):
 
     def test_should_render_the_title(self):
         dom = lhtml.fromstring(self.response.content)
-        self.assertEqual(dom.cssselect('title')[0].text, 'Python Brazil Association | ' + self.flatpage.title)
+        self.assertEqual(dom.cssselect('title')[0].text, _('Python Brazil Association | ') + self.flatpage.title)
 
     def test_should_have_the_member_form_route(self):
         url = reverse('members-signup')
