@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.utils.translation import ugettext_lazy as _
 
 
 class MemberSignupView(TestCase):
@@ -29,7 +30,7 @@ class MemberSignupView(TestCase):
 
     def test_post_with_blank_fields_should_return_error(self):
         self.response = self.client.post(self.url, data=self.empty_data)
-        self.assertContains(self.response, u'This field is required.', count=3)
+        self.assertContains(self.response, _(u'This field is required.'), count=3)
 
     def test_post_with_correcly_data_should_redirect_to_dashboard(self):
         self.response = self.client.post(self.url, data=self.data)

@@ -12,19 +12,25 @@
 
 {% block content %}
     <h1>{% trans "Update member information" %}</h1>
+
 <div class="row">
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
-    {% csrf_token %}
-            <fieldset>
-                {{ user_form|as_bootstrap:"horizontal" }}
-            </fieldset>
-            <hr>
-            <fieldset>
-                {{ member_form|as_bootstrap:"horizontal" }}
-                <div class='form-actions'>
-                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-                </div>
-            </fieldset>
+        {% csrf_token %}
+        <fieldset>
+            {{ user_form|as_bootstrap:"horizontal" }}
+        </fieldset>
+        <hr>
+        <fieldset>
+            {{ member_form|as_bootstrap:"horizontal" }}
+            <div class='form-actions'>
+                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+            </div>
+        </fieldset>
     </form>
 </div>
+</script>
 {% endblock %}
+{% block js %}
+<script src="/municipios_app/"></script>
+<script src="{{ STATIC_URL }}municipios/js/municipio.js"></script>
+{% endblock js %}

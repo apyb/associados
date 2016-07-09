@@ -7,6 +7,7 @@ from lxml import html as lhtml
 
 
 class MemberChangeView(TestCase):
+
     def setUp(self):
         self.url = reverse('members-form')
         self.user = create_user_with_member(first_name='test', last_name='fake')
@@ -96,6 +97,7 @@ class MemberChangeView(TestCase):
 
 
 class MemberChangeWithErrorView(TestCase):
+
     def setUp(self):
         self.url = reverse('members-form')
         self.user = create_user_with_member(first_name='test', last_name='fake')
@@ -114,5 +116,4 @@ class MemberChangeWithErrorView(TestCase):
 
     def test_post_with_correcly_data_should_update_a_member(self):
         response = self.client.post(self.url, self.data)
-
         self.assertIn('An error occurred while trying to save your data. check the form below.', response.content)

@@ -40,13 +40,11 @@
 
                 <div class="span4 member">
                     <div class="row">
-
-
                         <div class="span1">
-                            {% if member.github %}
-                                <img class="img-polaroid" src="{{ member.github.avatar_url }}" alt="">
+                            {% if member.thumb_image %}
+                                <img class="img-polaroid" style="width: 70px; height: 70px" src="{{ member.thumb_image }}" alt="">
                             {% else %}
-                                <img class="img-polaroid" src="{% gravatar_for_email member.user.email %}" alt="">
+                                <img class="img-polaroid" style="width: 70px; height: 70px"src="{{ member.update_thumbnail }}" alt="">
                             {% endif %}
                         </div>
 
@@ -62,22 +60,9 @@
                                     {{ member.category }}
                                 </span>
                             {% endif %}
-                            <span class="clearfix">{{ member.github.name|default:member }}</span>
+                            <span class="clearfix">{{ member.full_name }}</span>
 
-                            {%if member.organization or member.github.company %}
-                            <span class="clearfix">{{ member.github.company|default:member.organization }}</span>
-                            {% endif %}
-
-                            {%if member.location or  member.github.location %}
-                            <span class="clearfix">{{ member.github.location|default:member.location }}</span>
-                            {% endif %}
-
-                            {%if member.github.blog %}
-                            <span class="clearfix">{{ member.github.blog|urlize }}</span>
-                            {% endif %}
                         </div>
-
-
                     </div>
                 </div>
                 {% endfor %}

@@ -2,21 +2,17 @@
 <div class="pagination pagination-centered">
     <ul>
         {% if page_obj.has_previous %}
-        <li><a href="?{% if q %}q={{ q }}&{% endif %}{% if active_category %}category={{ active_category }}&{% endif %}page={{ page_obj.previous_page_number }}">anterior</a></li>
+          <li><a href="?{% if q %}q={{ q }}&{% endif %}{% if active_category %}category={{ active_category }}&{% endif %}page={{ page_obj.previous_page_number }}">anterior</a></li>
         {% endif %}
         {% for page in page_obj.paginator.page_range %}
-        {% if page >= page_obj.number|add:"-2" and page < page_obj.number %}
-        <li><a href="?{% if q %}q={{ q }}&{% endif %}{% if active_category %}category={{ active_category }}&{% endif %}page={{ page }}">{{ page }}</a></li>
-        {% endif %}
-        {% ifequal page_obj.number page %}
-        <li class="active"><a href="#">{{ page_obj.number }}</a></li>
-        {% endifequal %}
-        {% if page <= page_obj.number|add:"2" and page > page_obj.number %}
-        <li><a href="?{% if q %}q={{ q }}&{% endif %}{% if active_category %}category={{ active_category }}&{% endif %}page={{ page }}">{{ page }}</a></li>
-        {% endif %}
+            {% if page_obj.number == page %}
+              <li class="active"><a href="#">{{ page_obj.number }}</a></li>
+            {% elif page >= page_obj.number|add:"-2" and page <= page_obj.number|add:"+2"  %}
+              <li><a href="?{% if q %}q={{ q }}&{% endif %}{% if active_category %}category={{ active_category }}&{% endif %}page={{ page }}">{{ page }}</a></li>
+            {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
-        <li><a href="?{% if q %}q={{ q }}&{% endif %}{% if active_category %}category={{ active_category }}&{% endif %}page={{ page_obj.next_page_number }}">próximo</a></li>
+          <li><a href="?{% if q %}q={{ q }}&{% endif %}{% if active_category %}category={{ active_category }}&{% endif %}page={{ page_obj.next_page_number }}">próxima</a></li>
         {% endif %}
     </ul>
 </div>
