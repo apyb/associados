@@ -38,9 +38,9 @@ LANGUAGES = [
 ]
 LANGUAGE_CODE = 'pt-BR'
 DEFAULT_LANGUAGE = 1
-LOCALE_PATHS = (
-    os.path.join(BASEDIR, "locale"),
-)
+#LOCALE_PATHS = (
+#    os.path.join(BASEDIR, "locale"),
+#)
 
 USE_TZ = True
 TIME_ZONE = 'America/Sao_Paulo'
@@ -124,8 +124,9 @@ INSTALLED_APPS = (
     'pipeline',
     'django_extensions',
     'sorl.thumbnail',
-    'gravatar',
-    'south'
+    'django_gravatar',
+    'municipios',
+
 )
 
 

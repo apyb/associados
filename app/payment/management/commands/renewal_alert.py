@@ -31,7 +31,7 @@ class Command(BaseCommand):
 
         today = timezone.now().date()
 
-        expiration_days = (30, 15, 7)
+        expiration_days = (60, 30, 15, 7)
         expiration_dates = [today - timezone.timedelta(days=d) for d in expiration_days]
         expiration_dates += [today]
 

@@ -2,16 +2,18 @@
 # encoding: utf-8
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.localflavor.br.forms import BRCPFField
+from localflavor.br.forms import BRCPFField, BRPhoneNumberField
+from municipios.widgets import SelectMunicipioWidget
+
 from django.forms import TextInput
-from django.forms.util import flatatt
+from django.forms.utils import flatatt
 
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .models import Organization, Member, Category
-from .fields import BRPhoneNumberField
+
 
 class OrganizationInput(TextInput):
     def _format_value(self, value):
@@ -52,17 +54,20 @@ class MemberForm(forms.ModelForm):
     organization = forms.CharField(label=_("Organization"), widget=OrganizationInput, required=False)
     location = forms.CharField(label=_("Location"), required=False)
 
+
     class Meta:
         model = Member
         exclude = ('user', )
+        widgets = {'municipio': SelectMunicipioWidget}
         fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location',
+                  'municipio',
                   'relation_with_community', 'mailing', 'partner')
 
     def __init__(self, *args, **kwargs):
         super(MemberForm, self).__init__(*args,**kwargs)
-        if self.instance:
-            if not self.instance.get_payment_status():
-                self.fields['category'].widget.attrs['disabled'] = 'disabled'
+        # if self.instance:
+        #     if not self.instance.get_payment_status():
+        #         self.fields['category'].widget.attrs['disabled'] = 'disabled'
 
     def clean_category(self):
         category = self.cleaned_data['category']

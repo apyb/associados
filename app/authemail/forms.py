@@ -25,6 +25,7 @@ class RegisterForm(forms.Form):
                 self.error_messages['password_mismatch'])
         return password2
 
+    # FIX ME
     def get_username(self, email):
         email_user = email.split('@')[0]
 
