@@ -22,8 +22,10 @@ branches:
 script:
   - coverage run --source=app manage.py test --settings=associados.settings_test --verbosity=2
 
+cache: pip
+
 install:
-  - pip install -r requirements_test.txt --use-mirrors
-  - pip install coveralls --use-mirrors
+  - pip install -r requirements_test.txt 
+  - pip install coveralls 
 
 after_success: coveralls
