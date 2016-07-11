@@ -71,7 +71,7 @@ STATICFILES_FINDERS = (
 # Security
 SECRET_KEY = 'yc!+ii!psza0mi)&amp;vnn_rdsip5ipdyr(0w8hjllxw6p)!wgo1e'
 LOGIN_URL = '/'
-LOGIN_URL = reverse_lazy('auth-login')
+LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = reverse_lazy('members-dashboard')
 AUTHENTICATION_BACKENDS = (
     'app.authemail.backends.EmailBackend',
