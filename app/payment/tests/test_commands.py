@@ -34,9 +34,9 @@ class RenewalAlertTest(TestCase):
 
         now = timezone.now()
         expiration_days = (30, 15, 7)
-        self.expiration_dates = [now - datetime.timedelta(days=d)
+        self.expiration_dates = [now - datetime.timedelta(days=d, hours=-1)
                             for d in expiration_days]
-        self.expiration_dates += [now]
+        self.expiration_dates += [now + datetime.timedelta(hours=1)]
 
         self.payment_type = PaymentType.objects.create(
             category=self.members[0].category,
