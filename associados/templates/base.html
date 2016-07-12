@@ -79,17 +79,17 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'members-dashboard' %}">{% trans "dashboard" %}</a></li>
-                            <li><a href="{% url 'auth-password-change' %}">{% trans "change password" %}</a></li>
+                            <li><a href="{% url 'password_change' %}">{% trans "change password" %}</a></li>
                             <li><a href="{% url 'members-form' %}">{% trans "update my profile" %}</a></li>
                             <li class="divider"></li>
-                            <li><a href="{% url 'auth-logout' %}">{% trans "logout" %}</a></li>
+                            <li><a href="{% url 'logout' %}">{% trans "logout" %}</a></li>
                         </ul>
                     </li>
                 {% else %}
                     <li class="divider-vertical"></li>
                     {% block navbar_members %}<li><a href="{% url 'members-list' %}">{% trans "Members" %}</a></li>{% endblock %}
                     <li class="divider-vertical"></li>
-                    {% block navbar_login %}<li><a href="{% url 'auth-login' %}">{% trans "Login" %}</a></li>{% endblock %}
+                    {% block navbar_login %}<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>{% endblock %}
                     <li class="divider-vertical"></li>
                     {% block navbar_signup %}<li><a href="{% url 'members-signup' %}">{% trans "Sign up" %}</a></li>{% endblock %}
                 <li class="divider-vertical"></li>
