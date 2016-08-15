@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.core import serializers
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
@@ -100,6 +101,10 @@ def member_form(request):
         }
     )
 
+
+def member_json(request):
+    data = serializers.serialize('json', Members.objects.all())
+    return HttpResponse(data, content_type='application/json')
 
 def _retrieve_parameters(request, parameters_dict):
     received_parameters = {}
