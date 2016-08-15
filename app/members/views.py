@@ -103,8 +103,8 @@ def member_form(request):
 
 
 def member_json(request):
-    data = serializers.serialize('json', Members.objects.all())
-    return HttpResponse(data, content_type='application/json')
+    data = serializers.serialize('json', Member.objects.all(), fields=('User', 'Categoria'))
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 def _retrieve_parameters(request, parameters_dict):
     received_parameters = {}
