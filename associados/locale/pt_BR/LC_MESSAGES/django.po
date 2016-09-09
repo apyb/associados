@@ -71,7 +71,7 @@ msgstr "Empresa"
 
 #: app/members/forms.py:53 app/members/models.py:61
 msgid "Location"
-msgstr "Localicação"
+msgstr "Localização"
 
 #: app/members/forms.py:72
 msgid "You can't change your category with pending payments"
