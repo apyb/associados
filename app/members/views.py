@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core import serializers
 from django.db.models import Q
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import ListView
@@ -104,7 +104,7 @@ def member_form(request):
 
 def member_json(request):
     data = serializers.serialize('json', Member.objects.values('user', 'category' 'mailing'))
-    return HttpResponse(json.dumps(data), content_type='application/json')
+    return JsonResponse(data)
 
 def _retrieve_parameters(request, parameters_dict):
     received_parameters = {}
