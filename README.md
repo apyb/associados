@@ -26,7 +26,7 @@ Consulte sua distribuição para saber como preparar o postgres.
 Exemplo, para instalar o banco de dados em /tmp/pgdata (temporário):
 
     $ pg_ctl initdb -D /tmp/pgdata
-    $ pc_ctl start -D /tmp/pgdata
+    $ pg_ctl start -D /tmp/pgdata
     $ psql -d postgres
     postgres=# create user associados createdb createuser password 'assocdev';
     postgres=# create database associados owner associados;
