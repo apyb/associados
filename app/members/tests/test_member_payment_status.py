@@ -6,6 +6,7 @@ from django.utils import timezone
 from app.members.tests.helpers import create_user_with_member
 from app.payment.models import Payment, PaymentType, Transaction
 
+
 class MembersPaymentTest(TestCase):
 
     def setUp(self):

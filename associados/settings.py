@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse_lazy
 import decouple
 
 DEBUG = decouple.config("DEBUG", cast=bool, default=False)
-TEMPLATE_DEBUG = DEBUG
 BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__),
                                         os.path.pardir))
 
@@ -136,12 +135,12 @@ INTERNAL_IPS = decouple.config('INTERNAL_IPS', default='127.0.0.1,',
 
 
 # Templates & Middlewares
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# )
 
-TEMPLATE_DIRS = ()
+#TEMPLATE_DIRS = ()
 
 TEMPLATES = [
     {

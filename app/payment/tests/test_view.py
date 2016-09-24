@@ -243,7 +243,7 @@ class NotificationViewTestCase(MemberTestCase):
         transaction = Transaction.objects.get(id=transaction.id)
 
         self.assertTrue(payment.done())
-        self.assertEqual("OK", response.content)
+        self.assertEqual(b"OK", response.content)
 
     def test_post_with_other_status_should_not_return_payment_done(self):
         payment, transaction = self._make_transaction(status=1, code="xpto", price='123.45')
@@ -256,4 +256,4 @@ class NotificationViewTestCase(MemberTestCase):
         transaction = Transaction.objects.get(id=transaction.id)
 
         self.assertFalse(payment.done())
-        self.assertEqual("OK", response.content)
+        self.assertEqual(b"OK", response.content)
