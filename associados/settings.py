@@ -88,6 +88,18 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_DIRS = ()
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            # ... some options here ...
+        },
+    }
+]
+
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -197,6 +209,6 @@ if DSN:
 
 # Local settings
 try:
-    execfile('associados/settings_local.py')
+    exec(open('associados/settings_local.py').read())
 except IOError:
     pass

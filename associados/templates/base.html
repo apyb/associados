@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,17 +7,17 @@
     <title>{% trans "Python Brazil Association" %} | {% block title %}{% trans "Members of the Python Brazil Association" %}{% endblock %}</title>
     <meta name="description" content="{% trans "Members of the Python Brazil Association" %}">
     <meta name="author" content="{% trans "The Python Brazil Association was formed in April 2007 with the goal of supporting the communities related to the Python language and related technologies." %}">
-    <link rel="image_src" href="{{ STATIC_URL }}images/python-logo-official.png">
+    <link rel="image_src" href="{% static 'images/python-logo-official.png'%}">
 
     <!-- IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}css/docs.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}css/website.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'css/docs.css' %}" rel="stylesheet">
+    <link href="{% static 'css/website.css' %}" rel="stylesheet">
     {% block css %}{% endblock css %}
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -133,8 +134,8 @@
 
 
 {#<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>#}
-<script src="{{ STATIC_URL }}js/jquery.js"></script>
-<script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 {% block js %}{% endblock js %}
 </body>
 </html>

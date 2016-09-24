@@ -1,2 +1,2 @@
 -r requirements_test_osx.txt
-wsgiref==0.1.2
+#wsgiref

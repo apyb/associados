@@ -2,8 +2,8 @@
 
 
 from django.contrib import admin
-from app.members.models import Category
-from models import Member, Organization, City
+from app.members.models import Category, Member, Organization, City
+#from models import Member, Organization, City
 
 
 class MemberAdmin(admin.ModelAdmin):
