@@ -8,7 +8,7 @@ from municipios.widgets import SelectMunicipioWidget
 from django.forms import TextInput
 from django.forms.utils import flatatt
 
-from django.utils.encoding import force_unicode
+#from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 

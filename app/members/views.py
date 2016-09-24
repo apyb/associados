@@ -152,14 +152,17 @@ def member_status(request):
 
 @login_required
 def dashboard(request):
+    data = {"user": request.user}
     try:
         payment_results = request.user.member.get_payment_check_list()
+        data.update(payment_results)
     except Member.DoesNotExist:
         messages.add_message(request, messages.INFO, _('To access the dashboard, you need to complete your data'))
         return HttpResponseRedirect(reverse('members-form'))
 
+
     return render(
         request,
         "members/dashboard.html",
-        payment_results
+        data
     )

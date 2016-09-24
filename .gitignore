@@ -48,3 +48,5 @@ htmlcov/*
 associados.sqlite
 test.py
 
+# Estaticos
+static/*

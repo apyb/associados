@@ -24,7 +24,7 @@ class Organization(DefaultFields):
         ordering = ('name',)
         verbose_name_plural = _('Organizations')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -36,7 +36,7 @@ class City(DefaultFields):
         ordering = ('state', 'name')
         verbose_name_plural = _('Cities')
 
-    def __unicode__(self):
+    def __str__(self):
         return u"{0} - {1}".format(self.name, self.state)
 
 
@@ -46,7 +46,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = _('Categories')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -130,14 +130,14 @@ class Member(models.Model):
             else:
                 self.thumb_image = get_gravatar_url(self.user.email, size=150)
             self.save()
-        except Exception, e:
+        except Exception as e:
             raise e
         return self.thumb_image
 
     def full_name(self):
         return self.user.get_full_name() or self.user.username
 
-    def __unicode__(self):
+    def __str__(self):
         return self.full_name()
 
 
