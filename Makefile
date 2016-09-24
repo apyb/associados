@@ -2,7 +2,7 @@ deps:
 	@bash -c "./setup_os.sh"
 
 setup: deps
-	@python manage.py syncdb --settings associados.settings_local
+	#@python manage.py syncdb --settings associados.settings_local
 	@python manage.py migrate --settings associados.settings_local
 
 run:

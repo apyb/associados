@@ -28,7 +28,7 @@ class PaymentTypeTestCase(TestCase):
             price = 34.34,
             duration = 20
         )
-        self.assertEqual(unicode(self.payment_type), 'Efetivo - 34.34 for 20 days')
+        self.assertEqual(str(self.payment_type), 'Efetivo - 34.34 for 20 days')
 
 
 class PaymentModelTestCase(MemberTestCase):
@@ -51,37 +51,37 @@ class PaymentModelTestCase(MemberTestCase):
             date=timezone.now(),
             valid_until=timezone.now() + timedelta(days=10, minutes=1)
         )
-        self.assertEqual(unicode(self.payment), 'payment from Logan')
+        self.assertEqual(str(self.payment), 'payment from Logan')
 
     def test_should_have_member(self):
         self.assert_field_in('member', Payment)
 
     def test_member_should_be_a_foreign_key(self):
-        member_field = Payment._meta.get_field_by_name('member')[0]
+        member_field = Payment._meta.get_field('member')
         self.assertIsInstance(member_field, models.ForeignKey)
-        self.assertEqual(Member, member_field.related.model)
+        self.assertEqual(Member, member_field.related_model)
 
     def test_should_have_date(self):
         self.assert_field_in('date', Payment)
 
     def test_date_should_be_datetime_field(self):
-        date_field = Payment._meta.get_field_by_name('date')[0]
+        date_field = Payment._meta.get_field('date')
         self.assertIsInstance(date_field, models.DateTimeField)
 
     def test_should_have_valid_until(self):
         self.assert_field_in('valid_until', Payment)
 
     def test_valid_until_should_be_date_field(self):
-        date_field = Payment._meta.get_field_by_name('valid_until')[0]
+        date_field = Payment._meta.get_field('valid_until')
         self.assertIsInstance(date_field, models.DateField)
 
     def test_should_have_type(self):
         self.assert_field_in('type', Payment)
 
     def test_type_should_be_a_foreign_key(self):
-        type_field = Payment._meta.get_field_by_name('type')[0]
+        type_field = Payment._meta.get_field('type')
         self.assertIsInstance(type_field, models.ForeignKey)
-        self.assertEqual(PaymentType, type_field.related.model)
+        self.assertEqual(PaymentType, type_field.related_model)
 
     def test_payment_done_should_be_false_if_has_not_a_transaction(self):
         self.assertFalse(Payment().done())
@@ -115,6 +115,6 @@ class PaymentModelTestCase(MemberTestCase):
         self.assertTrue(payment.done())
 
     def assert_field_in(self, field_name, model):
-        self.assertIn(field_name, model._meta.get_all_field_names())
+        self.assertIn(field_name, [f.name for f in model._meta.get_fields()])
 
 

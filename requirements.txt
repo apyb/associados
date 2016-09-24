@@ -4,9 +4,8 @@ sorl-thumbnail==12.3
 django-gravatar2==1.4.0
 django-pipeline==1.6.9
 requests==2.11.1
-#-e git+https://github.com/pythonbrasil/django-bootstrap-toolkit.git@v1-associados#egg=django_bootstrap_toolkit-dev
+-e git+https://github.com/pythonbrasil/django-bootstrap-toolkit.git@v1-associados#egg=django_bootstrap_toolkit-dev
 dj-database-url
-django-bootstrap-toolkit.git@b11571fc89473adbdb14837a1e56862a051e54d8#egg=django_bootstrap_toolkit
 psycopg2==2.6.2
 gunicorn==19.6.0
 lxml==3.6.4
@@ -20,5 +19,5 @@ raven==5.27.1
 django-localflavor==1.3
 cssselect==0.9.2
 #django-municipios==0.8.1
-git@github.com:lskbr/django-municipios.git
+-e git+https://github.com/lskbr/django-municipios.git#egg=django-municipios
 

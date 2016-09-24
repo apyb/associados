@@ -16,19 +16,19 @@ class MemberChangeView(TestCase):
         self.dom = lhtml.fromstring(self.response.content)
 
         self.data = {
-            u'category': u'1',
-            u'location': u'editou',
-            u'organization': u'editou',
-            u'relation_with_community': u'editou',
-            u'phone': u'12-1212-1212',
-            u'cpf': u'71763224490',
-            u'state': u'editou',
-            u'address': u'address',
-            u'partner': u'',
-            u'mailing': u'',
-            u'email': u'john@doe.com',
-            u'first_name': u'editou',
-            u'last_name': u'editou',
+            'category': '1',
+            'location': 'editou',
+            'organization': 'editou',
+            'relation_with_community': 'editou',
+            'phone': '12-1212-1212',
+            'cpf': '71763224490',
+            'state': 'editou',
+            'address': 'address',
+            'partner': '',
+            'mailing': '',
+            'email': 'john@doe.com',
+            'first_name': 'editou',
+            'last_name': 'editou',
         }
 
     def test_should_have_a_route(self):
@@ -40,7 +40,7 @@ class MemberChangeView(TestCase):
     def test_route_must_be_protected(self):
         self.client.logout()
         response = self.client.get(self.url)
-        self.assertRedirects(response, 'login/?next=/members/update/')
+        self.assertRedirects(response, '/login/?next=/members/update/')
 
     def test_should_responds_correcly(self):
         self.assertEqual(self.response.status_code, 200)
@@ -65,7 +65,7 @@ class MemberChangeView(TestCase):
 
         response = self.client.get(self.url)
         dom = lhtml.fromstring(response.content)
-        organization_dom = dom.cssselect('input[name=organization]')[0]
+        organization_dom = dom.cssselect('#id_organization')[0]
         self.assertEqual(organization_dom.value, organization.name)
 
     def test_post_with_correcly_data_should_update_a_member(self):
@@ -106,14 +106,14 @@ class MemberChangeWithErrorView(TestCase):
         self.dom = lhtml.fromstring(self.response.content)
 
         self.data = {
-            u'category': u'1',
-            u'partner': u'',
-            u'mailing': u'',
-            u'email': u'john@doe.com',
-            u'first_name': u'editou',
-            u'last_name': u'editou',
+            'category': '1',
+            'partner': '',
+            'mailing': '',
+            #'email': 'john@doe.com',
+            'first_name': 'editou',
+            'last_name': 'editou',
         }
 
     def test_post_with_correcly_data_should_update_a_member(self):
         response = self.client.post(self.url, self.data)
-        self.assertIn('An error occurred while trying to save your data. check the form below.', response.content)
+        self.assertContains(response, 'Este campo é obrigatório')

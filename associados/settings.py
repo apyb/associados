@@ -7,7 +7,7 @@ import dj_database_url
 from django.core.urlresolvers import reverse_lazy
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
-TEMPLATE_DEBUG = DEBUG
+#TEMPLATE_DEBUG = DEBUG
 BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 ADMINS = (
@@ -81,12 +81,12 @@ ALLOWED_HOSTS = ['*']
 
 
 # Templates & Middlewares
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# )
 
-TEMPLATE_DIRS = ()
+#TEMPLATE_DIRS = ()
 
 TEMPLATES = [
     {

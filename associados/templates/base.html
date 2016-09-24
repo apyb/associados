@@ -1,7 +1,8 @@
 {% load i18n %}
 {% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="utf-8">
     <title>{% trans "Python Brazil Association" %} | {% block title %}{% trans "Members of the Python Brazil Association" %}{% endblock %}</title>

@@ -4,6 +4,7 @@ from django.db import models
 from unittest.case import TestCase
 from app.members.tests.helpers import create_user_with_member
 from app.payment.models import Payment, PaymentType, Transaction
+from app.util import get_all_field_names
 
 
 class TransacitonModelTestCase(TestCase):
@@ -16,9 +17,9 @@ class TransacitonModelTestCase(TestCase):
     def test_should_have_payment(self):
         self.assert_field_in('payment', Transaction)
 
-        payment_field = Transaction._meta.get_field_by_name('payment')[0]
+        payment_field = Transaction._meta.get_field('payment')
         self.assertIsInstance(payment_field, models.ForeignKey)
-        self.assertEqual(Payment, payment_field.related.model)
+        self.assertEqual(Payment, payment_field.related_model)
 
     def test_get_checkout_url(self):
         t = Transaction(code="123")
@@ -26,7 +27,7 @@ class TransacitonModelTestCase(TestCase):
         self.assertEqual(expected_url, t.get_checkout_url())
 
     def assert_field_in(self, field_name, model):
-        self.assertIn(field_name, model._meta.get_all_field_names())
+        self.assertIn(field_name, get_all_field_names(model))
 
 
 class TransactionTestCase(TestCase):

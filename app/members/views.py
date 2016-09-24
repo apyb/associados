@@ -135,15 +135,17 @@ def _search_member(params):
 
 def member_status(request):
     valid_parameters = {
-        'email': 'user__email',
         'cpf': 'cpf',
+        'email': 'user__email',
     }
     response = ''
     params = _retrieve_parameters(request, valid_parameters)
 
     if params == {}:
-        error_message = u'Could not find any valid parameters. Options: %s' % valid_parameters.keys()
-        response = {u'error': error_message}
+        campos = list(valid_parameters.keys())
+        campos.sort()
+        error_message = 'Could not find any valid parameters. Options: %s' % campos
+        response = {'error': error_message}
     else:
         response = _search_member(params)
 
