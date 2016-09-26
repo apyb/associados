@@ -207,6 +207,11 @@ if DSN:
         'raven.contrib.django.raven_compat',
     )
 
+
+PIPELINE = {
+
+}
+
 # Local settings
 try:
     exec(open('associados/settings_local.py').read())
