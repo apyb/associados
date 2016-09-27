@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^municipios_app/', include('municipios.urls')),
+    url(r'^', include('django.contrib.flatpages.urls')),
 ]
 
 if settings.DEBUG:
