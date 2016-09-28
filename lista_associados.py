@@ -4,10 +4,10 @@
 from app.payment.models import Payment
 import datetime
 
-cyear = datetime.now().year
+cyear = datetime.datetime.now().year
 lyear = cyear - 1
-month = datetime.now().month
-day = datetime.now().day
+month = datetime.datetime.now().month
+day = datetime.datetime.now().day
 
 payments = Payment.objects.filter(date__range=(datetime.date(lyear, month, day), datetime.date(cyear, month, day))).order_by('type')
 for p in payments:
