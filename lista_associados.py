@@ -7,6 +7,7 @@ python manage.py shell
 execfile('lista_associados.py')
 """
 
+from django.contrib.auth.models import User
 from app.payment.models import Payment
 import datetime
 
@@ -16,6 +17,8 @@ month = datetime.datetime.now().month
 day = datetime.datetime.now().day
 
 payments = Payment.objects.filter(date__range=(datetime.date(lyear, month, day), datetime.date(cyear, month, day))).order_by('type')
+user_list = User.objects.all()
+user_email = dict(user_list.values_list("username", "email"))
 estudantes = []
 efetivos = []
 
@@ -27,11 +30,12 @@ for p in payments:
         estudantes.append(p)
 
 
+# TODO: inserir user_email[p.member.user]
 print "Efetivos:"
 for p in efetivos:
-    print "Nome:", p.member, "Documento:", p.cpf, "Assinatura:"
+    print "Nome:", p.member, "Email:", "Documento:", p.cpf, "Assinatura:"
 
 
 print "Estudantes:"
 for p in estudantes:
-    print "Nome:", p.member, "Documento:", p.cpf, "Assinatura:"
+    print "Nome:", p.member, "Email:", "Documento:", p.cpf, "Assinatura:"
