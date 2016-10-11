@@ -33,9 +33,9 @@ for p in payments:
 # TODO: inserir user_email[p.member.user]
 print "Efetivos:"
 for p in efetivos:
-    print "Nome:", p.member, "Email:", "Documento:", p.cpf, "Assinatura:"
+    print "Nome:", p.member, "Email:", "Documento:", p.member.cpf, "Assinatura:"
 
 
 print "Estudantes:"
 for p in estudantes:
-    print "Nome:", p.member, "Email:", "Documento:", p.cpf, "Assinatura:"
+    print "Nome:", p.member, "Email:", "Documento:", p.member.cpf, "Assinatura:"
