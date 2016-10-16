@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from django.test import TestCase
+from django.utils.translation import ugettext as _
 from app.members.forms import MemberForm, UserForm
 from app.members.models import Organization, User, Category, Member
 from app.payment.models import Payment, PaymentType, Transaction
-from app.members.tests.helpers import create_user_with_member
 
 
 class UserFormTest(TestCase):
@@ -128,7 +128,7 @@ class ValidMemberFormTest(MemberFormTest):
         self.assertFalse(self.member_instance.get_payment_status())
         self.assertFalse(member_form.is_valid())
 
-        self.assertEqual(member_form.errors['category'], [u"You can't change your category with pending payments"])
+        self.assertEqual(member_form.errors['category'], [_(u"You can't change your category with pending payments")])
 
     def test_should_store_relation_with_community(self):
         self.assertEqual(self.member_instance.relation_with_community, self.data.get('relation_with_community'))
