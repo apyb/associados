@@ -51,7 +51,7 @@ class Transaction(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
 
     def get_checkout_url(self):
-        return settings.PAGSEGURO_WEBCHECKOUT + self.code
+        return settings.PAYMENT_CREDENTIALS_WEBCHECKOUT + self.code
 
     @property
     def status_display(self):

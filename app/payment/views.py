@@ -24,19 +24,33 @@ from app.payment.models import Payment, Transaction, PaymentType
 logger = logging.getLogger(__name__)
 
 
+class PaymentClass():
+
+    def __init__(self, PAYMENT_SYSTEM=None, PAYMENT_CREDENTIALS=None):
+        self.payment_system = PAYMENT_SYSTEM or settings.PAYMENT_SYSTEM
+        self.payload = PAYMENT_CREDENTIALS or settings.PAYMENT_CREDENTIALS
+
+    def get_payload(self):
+        return self.payload
+
+
 class PaymentView(View):
-    def _create_payload(self, payment):
-        payload = settings.PAGSEGURO
+    def _create_payload(self, payment, payment_obj):
+        payload = payment_obj.get_payload()
         price = payment.type.price
         payload["itemAmount1"] = "%.2f" % price
-        payload['itemDescription1'] = ugettext(u'Brazilian Python Association registration payment')
+        payload['itemDescription1'] = ugettext(
+            u'Brazilian Python Association registration payment'
+        )
         payload["reference"] = "%d" % payment.pk
         return payload, price
 
     def set_payment_code(self, payment):
-        headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
-        payload, price = self._create_payload(payment)
-        response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
+        headers = {"Content-Type":
+                   "application/x-www-form-urlencoded; charset=UTF-8"}
+        payload, price = self._create_payload(payment, PaymentClass())
+        response = requests.post(settings.PAYMENT_CREDENTIALS_CHECKOUT, data=payload,
+                                 headers=headers)
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
@@ -60,7 +74,7 @@ class PaymentView(View):
                 "Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."),
                            fail_silently=True)
         else:
-            url = settings.PAGSEGURO_WEBCHECKOUT + payment_with_code.code
+            url = settings.PAYMENT_CREDENTIALS_WEBCHECKOUT + payment_with_code.code
         return HttpResponseRedirect(url)
 
 
@@ -71,16 +85,16 @@ class NotificationView(View):
 
     def transaction(self, transaction_code):
         url_transacao = "%s/%s?email=%s&token=%s" % (
-            settings.PAGSEGURO_TRANSACTIONS,
+            settings.PAYMENT_CREDENTIALS_TRANSACTIONS,
             transaction_code,
-            settings.PAGSEGURO["email"],
-            settings.PAGSEGURO["token"]
+            settings.PAYMENT_CREDENTIALS["email"],
+            settings.PAYMENT_CREDENTIALS["token"]
         )
         url_notificacao = "%s/%s?email=%s&token=%s" % (
-            settings.PAGSEGURO_TRANSACTIONS_NOTIFICATIONS,
+            settings.PAYMENT_CREDENTIALS_TRANSACTIONS_NOTIFICATIONS,
             transaction_code,
-            settings.PAGSEGURO["email"],
-            settings.PAGSEGURO["token"]
+            settings.PAYMENT_CREDENTIALS["email"],
+            settings.PAYMENT_CREDENTIALS["token"]
         )
 
         response = requests.get(url_transacao)

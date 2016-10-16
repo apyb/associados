@@ -230,33 +230,37 @@ DEFAULT_FROM_EMAIL = decouple.config('DEFAULT_FROM_EMAIL',
 EMAIL_CONTACT_ADDRESS = DEFAULT_FROM_EMAIL
 
 # 3rd party applications
-PAGSEGURO = {
-    'email': decouple.config('PAGSEGURO_EMAIL', default=''),
+
+PAYMENT_SYSTEM = decouple.config('PAYMENT_SYSTEM', default="PAGSEGURO")
+
+PAYMENT_CREDENTIALS = {
+    'email': decouple.config('PAYMENT_CREDENTIALS_EMAIL'),
     'charset': 'UTF-8',
-    'token': decouple.config('PAGSEGURO_TOKEN', default=''),
+    'token': decouple.config('PAYMENT_CREDENTIALS_TOKEN'),
     'currency': 'BRL',
     'itemId1': '0001',
     'itemQuantity1': 1,
 }
 
-PAGSEGURO_BASE = decouple.config('PAGSEGURO_BASE',
-                                 default='https://ws.pagseguro.uol.com.br/v2')
-
-PAGSEGURO_WEBCHECKOUT = decouple.config(
-    'PAGSEGURO_WEBCHECKOUT',
+PAYMENT_CREDENTIALS_BASE = decouple.config(
+    'PAYMENT_CREDENTIALS_BASE',
+    default='https://ws.pagseguro.uol.com.br/v2'
+)
+PAYMENT_CREDENTIALS_WEBCHECKOUT = decouple.config(
+    'PAYMENT_CREDENTIALS_WEBCHECKOUT',
     default='https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
 )
-
-PAGSEGURO_WEB_PRE_APPROVAL = decouple.config(
-    'PAGSEGURO_WEB_PRE_APPROVAL',
+PAYMENT_CREDENTIALS_WEB_PRE_APPROVAL = decouple.config(
+    'PAYMENT_CREDENTIALS_PRE_APPROVAL',
     default='https://pagseguro.uol.com.br/v2/pre-approval/request.html?code='
 )
-
-PAGSEGURO_PRE_APPROVAL = '%s/pre-approvals/request' % PAGSEGURO_BASE
-PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
-PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
-PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = (
-    '%s/notifications' % PAGSEGURO_TRANSACTIONS
+PAYMENT_CREDENTIALS_CHECKOUT = '%s/checkout' % PAYMENT_CREDENTIALS_BASE
+PAYMENT_CREDENTIALS_TRANSACTIONS = '%s/transactions' % PAYMENT_CREDENTIALS_BASE
+PAYMENT_CREDENTIALS_TRANSACTIONS_NOTIFICATIONS = (
+    '%s/notifications' % PAYMENT_CREDENTIALS_TRANSACTIONS
+)
+PAYMENT_CREDENTIALS_PRE_APPROVAL = (
+    '%s/pre-approvals/request' % PAYMENT_CREDENTIALS_BASE
 )
 
 GITHUB_CLIENT_SECRET = decouple.config('GITHUB_CLIENT_SECRET', default='')
