@@ -54,6 +54,23 @@ class PaymentViewTestCase(MemberTestCase):
         views.requests = self.requests_original
         Payment.objects.all().delete()
 
+    def test_response_302(self):
+        resp = self._get_payment_endpoint()
+        self.assertEqual(302, resp.status_code)
+
+    def test_redirection_has_correct_url(self):
+        resp = self._get_payment_endpoint()
+        self.assertEqual(
+            'https://pagseguro.uol.com.br/v2/checkout/'
+            'payment.html?code=xpto123',
+            resp.url
+        )
+
+    @mock.patch('app.payment.views.get_object_or_404')
+    def _get_payment_endpoint(self, mock_get_404):
+        mock_get_404.return_value = self.member
+        return self.client.get(self.url)
+
     def test_payment_view_should_redirect_to_dashboard_if_it_fails_to_create_the_transaction(self):
         class ResponseMock(object):
             content = None

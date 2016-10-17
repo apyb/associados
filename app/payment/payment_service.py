@@ -68,7 +68,3 @@ class PaymentService(object):
             )
 
         return payment
-
-
-
-        return payment
