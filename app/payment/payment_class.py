@@ -33,14 +33,20 @@ class PaymentClass(object):
         self.headers = {"Content-Type":
                         "application/x-www-form-urlencoded; charset=UTF-8"}
 
-    def get_payload(self):
-        return self.payload
+    def set_price(self, price):
+        self.payload["itemAmount1"] = "%.2f" % price
+
+    def set_description(self, description):
+        self.payload['itemDescription1'] = description
+
+    def set_reference(self, payment):
+        self.payload["reference"] = "%d" % payment.pk
 
     def _set_payment_system(self):
         if self.payment_system != 'PAGSEGURO':
             return
         self.credentials = PagSeguroCredentials()
 
-    def post(self, payload):
-        return requests.post(self.credentials.checkout, data=payload,
+    def post(self):
+        return requests.post(self.credentials.checkout, data=self.payload,
                              headers=self.headers)

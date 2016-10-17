@@ -158,7 +158,7 @@ MIDDLEWARE_CLASSES = (
 
 # Apps
 INSTALLED_APPS = (
-    #apps
+    # apps
     'associados',
     'app.members',
     'app.payment',
@@ -174,7 +174,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.flatpages',
 
-    #extra
+    # extra
     'bootstrap_toolkit',
     'pipeline',
     'django_extensions',

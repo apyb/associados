@@ -14,7 +14,7 @@ from django.http import HttpResponseRedirect, HttpResponse, \
      HttpResponseBadRequest
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from .payment_class import PaymentClass
@@ -29,19 +29,16 @@ class PaymentView(View):
     payment_class = PaymentClass
 
     def _create_payload(self, payment, payment_obj):
-        payload = payment_obj.get_payload()
-        price = payment.type.price
-        payload["itemAmount1"] = "%.2f" % price
-        payload['itemDescription1'] = ugettext(
-            u'Brazilian Python Association registration payment'
+        payment_obj.set_price(payment.type.price)
+        payment_obj.set_description(
+            _(u'Brazilian Python Association registration payment')
         )
-        payload["reference"] = "%d" % payment.pk
-        return payload, price
+        payment_obj.set_reference(payment)
 
     def set_payment_code(self, payment):
         payment_obj = self.get_payment_object()
-        payload, price = self._create_payload(payment, payment_obj)
-        response = payment_obj.post(payload)
+        self._create_payload(payment, payment_obj)
+        response = payment_obj.post()
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
@@ -61,7 +58,7 @@ class PaymentView(View):
         if not payment_with_code.code:
             payment_with_code.delete()
             url = '/'
-            messages.error(request, ugettext(
+            messages.error(request, _(
                 "Failed to generate a transaction within the payment gateway. "
                 "Please contact the staff to complete your registration."),
                            fail_silently=True)
