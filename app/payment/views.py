@@ -17,16 +17,17 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from .payment_class import PaymentClass
 from app.members.models import Member
 from app.payment.models import Payment, Transaction, PaymentType
+
+from .payment_service import PaymentService
 
 
 logger = logging.getLogger(__name__)
 
 
 class PaymentView(View):
-    payment_class = PaymentClass
+    payment_class = PaymentService
 
     def _create_payload(self, payment, payment_obj):
         payment_obj.set_price(payment.type.price)

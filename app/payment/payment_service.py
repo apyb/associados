@@ -24,7 +24,7 @@ class PagSeguroCredentials(object):
         self.web_pre_approval = settings.PAYMENT_CREDENTIALS_WEB_PRE_APPROVAL
 
 
-class PaymentClass(object):
+class PaymentService(object):
 
     def __init__(self, PAYMENT_SYSTEM=None, PAYMENT_CREDENTIALS=None):
         self.payment_system = PAYMENT_SYSTEM or settings.PAYMENT_SYSTEM
