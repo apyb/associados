@@ -16,7 +16,7 @@ lyear = cyear - 1
 month = datetime.datetime.now().month
 day = datetime.datetime.now().day
 
-payments = Payment.objects.filter(date__range=(datetime.date(lyear, month, day), datetime.date(cyear, month, day))).order_by('type')
+payments = Payment.objects.filter(date__range=(datetime.date(lyear, month, day), datetime.date(cyear, month, day))).order_by('type').order_by('member__user__first_name') # valeu @cadu-leite
 user_list = User.objects.all()
 user_email = dict(user_list.values_list("username", "email"))
 estudantes = []
@@ -33,9 +33,9 @@ for p in payments:
 # TODO: inserir user_email[p.member.user]
 print "Efetivos:"
 for p in efetivos:
-    print "Nome:", p.member, "Email:", "Documento:", p.member.cpf, "Assinatura:"
+    print "Nome:", p.member, "CPF:", p.member.cpf, "Email:", p.member.user.email, "Ass:"
 
 
 print "Estudantes:"
 for p in estudantes:
-    print "Nome:", p.member, "Email:", "Documento:", p.member.cpf, "Assinatura:"
+    print "Nome:", p.member, "CPF:", p.member.cpf, "Email:", p.member.user.email, "Ass:"
