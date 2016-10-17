@@ -49,11 +49,8 @@ class PaymentView(View):
 
     def get(self, request, member_id):
         member = get_object_or_404(Member, pk=member_id)
-        payment_type = PaymentType.objects.get(category=member.category)
-        payment = Payment.objects.create(
-            member=member,
-            type=payment_type
-        )
+        payment_service = self.get_payment_object()
+        payment = payment_service.get_member_payment(member)
         payment_with_code = self.set_payment_code(payment)
 
         if not payment_with_code.code:

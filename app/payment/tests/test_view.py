@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import mock
 from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.management import call_command
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from django.test.client import RequestFactory
@@ -30,19 +30,10 @@ class MemberTestCase(TestCase):
 
 class PaymentViewTestCase(MemberTestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        #call_command("loaddata", "profiles.json", verbosity=0)
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        #call_command("flush", interactive=False, verbosity=0)
-        pass
-
     def setUp(self):
         super(PaymentViewTestCase, self).setUp()
 
+        self.url = reverse('payment', kwargs=dict(member_id=42))
         self.request = RequestFactory().get("/", {})
         self.request.user = self.user
 

@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+from .models import PaymentType, Payment
 
 
 class PagSeguroCredentials(object):
@@ -50,3 +51,24 @@ class PaymentService(object):
     def post(self):
         return requests.post(self.credentials.checkout, data=self.payload,
                              headers=self.headers)
+
+    @classmethod
+    def get_member_payment(cls, member):
+        payment = Payment.objects.filter(
+            member=member,
+            type__category=member.category,
+            transaction__isnull=False,
+        ).last()
+
+        if payment is None:
+            payment_type = PaymentType.objects.get(category=member.category)
+            payment = Payment.objects.create(
+                member=member,
+                type=payment_type,
+            )
+
+        return payment
+
+
+
+        return payment
