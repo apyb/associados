@@ -10,13 +10,14 @@ from lxml import html as lhtml
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, HttpResponse, \
+     HttpResponseBadRequest
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
+from .payment_class import PaymentClass
 from app.members.models import Member
 from app.payment.models import Payment, Transaction, PaymentType
 
@@ -24,17 +25,9 @@ from app.payment.models import Payment, Transaction, PaymentType
 logger = logging.getLogger(__name__)
 
 
-class PaymentClass():
-
-    def __init__(self, PAYMENT_SYSTEM=None, PAYMENT_CREDENTIALS=None):
-        self.payment_system = PAYMENT_SYSTEM or settings.PAYMENT_SYSTEM
-        self.payload = PAYMENT_CREDENTIALS or settings.PAYMENT_CREDENTIALS
-
-    def get_payload(self):
-        return self.payload
-
-
 class PaymentView(View):
+    payment_class = PaymentClass
+
     def _create_payload(self, payment, payment_obj):
         payload = payment_obj.get_payload()
         price = payment.type.price
@@ -46,11 +39,9 @@ class PaymentView(View):
         return payload, price
 
     def set_payment_code(self, payment):
-        headers = {"Content-Type":
-                   "application/x-www-form-urlencoded; charset=UTF-8"}
-        payload, price = self._create_payload(payment, PaymentClass())
-        response = requests.post(settings.PAYMENT_CREDENTIALS_CHECKOUT, data=payload,
-                                 headers=headers)
+        payment_obj = self.get_payment_object()
+        payload, price = self._create_payload(payment, payment_obj)
+        response = payment_obj.post(payload)
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
@@ -71,11 +62,16 @@ class PaymentView(View):
             payment_with_code.delete()
             url = '/'
             messages.error(request, ugettext(
-                "Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."),
+                "Failed to generate a transaction within the payment gateway. "
+                "Please contact the staff to complete your registration."),
                            fail_silently=True)
         else:
-            url = settings.PAYMENT_CREDENTIALS_WEBCHECKOUT + payment_with_code.code
+            url = settings.PAYMENT_CREDENTIALS_WEBCHECKOUT \
+                + payment_with_code.code
         return HttpResponseRedirect(url)
+
+    def get_payment_object(self):
+        return self.payment_class()
 
 
 class NotificationView(View):
