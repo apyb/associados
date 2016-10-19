@@ -69,7 +69,7 @@ class Command(BaseCommand):
                     status=3,
                     price=payment_type.price
                 )
-            )
+
             payment = Payment.objects.create(
                 member=member,
                 type=payment_type,
