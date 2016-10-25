@@ -65,3 +65,7 @@ Reporte os bugs e compartilhe o patches baseada nas nossas [Issues](https://gith
 [![Build Status](https://secure.travis-ci.org/pythonbrasil/associados.png?branch=master)](http://travis-ci.org/pythonbrasil/associados)
 
 [![Coverage Status](https://coveralls.io/repos/pythonbrasil/associados/badge.png)](https://coveralls.io/r/pythonbrasil/associados)
+
+[![Code Climate](https://codeclimate.com/github/pythonbrasil/associados/badges/gpa.svg)](https://codeclimate.com/github/pythonbrasil/associados)
+
+[![Issue Count](https://codeclimate.com/github/pythonbrasil/associados/badges/issue_count.svg)](https://codeclimate.com/github/pythonbrasil/associados)
