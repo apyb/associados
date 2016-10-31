@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% trans "Python Brazil Association" %} | {% block title %}{% trans "Members of the Python Brazil Association" %}{% endblock %}</title>
     <meta name="description" content="{% trans "Members of the Python Brazil Association" %}">
     <meta name="author" content="{% trans "The Python Brazil Association was formed in April 2007 with the goal of supporting the communities related to the Python language and related technologies." %}">
@@ -42,63 +44,55 @@
 </head>
 
 <body data-spy="scroll" data-target=".subnav" data-offset="50">
-
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-
-        <div class="container">
-            <a class="brand" href="/">{% trans "Python Brazil Association" %}</a>
-
-            <ul class="nav" role="navigation">
-                <li class="divider-vertical"></li>
-                <li class="dropdown">
-                <a id="links-drop" class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% trans "Useful Links" %}<b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="links-drop">
-                      <li role="presentation">
-                          <a role="menuitem" target="_blank" tabindex="-1" href="http://associacao.python.org.br/">{% trans "Association Website" %}</a>
-                      </li>
-                      <li role="presentation">
-                          <a role="menuitem" target="_blank" tabindex="-1" href="http://www.pythonbrasil.org.br/">{% trans "PythonBrasil" %}</a>
-                      </li>                      <li role="presentation">
-                          <a role="menuitem" target="_blank" tabindex="-1" href="http://www.python.org.br/">{% trans "Python BR" %}</a>
-                      </li>                      <li role="presentation">
-                          <a role="menuitem" target="_blank" tabindex="-1" href="http://djangoproject.com/">{% trans "Django Framework" %}</a>
-                      </li>                      <li role="presentation">
-                          <a role="menuitem" target="_blank" tabindex="-1" href="http://planet.python.org/">{% trans "Planet Python" %}</a>
-                      </li>
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">{% trans "Python Brazil Association" %}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans "Useful Links" %}<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="links-drop">
+                  <li><a href="http://associacao.python.org.br/">{% trans "Association Website" %}</a></li>
+                  <li><a href="http://www.pythonbrasil.org.br/">{% trans "PythonBrasil" %}</a></li>
+                  <li><a href="http://www.python.org.br/">{% trans "Python BR" %}</a></li>
+                  <li><a href="http://djangoproject.com/">{% trans "Django Framework" %}</a></li>
+                  <li><a href="http://planet.python.org/">{% trans "Planet Python" %}</a></li>
+                </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+                <li class="dropdown" id="fat-menu">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="icon-user icon-white"></i>
+                        {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.email }}{% endif %}<b
+                                class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'members-dashboard' %}">{% trans "dashboard" %}</a></li>
+                        <li><a href="{% url 'password_change' %}">{% trans "change password" %}</a></li>
+                        <li><a href="{% url 'members-form' %}">{% trans "update my profile" %}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'logout' %}">{% trans "logout" %}</a></li>
                     </ul>
                 </li>
-            </ul>
-            <ul class="nav pull-right">
-                {% if user.is_authenticated %}
-                    <li class="dropdown" id="fat-menu">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i class="icon-user icon-white"></i>
-                            {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.email }}{% endif %}<b
-                                    class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'members-dashboard' %}">{% trans "dashboard" %}</a></li>
-                            <li><a href="{% url 'password_change' %}">{% trans "change password" %}</a></li>
-                            <li><a href="{% url 'members-form' %}">{% trans "update my profile" %}</a></li>
-                            <li class="divider"></li>
-                            <li><a href="{% url 'logout' %}">{% trans "logout" %}</a></li>
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="divider-vertical"></li>
-                    {% block navbar_members %}<li><a href="{% url 'members-list' %}">{% trans "Members" %}</a></li>{% endblock %}
-                    <li class="divider-vertical"></li>
-                    {% block navbar_login %}<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>{% endblock %}
-                    <li class="divider-vertical"></li>
-                    {% block navbar_signup %}<li><a href="{% url 'members-signup' %}">{% trans "Sign up" %}</a></li>{% endblock %}
-                <li class="divider-vertical"></li>
-                {% endif %}
-            </ul>
-        </div> <!-- container -->
-    </div> <!-- navbar-inner -->
-</div> <!-- navbar -->
-
+            {% else %}
+                {% block navbar_members %}<li><a href="{% url 'members-list' %}">{% trans "Members" %}</a></li>{% endblock %}
+                {% block navbar_login %}<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>{% endblock %}
+                {% block navbar_signup %}<li><a href="{% url 'members-signup' %}">{% trans "Sign up" %}</a></li>{% endblock %}
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
 <div class="container">
 
