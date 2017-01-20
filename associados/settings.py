@@ -242,25 +242,17 @@ PAYMENT_CREDENTIALS = {
     'itemQuantity1': 1,
 }
 
-PAYMENT_CREDENTIALS_BASE = decouple.config(
+PAYMENT_ENDPOINTS_BASE = decouple.config(
     'PAYMENT_CREDENTIALS_BASE',
     default='https://ws.pagseguro.uol.com.br/v2'
 )
-PAYMENT_CREDENTIALS_WEBCHECKOUT = decouple.config(
+PAYMENT_ENDPOINT_WEBCHECKOUT = decouple.config(
     'PAYMENT_CREDENTIALS_WEBCHECKOUT',
     default='https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
 )
-PAYMENT_CREDENTIALS_WEB_PRE_APPROVAL = decouple.config(
+PAYMENT_ENDPOINT_WEB_PRE_APPROVAL = decouple.config(
     'PAYMENT_CREDENTIALS_PRE_APPROVAL',
     default='https://pagseguro.uol.com.br/v2/pre-approval/request.html?code='
-)
-PAYMENT_CREDENTIALS_CHECKOUT = '%s/checkout' % PAYMENT_CREDENTIALS_BASE
-PAYMENT_CREDENTIALS_TRANSACTIONS = '%s/transactions' % PAYMENT_CREDENTIALS_BASE
-PAYMENT_CREDENTIALS_TRANSACTIONS_NOTIFICATIONS = (
-    '%s/notifications' % PAYMENT_CREDENTIALS_TRANSACTIONS
-)
-PAYMENT_CREDENTIALS_PRE_APPROVAL = (
-    '%s/pre-approvals/request' % PAYMENT_CREDENTIALS_BASE
 )
 
 GITHUB_CLIENT_SECRET = decouple.config('GITHUB_CLIENT_SECRET', default='')

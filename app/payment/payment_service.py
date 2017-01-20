@@ -5,24 +5,28 @@ from .models import PaymentType, Payment
 
 class PagSeguroCredentials(object):
 
+    PRICE_PAYLOAD_ATTRIBUTE = "itemAmount1"
+    DESCRIPTION_PAYLOAD_ATTRIBUTE = "itemDescription1"
+    REFERENCE_ATTRIBUTE = "reference"
+
     def __init__(self):
 
-        PAYMENT_CREDENTIALS_BASE = settings.PAYMENT_CREDENTIALS_BASE
-        PAYMENT_CREDENTIALS_WEBCHECKOUT = (
-            settings.PAYMENT_CREDENTIALS_WEBCHECKOUT
+        PAYMENT_ENDPOINT_BASE = settings.PAYMENT_CREDENTIALS_BASE
+        PAYMENT_ENDPOINT_WEBCHECKOUT = (
+            settings.PAYMENT_ENDPOINT_WEBCHECKOUT
         )
-        PAYMENT_CREDENTIALS_PRE_APPROVAL = (
-            '%s/pre-approvals/request' % PAYMENT_CREDENTIALS_BASE
+        PAYMENT_ENDPOINT_PRE_APPROVAL = (
+            '%s/pre-approvals/request' % PAYMENT_ENDPOINT_BASE
         )
 
         self.pre_approval = '%s/pre-approvals/request' \
-            % PAYMENT_CREDENTIALS_BASE
-        self.checkout = '%s/checkout' % PAYMENT_CREDENTIALS_BASE
-        self.transactions = '%s/transactions' % PAYMENT_CREDENTIALS_BASE
+            % PAYMENT_ENDPOINT_BASE
+        self.checkout = '%s/checkout' % PAYMENT_ENDPOINT_BASE
+        self.transactions = '%s/transactions' % PAYMENT_ENDPOINT_BASE
         self.notifications = '%s/notifications' % self.transactions
-        self.web_checkout = PAYMENT_CREDENTIALS_WEBCHECKOUT
-        self.pre_approval = PAYMENT_CREDENTIALS_PRE_APPROVAL
-        self.web_pre_approval = settings.PAYMENT_CREDENTIALS_WEB_PRE_APPROVAL
+        self.web_checkout = PAYMENT_ENDPOINT_WEBCHECKOUT
+        self.pre_approval = PAYMENT_ENDPOINT_PRE_APPROVAL
+        self.web_pre_approval = settings.PAYMENT_ENDPOINT_WEB_PRE_APPROVAL
 
 
 class PaymentService(object):
@@ -33,13 +37,19 @@ class PaymentService(object):
         self.payload = settings.PAYMENT_CREDENTIALS
 
     def set_price(self, price):
-        self.payload["itemAmount1"] = "%.2f" % price
+        self.payload[
+            self.credentials.PRICE_PAYLOAD_ATTRIBUTE
+        ] = "%.2f" % price
 
     def set_description(self, description):
-        self.payload['itemDescription1'] = description
+        self.payload[
+            self.credentials.DESCRIPTION_PAYLOAD_ATTRIBUTE
+        ] = description
 
     def set_reference(self, payment):
-        self.payload["reference"] = "%d" % payment.pk
+        self.payload[
+            self.credentials.REFERENCE_ATTRIBUTE
+        ] = "%d" % payment.pk
 
     def _set_payment_system(self):
         if self.payment_system != 'PAGSEGURO':
