@@ -31,8 +31,6 @@ class PaymentService(object):
         self.payment_system = PAYMENT_SYSTEM or settings.PAYMENT_SYSTEM
         self._set_payment_system()
         self.payload = settings.PAYMENT_CREDENTIALS
-        self.headers = {"Content-Type":
-                        "application/x-www-form-urlencoded; charset=UTF-8"}
 
     def set_price(self, price):
         self.payload["itemAmount1"] = "%.2f" % price
@@ -49,6 +47,7 @@ class PaymentService(object):
         self.credentials = PagSeguroCredentials()
 
     def post(self):
+        self._set_headers()
         return requests.post(self.credentials.checkout, data=self.payload,
                              headers=self.headers)
 
@@ -68,3 +67,7 @@ class PaymentService(object):
             )
 
         return payment
+
+    def _set_headers(self):
+        self.headers = {"Content-Type":
+                        "application/x-www-form-urlencoded; charset=UTF-8"}

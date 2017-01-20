@@ -18,7 +18,7 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from app.members.models import Member
-from app.payment.models import Payment, Transaction, PaymentType
+from app.payment.models import Payment, Transaction
 
 from .payment_service import PaymentService
 
@@ -37,7 +37,7 @@ class PaymentView(View):
         payment_obj.set_reference(payment)
 
     def set_payment_code(self, payment):
-        payment_obj = self.get_payment_object()
+        payment_obj = self.get_payment_service()
         self._create_payload(payment, payment_obj)
         response = payment_obj.post()
         if response.ok:
@@ -49,7 +49,7 @@ class PaymentView(View):
 
     def get(self, request, member_id):
         member = get_object_or_404(Member, pk=member_id)
-        payment_service = self.get_payment_object()
+        payment_service = self.get_payment_service()
         payment = payment_service.get_member_payment(member)
         payment_with_code = self.set_payment_code(payment)
 
@@ -65,7 +65,7 @@ class PaymentView(View):
                 + payment_with_code.code
         return HttpResponseRedirect(url)
 
-    def get_payment_object(self):
+    def get_payment_service(self):
         return self.payment_class()
 
 
@@ -112,14 +112,17 @@ class NotificationView(View):
 
     def _update_payment_dates(self, payment):
         # TODO: we need to think more about this rule and define it...
-        payment.valid_until = timezone.now() + timedelta(days=payment.type.duration)
+        payment.valid_until = (
+            timezone.now() + timedelta(days=payment.type.duration)
+        )
         payment.date = timezone.now()
         payment.save()
 
     def _send_confirmation_email(self, payment):
-        #Send an email confirming the subscription
+        # Send an email confirming the subscription
         user = payment.member.user
-        message = u'Olá %s! Seu registro na Associação Python Brasil (APyB) já foi realizado!' % user.get_full_name()
+        message = (u'Olá %s! Seu registro na Associação Python Brasil '
+                   u'(APyB) já foi realizado!' % user.get_full_name())
         user.email_user(u'Registro OK', message)
 
     def transaction_done(self, payment_id):
@@ -129,7 +132,7 @@ class NotificationView(View):
         self._send_confirmation_email(payment)
 
     def create_transaction(self, payment_id, status, price, code):
-        transaction = Transaction.objects.create(
+        Transaction.objects.create(
             payment_id=payment_id,
             code=code,
             status=status,
@@ -150,6 +153,7 @@ class NotificationView(View):
 
             if status == 3:
                 self.transaction_done(payment_id)
-            self.create_transaction(payment_id, status, price, self.transaction_code)
+            self.create_transaction(payment_id, status, price,
+                                    self.transaction_code)
 
         return HttpResponse("OK")
