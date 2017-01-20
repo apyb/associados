@@ -53,7 +53,11 @@ class PaymentService(object):
 
     def _set_payment_system(self):
         if self.payment_system != 'PAGSEGURO':
-            return
+            raise NotImplementedError(
+                'You must setup a matching Credentials object and '
+                'configure this function'
+            )
+
         self.credentials = PagSeguroCredentials()
 
     def post(self):
