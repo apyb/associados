@@ -29,17 +29,17 @@ logger = logging.getLogger(__name__)
 class PaymentView(View):
     payment_class = PaymentService
 
-    def _create_payload(self, payment, payment_obj):
-        payment_obj.set_price(payment.type.price)
-        payment_obj.set_description(
+    def _create_payload(self, payment, payment_service):
+        payment_service.set_price(payment.type.price)
+        payment_service.set_description(
             _(u'Brazilian Python Association registration payment')
         )
-        payment_obj.set_reference(payment)
+        payment_service.set_reference(payment)
 
     def set_payment_code(self, payment):
-        payment_obj = self.get_payment_service()
-        self._create_payload(payment, payment_obj)
-        response = payment_obj.post()
+        payment_service = self.get_payment_service()
+        self._create_payload(payment, payment_service)
+        response = payment_service.post()
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
