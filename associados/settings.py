@@ -48,14 +48,16 @@ TIME_ZONE = 'America/Sao_Paulo'
 
 
 # Media & Static
+# set 's3_folder_storage.s3.DefaultStorage' in settings.ini for production
 DEFAULT_FILE_STORAGE = decouple.config(
     'DEFAULT_FILE_STORAGE',
-    default='s3_folder_storage.s3.DefaultStorage'
+    default='django.core.files.storage.FileSystemStorage'
 )
 
+# set 's3_folder_storage.s3.StaticStorage' in settings.ini for production
 STATICFILES_STORAGE = decouple.config(
     'STATICFILES_STORAGE',
-    default='s3_folder_storage.s3.StaticStorage'
+    default='django.contrib.staticfiles.storage.StaticFilesStorage'
 )
 
 STATIC_S3_PATH = "static"
@@ -140,7 +142,6 @@ INTERNAL_IPS = decouple.config('INTERNAL_IPS', default='127.0.0.1,',
 #     'django.template.loaders.app_directories.Loader',
 # )
 
-#TEMPLATE_DIRS = ()
 
 TEMPLATES = [
     {
