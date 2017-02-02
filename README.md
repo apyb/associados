@@ -33,9 +33,13 @@ Exemplo, para instalar o banco de dados em /tmp/pgdata (temporário):
     postgres=# create database associados owner associados;
     postgres=# \q
 
-Você pode mudar os parâmetros de acesso ao banco de dados, modificando o arquivo:
-`associados/settings_local_model.py` antes de realizar o setup ou editando o arquivo
-`associados/settings_local.py`, após o setup.
+Você pode mudar os parâmetros locais, como banco de dados, copiando o arquivo:
+`associados/example_settings.ini` para `associados/settings.ini` e editando o arquivo
+com suas preferências. Os settings primeiro verificam variáveis de ambiente e
+depois as definições do `settings.ini`.
+
+Ou seja, se você definir `$ export DEBUG=True`, o valor do DEBUG em settings.ini não
+será avaliado.
 
 Instalar
 --------

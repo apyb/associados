@@ -19,3 +19,4 @@ raven==5.5.0
 django-localflavor==1.1
 cssselect==0.9.1
 django-municipios==0.8.1
+python-decouple==3.0
