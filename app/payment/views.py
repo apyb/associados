@@ -10,33 +10,36 @@ from lxml import html as lhtml
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, HttpResponse, \
+     HttpResponseBadRequest
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
 from app.members.models import Member
-from app.payment.models import Payment, Transaction, PaymentType
+from app.payment.models import Payment, Transaction
+
+from .payment_service import PaymentService
 
 
 logger = logging.getLogger(__name__)
 
 
 class PaymentView(View):
-    def _create_payload(self, payment):
-        payload = settings.PAGSEGURO
-        price = payment.type.price
-        payload["itemAmount1"] = "%.2f" % price
-        payload['itemDescription1'] = ugettext(u'Brazilian Python Association registration payment')
-        payload["reference"] = "%d" % payment.pk
-        return payload, price
+    payment_class = PaymentService
+
+    def _create_payload(self, payment, payment_service):
+        payment_service.set_price(payment.type.price)
+        payment_service.set_description(
+            _(u'Brazilian Python Association registration payment')
+        )
+        payment_service.set_reference(payment)
 
     def set_payment_code(self, payment):
-        headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
-        payload, price = self._create_payload(payment)
-        response = requests.post(settings.PAGSEGURO_CHECKOUT, data=payload, headers=headers)
+        payment_service = self.get_payment_service()
+        self._create_payload(payment, payment_service)
+        response = payment_service.post()
         if response.ok:
             dom = lhtml.fromstring(response.content)
             transaction_code = dom.xpath("//code")[0].text
@@ -46,41 +49,47 @@ class PaymentView(View):
 
     def get(self, request, member_id):
         member = get_object_or_404(Member, pk=member_id)
-        payment_type = PaymentType.objects.get(category=member.category)
-        payment = Payment.objects.create(
-            member=member,
-            type=payment_type
-        )
+        payment_service = self.get_payment_service()
+        payment = payment_service.get_member_payment(member)
         payment_with_code = self.set_payment_code(payment)
 
         if not payment_with_code.code:
             payment_with_code.delete()
             url = '/'
-            messages.error(request, ugettext(
-                "Failed to generate a transaction within the payment gateway. Please contact the staff to complete your registration."),
+            messages.error(request, _(
+                "Failed to generate a transaction within the payment gateway. "
+                "Please contact the staff to complete your registration."),
                            fail_silently=True)
         else:
-            url = settings.PAGSEGURO_WEBCHECKOUT + payment_with_code.code
+            url = settings.PAYMENT_ENDPOINT_WEBCHECKOUT \
+                + payment_with_code.code
         return HttpResponseRedirect(url)
+
+    def get_payment_service(self):
+        return self.payment_class()
 
 
 class NotificationView(View):
+    payment_class = PaymentService
+
     def __init__(self, **kwargs):
         self.transaction_code = None
         super(NotificationView, self).__init__(**kwargs)
 
     def transaction(self, transaction_code):
+        payment_service = self.get_payment_service()
+
         url_transacao = "%s/%s?email=%s&token=%s" % (
-            settings.PAGSEGURO_TRANSACTIONS,
+            payment_service.credentials.transactions,
             transaction_code,
-            settings.PAGSEGURO["email"],
-            settings.PAGSEGURO["token"]
+            settings.PAYMENT_CREDENTIALS["email"],
+            settings.PAYMENT_CREDENTIALS["token"]
         )
         url_notificacao = "%s/%s?email=%s&token=%s" % (
-            settings.PAGSEGURO_TRANSACTIONS_NOTIFICATIONS,
+            payment_service.credentials.notifications,
             transaction_code,
-            settings.PAGSEGURO["email"],
-            settings.PAGSEGURO["token"]
+            settings.PAYMENT_CREDENTIALS["email"],
+            settings.PAYMENT_CREDENTIALS["token"]
         )
 
         response = requests.get(url_transacao)
@@ -107,14 +116,17 @@ class NotificationView(View):
 
     def _update_payment_dates(self, payment):
         # TODO: we need to think more about this rule and define it...
-        payment.valid_until = timezone.now() + timedelta(days=payment.type.duration)
+        payment.valid_until = (
+            timezone.now() + timedelta(days=payment.type.duration)
+        )
         payment.date = timezone.now()
         payment.save()
 
     def _send_confirmation_email(self, payment):
-        #Send an email confirming the subscription
+        # Send an email confirming the subscription
         user = payment.member.user
-        message = u'Olá %s! Seu registro na Associação Python Brasil (APyB) já foi realizado!' % user.get_full_name()
+        message = (u'Olá %s! Seu registro na Associação Python Brasil '
+                   u'(APyB) já foi realizado!' % user.get_full_name())
         user.email_user(u'Registro OK', message)
 
     def transaction_done(self, payment_id):
@@ -124,7 +136,7 @@ class NotificationView(View):
         self._send_confirmation_email(payment)
 
     def create_transaction(self, payment_id, status, price, code):
-        transaction = Transaction.objects.create(
+        Transaction.objects.create(
             payment_id=payment_id,
             code=code,
             status=status,
@@ -145,6 +157,10 @@ class NotificationView(View):
 
             if status == 3:
                 self.transaction_done(payment_id)
-            self.create_transaction(payment_id, status, price, self.transaction_code)
+            self.create_transaction(payment_id, status, price,
+                                    self.transaction_code)
 
         return HttpResponse("OK")
+
+    def get_payment_service(self):
+        return self.payment_class()

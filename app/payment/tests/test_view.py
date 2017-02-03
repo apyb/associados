@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import mock
 from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.management import call_command
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from django.test.client import RequestFactory
@@ -30,19 +30,10 @@ class MemberTestCase(TestCase):
 
 class PaymentViewTestCase(MemberTestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        #call_command("loaddata", "profiles.json", verbosity=0)
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        #call_command("flush", interactive=False, verbosity=0)
-        pass
-
     def setUp(self):
         super(PaymentViewTestCase, self).setUp()
 
+        self.url = reverse('payment', kwargs=dict(member_id=42))
         self.request = RequestFactory().get("/", {})
         self.request.user = self.user
 
@@ -62,6 +53,23 @@ class PaymentViewTestCase(MemberTestCase):
     def tearDown(self):
         views.requests = self.requests_original
         Payment.objects.all().delete()
+
+    def test_response_302(self):
+        resp = self._get_payment_endpoint()
+        self.assertEqual(302, resp.status_code)
+
+    def test_redirection_has_correct_url(self):
+        resp = self._get_payment_endpoint()
+        self.assertEqual(
+            'https://pagseguro.uol.com.br/v2/checkout/'
+            'payment.html?code=xpto123',
+            resp.url
+        )
+
+    @mock.patch('app.payment.views.get_object_or_404')
+    def _get_payment_endpoint(self, mock_get_404):
+        mock_get_404.return_value = self.member
+        return self.client.get(self.url)
 
     def test_payment_view_should_redirect_to_dashboard_if_it_fails_to_create_the_transaction(self):
         class ResponseMock(object):
@@ -88,7 +96,7 @@ class PaymentViewTestCase(MemberTestCase):
         response = PaymentView.as_view()(self.request, self.member.id)
         self.assertTrue(Payment.objects.filter(member=self.member).exists())
         self.assertEqual(302, response.status_code)
-        expected_url = settings.PAGSEGURO_WEBCHECKOUT + "xpto123"
+        expected_url = settings.PAYMENT_ENDPOINT_WEBCHECKOUT + "xpto123"
         self.assertEqual(expected_url, response["Location"])
 
     def test_payment_view_should_create_a_payment_for_the_user_type(self):

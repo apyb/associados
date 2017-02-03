@@ -52,15 +52,15 @@ EMAIL_FILE_PATH = '/tmp/lead-messages'  # change this to a proper location
 
 EMAIL_CONTACT_ADDRESS = 'email@fake.com'
 
-PAGSEGURO['email'] = 'email@fake.com'
-PAGSEGURO['token'] = 'faketoken'
+PAYMENT_CREDENTIALS['email'] = 'email@fake.com'
+PAYMENT_CREDENTIALS['token'] = 'faketoken'
 
 #using pagseguro-fake-server: https://github.com/andrewsmedina/pagseguro-fake-server
-PAGSEGURO_BASE = 'http://localhost:8889/v2'
-PAGSEGURO_CHECKOUT = '%s/checkout' % PAGSEGURO_BASE
-PAGSEGURO_TRANSACTIONS = '%s/transactions' % PAGSEGURO_BASE
-PAGSEGURO_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAGSEGURO_TRANSACTIONS
-PAGSEGURO_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
+PAYMENT_CREDENTIALS_BASE = 'http://localhost:8889/v2'
+PAYMENT_CREDENTIALS_CHECKOUT = '%s/checkout' % PAYMENT_CREDENTIALS_BASE
+PAYMENT_CREDENTIALS_TRANSACTIONS = '%s/transactions' % PAYMENT_CREDENTIALS_BASE
+PAYMENT_CREDENTIALS_TRANSACTIONS_NOTIFICATIONS = '%s/notifications' % PAYMENT_CREDENTIALS_TRANSACTIONS
+PAYMENT_CREDENTIALS_WEBCHECKOUT = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
 
 
 MEDIA_ROOT = os.path.join(BASEDIR, 'media')
