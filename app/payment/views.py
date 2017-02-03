@@ -61,7 +61,7 @@ class PaymentView(View):
                 "Please contact the staff to complete your registration."),
                            fail_silently=True)
         else:
-            url = settings.PAYMENT_CREDENTIALS_WEBCHECKOUT \
+            url = settings.PAYMENT_ENDPOINT_WEBCHECKOUT \
                 + payment_with_code.code
         return HttpResponseRedirect(url)
 
@@ -70,19 +70,23 @@ class PaymentView(View):
 
 
 class NotificationView(View):
+    payment_class = PaymentService
+
     def __init__(self, **kwargs):
         self.transaction_code = None
         super(NotificationView, self).__init__(**kwargs)
 
     def transaction(self, transaction_code):
+        payment_service = self.get_payment_service()
+
         url_transacao = "%s/%s?email=%s&token=%s" % (
-            settings.PAYMENT_CREDENTIALS_TRANSACTIONS,
+            payment_service.credentials.transactions,
             transaction_code,
             settings.PAYMENT_CREDENTIALS["email"],
             settings.PAYMENT_CREDENTIALS["token"]
         )
         url_notificacao = "%s/%s?email=%s&token=%s" % (
-            settings.PAYMENT_CREDENTIALS_TRANSACTIONS_NOTIFICATIONS,
+            payment_service.credentials.notifications,
             transaction_code,
             settings.PAYMENT_CREDENTIALS["email"],
             settings.PAYMENT_CREDENTIALS["token"]
@@ -157,3 +161,6 @@ class NotificationView(View):
                                     self.transaction_code)
 
         return HttpResponse("OK")
+
+    def get_payment_service(self):
+        return self.payment_class()

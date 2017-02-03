@@ -234,9 +234,10 @@ EMAIL_CONTACT_ADDRESS = DEFAULT_FROM_EMAIL
 PAYMENT_SYSTEM = decouple.config('PAYMENT_SYSTEM', default="PAGSEGURO")
 
 PAYMENT_CREDENTIALS = {
-    'email': decouple.config('PAYMENT_CREDENTIALS_EMAIL'),
+    'email': decouple.config('PAYMENT_CREDENTIALS_EMAIL',
+                             default='fake@email.com'),
     'charset': 'UTF-8',
-    'token': decouple.config('PAYMENT_CREDENTIALS_TOKEN'),
+    'token': decouple.config('PAYMENT_CREDENTIALS_TOKEN', default='faketoken'),
     'currency': 'BRL',
     'itemId1': '0001',
     'itemQuantity1': 1,
@@ -247,11 +248,11 @@ PAYMENT_ENDPOINTS_BASE = decouple.config(
     default='https://ws.pagseguro.uol.com.br/v2'
 )
 PAYMENT_ENDPOINT_WEBCHECKOUT = decouple.config(
-    'PAYMENT_CREDENTIALS_WEBCHECKOUT',
+    'PAYMENT_ENDPOINT_WEBCHECKOUT',
     default='https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
 )
 PAYMENT_ENDPOINT_WEB_PRE_APPROVAL = decouple.config(
-    'PAYMENT_CREDENTIALS_PRE_APPROVAL',
+    'PAYMENT_ENDPOINT_WEB_PRE_APPROVAL',
     default='https://pagseguro.uol.com.br/v2/pre-approval/request.html?code='
 )
 

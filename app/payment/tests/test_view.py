@@ -96,7 +96,7 @@ class PaymentViewTestCase(MemberTestCase):
         response = PaymentView.as_view()(self.request, self.member.id)
         self.assertTrue(Payment.objects.filter(member=self.member).exists())
         self.assertEqual(302, response.status_code)
-        expected_url = settings.PAYMENT_CREDENTIALS_WEBCHECKOUT + "xpto123"
+        expected_url = settings.PAYMENT_ENDPOINT_WEBCHECKOUT + "xpto123"
         self.assertEqual(expected_url, response["Location"])
 
     def test_payment_view_should_create_a_payment_for_the_user_type(self):

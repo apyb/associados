@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
+from django.utils.translation import ugettext as _
 from app.members.models import Member, Category, Organization
 from app.members.tests.helpers import create_user_with_member
 from lxml import html as lhtml
@@ -117,4 +118,8 @@ class MemberChangeWithErrorView(TestCase):
 
     def test_post_with_correcly_data_should_update_a_member(self):
         response = self.client.post(self.url, self.data)
-        self.assertIn('An error occurred while trying to save your data. check the form below.', response.content)
+        self.assertIn(
+            _('An error occurred while trying to save your data.'
+              ' check the form below.'),
+            response.content.decode('utf-8')
+        )

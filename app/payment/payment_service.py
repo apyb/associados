@@ -11,18 +11,18 @@ class PagSeguroCredentials(object):
 
     def __init__(self):
 
-        PAYMENT_ENDPOINT_BASE = settings.PAYMENT_CREDENTIALS_BASE
+        PAYMENT_ENDPOINTS_BASE = settings.PAYMENT_ENDPOINTS_BASE
         PAYMENT_ENDPOINT_WEBCHECKOUT = (
             settings.PAYMENT_ENDPOINT_WEBCHECKOUT
         )
         PAYMENT_ENDPOINT_PRE_APPROVAL = (
-            '%s/pre-approvals/request' % PAYMENT_ENDPOINT_BASE
+            '%s/pre-approvals/request' % PAYMENT_ENDPOINTS_BASE
         )
 
         self.pre_approval = '%s/pre-approvals/request' \
-            % PAYMENT_ENDPOINT_BASE
-        self.checkout = '%s/checkout' % PAYMENT_ENDPOINT_BASE
-        self.transactions = '%s/transactions' % PAYMENT_ENDPOINT_BASE
+            % PAYMENT_ENDPOINTS_BASE
+        self.checkout = '%s/checkout' % PAYMENT_ENDPOINTS_BASE
+        self.transactions = '%s/transactions' % PAYMENT_ENDPOINTS_BASE
         self.notifications = '%s/notifications' % self.transactions
         self.web_checkout = PAYMENT_ENDPOINT_WEBCHECKOUT
         self.pre_approval = PAYMENT_ENDPOINT_PRE_APPROVAL
