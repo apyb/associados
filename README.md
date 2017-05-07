@@ -28,7 +28,7 @@ Exemplo, para instalar o banco de dados em /tmp/pgdata (temporário):
     $ sudo apt-get install python-psycopg2
     $ pg_ctl initdb -D /tmp/pgdata
     $ pg_ctl start -D /tmp/pgdata
-    $ psql -d postgres
+    $ su postgres psql -U postgres # para roots: psql -d postgres 
     postgres=# create user associados createdb createuser password 'assocdev';
     postgres=# create database associados owner associados;
     postgres=# \q
