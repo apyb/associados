@@ -59,6 +59,22 @@ Rodando os testes
     $ make test
 
 
+Ambiente com Docker
+---------------------------
+
+Caso queira subir o ambiente com Docker, temos um `docker-compose.yml` com o PostgreSQL e o Django. No arquivo, também é possível alterar as informações de acesso do PostgreSQL.
+
+Instalar o [Docker/Docker-Compose](https://docs.docker.com/engine/installation/).
+
+Copiar o arquivo `associados/example_settings.ini` para `associados/settings.ini` e configurar as variáveis locais.
+
+Copiar o arquivo `associados/settings_local.py` para `associados/settings_local_model.py` e configurar a variável do banco de dados.
+
+Subir o ambiente com o comando `docker-compose.yml`.
+
+Caso queria realizar os testes, usar o comando `docker-compose run web python manage.py test --settings associados.settings_test --verbosity=2`.
+
+
 Como contribuir?
 ----------------
 
