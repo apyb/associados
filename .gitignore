@@ -48,3 +48,6 @@ htmlcov/*
 associados.sqlite
 test.py
 
+# Docker generated files
+src/
+docker/db/pgdata/
