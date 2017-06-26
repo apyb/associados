@@ -127,7 +127,11 @@ LOGIN_REDIRECT_URL = reverse_lazy('members-dashboard')
 AUTHENTICATION_BACKENDS = (
     'app.authemail.backends.EmailBackend',
 )
+
+#SSL Setup
+SECURE_SSL_REDIRECT=True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 ALLOWED_HOSTS = decouple.config('ALLOWED_HOSTS', cast=decouple.Csv(),
                                 default='localhost')
 
