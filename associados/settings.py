@@ -129,7 +129,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 #SSL Setup
-SECURE_SSL_REDIRECT=decoupe.config('FORCE_HTTPS', cast=bool, default=False)
+SECURE_SSL_REDIRECT=decouple.config('FORCE_HTTPS', cast=bool, default=False)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = decouple.config('ALLOWED_HOSTS', cast=decouple.Csv(),
