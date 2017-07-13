@@ -42,3 +42,4 @@ class PaymentAdmin(admin.ModelAdmin):
 
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(PaymentType)
+admin.site.register(Transaction)
