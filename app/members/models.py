@@ -9,9 +9,12 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from localflavor.br.br_states import STATE_CHOICES
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from app.core.models import DefaultFields
 from django_gravatar.helpers import get_gravatar_url
+from mail import send_email
 
 
 github_api = slumber.API("https://api.github.com/", append_slash=False)
@@ -53,18 +56,22 @@ class Category(models.Model):
 class Member(models.Model):
     user = models.OneToOneField(User)
     category = models.ForeignKey(Category, verbose_name=_('Category'))
-    github_user = models.CharField(_('Github User'), max_length=50, null=True, blank=True)
+    github_user = models.CharField(
+        _('Github User'), max_length=50, null=True, blank=True)
     organization = models.ForeignKey(Organization, null=True, blank=True)
     cpf = models.CharField(_('CPF'), max_length=11, db_index=True, unique=True)
     phone = models.CharField(_('Phone'), max_length=50, null=True, blank=True)
     address = models.TextField(_('Address'), null=True, blank=True)
-    location = models.CharField(_('Location'), max_length=100, null=True, blank=True)
-    relation_with_community = models.TextField(_('Relation with community'), null=True, blank=True)
+    location = models.CharField(
+        _('Location'), max_length=100, null=True, blank=True)
+    relation_with_community = models.TextField(
+        _('Relation with community'), null=True, blank=True)
     mailing = models.BooleanField(_('Mailing'), default=True)
     partner = models.BooleanField(_('Partner'), default=True)
 
     diretoria = models.NullBooleanField('Diretoria', default=False, null=True)
-    thumb_image = models.CharField('Thumbimage', max_length=100, null=True, blank=True)
+    thumb_image = models.CharField(
+        'Thumbimage', max_length=100, null=True, blank=True)
     municipio = models.ForeignKey('municipios.Municipio',
                                   verbose_name=u"Município",
                                   related_name="municipio_org_mun",
@@ -77,13 +84,15 @@ class Member(models.Model):
         return 0
 
     def get_first_payment(self):
-        payments = self.payment_set.filter(last_transaction__status__in=[3, 4]).order_by('date')
+        payments = self.payment_set.filter(
+            last_transaction__status__in=[3, 4]).order_by('date')
         if not payments:
             return None
         return payments[0]
 
     def get_last_payment(self):
-        payments = self.payment_set.filter(last_transaction__status__in=[3, 4]).order_by('-date')
+        payments = self.payment_set.filter(
+            last_transaction__status__in=[3, 4]).order_by('-date')
         if not payments:
             return None
         return payments[0]
@@ -141,3 +150,10 @@ class Member(models.Model):
         return self.full_name()
 
 
+@receiver(post_save, sender=Member)
+def sending_email(sender, instance, created, **kwargs):
+    if created:
+        send_email(subject="Bem vindo a Assosiação PythonBrasil",
+                   template_name='members/email.html',
+                   context=instance.user.first_name,
+                   recipient_list=[instance.user.email])
