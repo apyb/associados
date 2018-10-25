@@ -66,3 +66,12 @@ class MembersPaymentTest(TestCase):
             price=50.0
         )
         self.assertEqual(self.member.get_days_to_next_payment(self.payment), 10)
+
+    def test_must_return_the_days_remaining_for_the_next_payment(self):
+        self.transaction = Transaction.objects.create(
+            payment=self.payment,
+            code='fake-code',
+            status=3,
+            price=50.0
+        )
+        self.assertEqual(self.member.get_count_down_payment_days(), 10)

@@ -198,6 +198,10 @@ msgstr "Filtrar por categoria:"
 msgid "All"
 msgstr "Todos"
 
+#: app/members/templates/members/member_list.html:63
+msgid "Days remaining for next payment:"
+msgstr "Dias restantes para o próximo pagamento:"
+
 #: app/members/templates/members/member_register.html:7
 msgid "Python Brazil Association Registration"
 msgstr "Pagamento do registro na Associação Python Brasil"

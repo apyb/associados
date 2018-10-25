@@ -37,7 +37,6 @@
             <div class="row">
                 {% for member in object_list %}
 
-
                 <div class="span4 member">
                     <div class="row">
                         <div class="span1">
@@ -61,7 +60,7 @@
                                 </span>
                             {% endif %}
                             <span class="clearfix">{{ member.full_name }}</span>
-
+                            <span class="clearfix">{% trans "Days remaining for next payment:" %} {{ member.get_count_down_payment_days }}</span>
                         </div>
                     </div>
                 </div>

@@ -116,6 +116,10 @@ class Member(models.Model):
             'first_payment': first_payment,
         }
 
+    def get_count_down_payment_days(self):
+        last_payment = self.get_last_payment()
+        return self.get_days_to_next_payment(last_payment)
+
     @property
     def github(self):
         if not self.github_user:
