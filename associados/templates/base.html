@@ -132,5 +132,15 @@
 <script src="{{ STATIC_URL }}js/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
 {% block js %}{% endblock js %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136790801-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136790801-3');
+</script>
+<!-- End Global site tag (gtag.js) - Google Analytics -->
 </body>
 </html>
