@@ -20,11 +20,14 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-DATABASE_URL = decouple.config('DATABASE_URL', default='postgres://localhost')
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
 
 # Miscelaneous
 APPEND_SLASH = True
