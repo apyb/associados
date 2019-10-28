@@ -3,7 +3,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from localflavor.br.forms import BRCPFField, BRPhoneNumberField
-from municipios.widgets import SelectMunicipioWidget
 
 from django.forms import TextInput
 from django.forms.utils import flatatt
@@ -58,10 +57,7 @@ class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
         exclude = ('user', )
-        widgets = {'municipio': SelectMunicipioWidget}
-        fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location',
-                  'municipio',
-                  'relation_with_community', 'mailing', 'partner')
+        fields = ('category', 'github_user', 'organization', 'cpf', 'phone', 'address', 'location', 'relation_with_community', 'mailing', 'partner')
 
     def clean_organization(self):
         organization = self.cleaned_data['organization']
