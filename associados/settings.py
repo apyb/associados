@@ -210,8 +210,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'sorl.thumbnail',
     'django_gravatar',
-    'municipios',
-
 )
 
 
