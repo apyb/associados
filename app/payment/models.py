@@ -28,7 +28,7 @@ class PaymentType(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     duration = models.IntegerField(help_text='In days', default=1)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"{0} - {1} for {2} days".format(self.category.name, self.price, self.duration)
 
 
@@ -45,7 +45,7 @@ class Payment(models.Model):
             status__in=[PAID, AVALIABLE]
         ).exists()
 
-    def __unicode__(self):
+    def __str__(self):
         return u'payment from {0}'.format(self.member)
 
 
@@ -63,7 +63,7 @@ class Transaction(models.Model):
     def status_display(self):
         return dict(TRANSACTION_STATUS).get(self.status, u"Unknown")
 
-    def __unicode__(self):
+    def __str__(self):
         return u"{self.date} - {self.status_display} - {self.price:.2f}".format(self=self)
 
 

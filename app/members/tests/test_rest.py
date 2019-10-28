@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
+import json
 from datetime import timedelta
 from django.test import TestCase
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from app.members.tests.helpers import create_user_with_member
 from app.payment.models import Payment, PaymentType, Transaction
-import json
+from app.util import response_string
 
 
 class REST(TestCase):
@@ -50,8 +51,8 @@ class REST(TestCase):
 
     def test_should_receive_error_json(self):
         request = self.client.get(self.url)
-        response = json.loads(request.content)
-        expected = {u"error": u"Could not find any valid parameters. Options: ['email', 'cpf']"}
+        response = json.loads(response_string(request))
+        expected = {"error": "Could not find any valid parameters. Options: ['cpf', 'email']"}
 
         self.assertEqual(response, expected)
 
@@ -64,17 +65,17 @@ class REST(TestCase):
         }
 
         request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
-        response = json.loads(request.content)
+        response = json.loads(response_string(request))
         expected = {u'status': u'active'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?email=%(email)s" % (params))
-        response = json.loads(request.content)
+        response = json.loads(response_string(request))
         expected = {u'status': u'active'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
-        response = json.loads(request.content)
+        response = json.loads(response_string(request))
         expected = {u'status': u'active'}
         self.assertEqual(response, expected)
 
@@ -87,18 +88,18 @@ class REST(TestCase):
         }
 
         request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
-        response = json.loads(request.content)
-        expected = {u'status': u'inactive'}
+        response = json.loads(response_string(request))
+        expected = {'status': 'inactive'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?email=%(email)s" % (params))
-        response = json.loads(request.content)
-        expected = {u'status': u'inactive'}
+        response = json.loads(response_string(request))
+        expected = {'status': 'inactive'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
-        response = json.loads(request.content)
-        expected = {u'status': u'inactive'}
+        response = json.loads(response_string(request))
+        expected = {'status': 'inactive'}
         self.assertEqual(response, expected)
 
     def test_should_validate_non_existant_user(self):
@@ -110,16 +111,16 @@ class REST(TestCase):
         }
 
         request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
-        response = json.loads(request.content)
-        expected = {u'status': u'invalid'}
+        response = json.loads(response_string(request))
+        expected = {'status': 'invalid'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?email=%(email)s" % (params))
-        response = json.loads(request.content)
-        expected = {u'status': u'invalid'}
+        response = json.loads(response_string(request))
+        expected = {'status': 'invalid'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
-        response = json.loads(request.content)
-        expected = {u'status': u'invalid'}
+        response = json.loads(response_string(request))
+        expected = {'status': 'invalid'}
         self.assertEqual(response, expected)

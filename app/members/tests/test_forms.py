@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from django.test import TestCase
-from django.utils.translation import ugettext as _
 from app.members.forms import MemberForm, UserForm
 from app.members.models import Organization, User, Category, Member
-from app.payment.models import Payment, PaymentType, Transaction
 
 
 class UserFormTest(TestCase):

@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse_lazy
 import decouple
 
 DEBUG = decouple.config("DEBUG", cast=bool, default=False)
-TEMPLATE_DEBUG = DEBUG
 BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__),
                                         os.path.pardir))
 
@@ -49,14 +48,16 @@ TIME_ZONE = 'America/Sao_Paulo'
 
 
 # Media & Static
+# set 's3_folder_storage.s3.DefaultStorage' in settings.ini for production
 DEFAULT_FILE_STORAGE = decouple.config(
     'DEFAULT_FILE_STORAGE',
-    default='s3_folder_storage.s3.DefaultStorage'
+    default='django.core.files.storage.FileSystemStorage'
 )
 
+# set 's3_folder_storage.s3.StaticStorage' in settings.ini for production
 STATICFILES_STORAGE = decouple.config(
     'STATICFILES_STORAGE',
-    default='s3_folder_storage.s3.StaticStorage'
+    default='django.contrib.staticfiles.storage.StaticFilesStorage'
 )
 
 STATIC_S3_PATH = "static"
@@ -140,12 +141,36 @@ INTERNAL_IPS = decouple.config('INTERNAL_IPS', default='127.0.0.1,',
 
 
 # Templates & Middlewares
-TEMPLATE_LOADERS = (
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# )
+
+TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-)
+]
 
-TEMPLATE_DIRS = ()
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    }
+]
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
@@ -270,3 +295,8 @@ if DSN:
     INSTALLED_APPS = INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',
     )
+
+
+PIPELINE = {
+
+}
