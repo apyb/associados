@@ -146,6 +146,11 @@ INTERNAL_IPS = decouple.config('INTERNAL_IPS', default='127.0.0.1,',
 #     'django.template.loaders.app_directories.Loader',
 # )
 
+TEMPLATE_LOADERS = [
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+]
+
 
 TEMPLATES = [
     {
@@ -153,7 +158,15 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
-            # ... some options here ...
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
         },
     }
 ]
