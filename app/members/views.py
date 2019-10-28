@@ -1,4 +1,7 @@
 # encoding: utf-8
+import json
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -13,9 +16,8 @@ from django.views.generic.edit import FormView
 
 from app.members.models import Category, Member
 from app.members.forms import MemberForm, UserForm
+from app.payment.models import Payment
 from app.authemail.forms import RegisterForm
-
-import json
 
 
 class MemberListView(ListView):
@@ -39,6 +41,14 @@ class MemberListView(ListView):
 
         if self.category:
             queryset = queryset.filter(category__id=self.category)
+
+        members_with_payments = Payment.objects \
+                                       .filter(valid_until__gt=datetime.now()) \
+                                       .values('member_id')
+        members_with_payments_ids = set(
+            row['member_id'] for row in members_with_payments
+        )
+        queryset = queryset.filter(id__in=members_with_payments_ids)
 
         self.queryset = queryset.select_related("category", "user", "organization")
 
