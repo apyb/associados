@@ -45,6 +45,7 @@ associados/static/docs/*
 htmlcov/*
 
 # Database
+*.sqlite3
 associados.sqlite
 test.py
 
