@@ -8,7 +8,7 @@ O projeto é desenvolvido por voluntários, utilizando principamente Python e Dj
 Preparando o ambiente
 ---------------------
 
-Recomenda-se utilizar o [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) para manter o ambiente isolado de suas aplicações. Testado com Python 2.7.10, Postgresql 9.4 e Django 1.8.4.
+Recomenda-se utilizar o [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) para manter o ambiente isolado de suas aplicações. Testado com Python 3.5.2, Postgresql 9.5.4 e Django 1.10.1.
 
 
 Você precisa instalar o postgresql em sua máquina antes de continuar.

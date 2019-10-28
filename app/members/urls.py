@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from app.members.views import MemberListView, member_form, dashboard, SignupView, member_status, member_json
 
-urlpatterns = patterns(
-    '',
+urlpatterns = (
     url(r'^signup/$', SignupView.as_view(), name='members-signup'),
     url(r'^list/$', MemberListView.as_view(), name='members-list'),
     url(r'^update/$', member_form, name='members-form'),

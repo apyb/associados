@@ -11,6 +11,8 @@
 *~
 *.sass-cache
 *.pyc
+.python-version
+.env
 
 # OS or Editor folders
 .DS_Store
@@ -47,6 +49,9 @@ htmlcov/*
 # Database
 associados.sqlite
 test.py
+
+# Estaticos
+static/*
 
 # Docker generated files
 src/

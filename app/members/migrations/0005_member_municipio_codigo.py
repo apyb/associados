@@ -8,6 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('members', '0004_auto_20150830_1236'),
+        ('municipios', '0001_initial'),
     ]
 
     operations = [
