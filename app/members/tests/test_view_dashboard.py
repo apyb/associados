@@ -21,7 +21,7 @@ class DashboardView(TestCase):
     def test_route_must_be_protected(self):
         self.client.logout()
         response = self.client.get(self.url)
-        self.assertRedirects(response, 'login/?next=/members/dashboard/')
+        self.assertRedirects(response, '/login/?next=/members/dashboard/')
 
     def test_should_redirect_if_user_has_no_member_instance(self):
         self.user.member.delete()

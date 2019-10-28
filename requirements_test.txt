@@ -1,3 +1,2 @@
 -r requirements_test_osx.txt
-wsgiref==0.1.2
 mock==2.0.0

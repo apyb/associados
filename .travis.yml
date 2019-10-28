@@ -1,10 +1,10 @@
 language: python
 
 python:
-  - 2.7
+  - 3.6.9
 
 env:
-  - DJANGO_VERSION=1.8.13
+  - DJANGO_VERSION=1.10.1
 
 addons:
   apt:

@@ -28,7 +28,13 @@ class FlatpagesTest(TestCase):
 
     def test_should_render_the_title(self):
         dom = lhtml.fromstring(self.response.content)
-        self.assertEqual(dom.cssselect('title')[0].text, _('Python Brazil Association') + ' | ' + self.flatpage.title)
+        self.assertEqual(
+            dom.cssselect('title')[0].text,
+            "{} | {}".format(
+                _('Python Brazil Association'),
+                self.flatpage.title,
+            ),
+        )
 
     def test_should_have_the_member_form_route(self):
         url = reverse('members-signup')
