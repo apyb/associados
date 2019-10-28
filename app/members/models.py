@@ -14,7 +14,7 @@ from django.dispatch import receiver
 
 from app.core.models import DefaultFields
 from django_gravatar.helpers import get_gravatar_url
-from mail import send_email
+from app.members.mail import send_email
 
 
 github_api = slumber.API("https://api.github.com/", append_slash=False)
