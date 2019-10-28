@@ -80,7 +80,6 @@ class Member(models.Model):
     def change_category(self):
         self.category = Category.objects.get(name="Efetivo")
         self.save()
-        return True
 
     def get_days_to_next_payment(self, payment):
         if payment and payment.done() and payment.valid_until is not None:
