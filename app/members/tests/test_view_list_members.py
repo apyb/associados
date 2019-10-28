@@ -20,6 +20,8 @@ class MemberListViewTest(TestCase):
         create_user_with_member(first_name='python',
                                 last_name='long name user',
                                 category=category)
+        create_user_with_member(first_name='temaki', last_name='de_frango',
+                                category=category)
 
         members = [
             Member.objects.filter(user__first_name=name).first()
@@ -31,7 +33,7 @@ class MemberListViewTest(TestCase):
         )
 
         for idx, member in enumerate(members):
-            date = timezone.now() if idx % 2 == 0 else timezone.now() - timedelta(days=370)
+            date = timezone.now()
             valid_until=date + timedelta(days=365)
             Payment.objects.create(
                 member=member,
@@ -52,6 +54,7 @@ class MemberListViewTest(TestCase):
     def test_should_render_the_members(self):
         self.assertIn('teste teste', self.response.rendered_content)
         self.assertIn('Estudante', self.response.rendered_content)
+        self.assertNotIn('temaki', self.response.rendered_content)
 
     def test_should_search_members(self):
         response = self.client.get(self.url, {
@@ -59,15 +62,17 @@ class MemberListViewTest(TestCase):
         })
 
         self.assertIn('teste teste', response.rendered_content)
+        self.assertIn('amet consectetur', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
         self.assertNotIn('dolor sit', response.rendered_content)
+        self.assertNotIn('temaki', response.rendered_content)
 
     def test_should_filter_members(self):
         response = self.client.get(self.url, {
             'category': 1,
         })
         self.assertIn('teste teste', response.rendered_content)
-        self.assertNotIn('dolor sit', response.rendered_content)
+        self.assertIn('dolor sit', response.rendered_content)
         self.assertNotIn('lorem ipsum', response.rendered_content)
         self.assertNotIn('amet consectetur', response.rendered_content)
 
