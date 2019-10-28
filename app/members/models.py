@@ -77,6 +77,11 @@ class Member(models.Model):
                                   related_name="municipio_org_mun",
                                   null=True, blank=True)
 
+    def change_category(self):
+        self.category = Category.objects.get(name="Efetivo")
+        self.save()
+        return True
+
     def get_days_to_next_payment(self, payment):
         if payment and payment.done() and payment.valid_until is not None:
             dif = payment.valid_until - timezone.now()
