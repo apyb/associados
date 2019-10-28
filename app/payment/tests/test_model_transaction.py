@@ -23,7 +23,7 @@ class TransacitonModelTestCase(TestCase):
 
     def test_get_checkout_url(self):
         t = Transaction(code="123")
-        expected_url = settings.PAGSEGURO_WEBCHECKOUT + "123"
+        expected_url = settings.PAYMENT_ENDPOINT_WEBCHECKOUT + "123"
         self.assertEqual(expected_url, t.get_checkout_url())
 
     def assert_field_in(self, field_name, model):
@@ -45,4 +45,3 @@ class TransactionTestCase(TestCase):
             price='0.0'
         )
         self.assertEqual(transaction, payment.last_transaction)
-

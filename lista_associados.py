@@ -2,7 +2,8 @@
 # coding: utf-8
 
 """
-heroku login --app associados
+heroku login
+heroku run --app associados bash
 python manage.py shell
 execfile('lista_associados.py')
 """

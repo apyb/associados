@@ -3,9 +3,6 @@
 from django.test import TestCase
 from app.members.forms import MemberForm, UserForm
 from app.members.models import Organization, User, Category, Member
-from app.payment.models import Payment, PaymentType, Transaction
-from app.members.tests.helpers import create_user_with_member
-from django.utils.translation import ugettext_lazy as _
 
 
 class UserFormTest(TestCase):
@@ -108,28 +105,6 @@ class ValidMemberFormTest(MemberFormTest):
     def test_should_store_category(self):
         category = Category.objects.get(id=self.data.get('category'))
         self.assertEqual(self.member_instance.category, category)
-
-    def test_change_category_with_pending_payments(self):
-        payment = Payment.objects.create(
-            member=self.member_instance,
-            type=PaymentType.objects.get(id=1)
-        )
-
-        transaction = Transaction.objects.create(
-            payment=payment,
-            status=0,
-            code='fakecode',
-            price='0.0'
-        )
-
-        self.member_instance.save()
-
-        member_form = MemberForm(instance=self.member_instance, data={'category': 2})
-
-        self.assertFalse(self.member_instance.get_payment_status())
-        self.assertFalse(member_form.is_valid())
-
-        self.assertEqual(member_form.errors['category'], [_("You can't change your category with pending payments")])
 
     def test_should_store_relation_with_community(self):
         self.assertEqual(self.member_instance.relation_with_community, self.data.get('relation_with_community'))

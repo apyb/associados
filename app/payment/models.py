@@ -8,11 +8,15 @@ from django.utils import timezone
 from app.members.models import Member, Category
 
 
+PAID = '3'
+AVALIABLE = '4'
+
+
 TRANSACTION_STATUS = (
     ('1', u'Awaiting Payment'),
     ('2', u'In analysis'),
-    ('3', u'Paid'),
-    ('4', u'Available'),
+    (PAID, u'Paid'),
+    (AVALIABLE, u'Available'),
     ('5', u'In dispute'),
     ('6', u'Returned'),
     ('7', u'Cancelled'),
@@ -37,7 +41,9 @@ class Payment(models.Model):
     last_transaction = models.ForeignKey('Transaction', null=True, blank=True, related_name='last_transaction')
 
     def done(self):
-        return self.transaction_set.filter(status__in=[3, 4]).exists()
+        return self.transaction_set.filter(
+            status__in=[PAID, AVALIABLE]
+        ).exists()
 
     def __str__(self):
         return u'payment from {0}'.format(self.member)
@@ -51,7 +57,7 @@ class Transaction(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
 
     def get_checkout_url(self):
-        return settings.PAGSEGURO_WEBCHECKOUT + self.code
+        return settings.PAYMENT_ENDPOINT_WEBCHECKOUT + self.code
 
     @property
     def status_display(self):

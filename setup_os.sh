@@ -3,6 +3,7 @@
 if [[ $OSTYPE == 'linux-gnu' ]]; then
     echo 'Linux: Instalando dependencias...'
     sleep 3
+    [ $(which apt-get) ] && sudo apt-get install -y libpq-dev python-lxml libxml2-dev libxslt1-dev
     pip install -r requirements_test.txt
 
 elif [[ $OSTYPE == darwin* ]]; then

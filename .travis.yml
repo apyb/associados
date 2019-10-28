@@ -18,6 +18,7 @@ branches:
   only:
     - master
     - python3
+    - 153-user-status
 
 script:
   - coverage run --source=app manage.py test --settings=associados.settings_test --verbosity=2

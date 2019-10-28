@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
-from app.members.models import Member, Category, City, Organization
+from django.utils.translation import ugettext as _
+from app.members.models import Member, Category, Organization
 from app.members.tests.helpers import create_user_with_member
 from lxml import html as lhtml
 
@@ -100,7 +101,8 @@ class MemberChangeWithErrorView(TestCase):
 
     def setUp(self):
         self.url = reverse('members-form')
-        self.user = create_user_with_member(first_name='test', last_name='fake')
+        self.user = create_user_with_member(first_name='test',
+                                            last_name='fake')
         self.client.login(username='testfake', password='pass')
         self.response = self.client.get(self.url)
         self.dom = lhtml.fromstring(self.response.content)
@@ -109,7 +111,6 @@ class MemberChangeWithErrorView(TestCase):
             'category': '1',
             'partner': '',
             'mailing': '',
-            #'email': 'john@doe.com',
             'first_name': 'editou',
             'last_name': 'editou',
         }

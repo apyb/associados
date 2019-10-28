@@ -11,6 +11,8 @@
 *~
 *.sass-cache
 *.pyc
+.python-version
+.env
 
 # OS or Editor folders
 .DS_Store
@@ -50,3 +52,7 @@ test.py
 
 # Estaticos
 static/*
+
+# Docker generated files
+src/
+docker/db/pgdata/

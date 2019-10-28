@@ -23,7 +23,9 @@ make_paid.short_description = _("Set last transactions as paid")
 
 
 def last_transaction_name(obj):
-    return obj.last_transaction.get_status_display()
+	if obj.last_transaction:
+		return obj.last_transaction.get_status_display()
+	return ''
 
 
 last_transaction_name.short_description = _('Last Transaction')
@@ -40,3 +42,4 @@ class PaymentAdmin(admin.ModelAdmin):
 
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(PaymentType)
+admin.site.register(Transaction)

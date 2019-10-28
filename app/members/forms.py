@@ -63,20 +63,6 @@ class MemberForm(forms.ModelForm):
                   'municipio',
                   'relation_with_community', 'mailing', 'partner')
 
-    def __init__(self, *args, **kwargs):
-        super(MemberForm, self).__init__(*args,**kwargs)
-        # if self.instance:
-        #     if not self.instance.get_payment_status():
-        #         self.fields['category'].widget.attrs['disabled'] = 'disabled'
-
-    def clean_category(self):
-        category = self.cleaned_data['category']
-        if self.instance.id:
-            if not self.instance.get_payment_status():
-                if self.instance.category != category:
-                    raise forms.ValidationError(_("You can't change your category with pending payments"))
-        return category
-
     def clean_organization(self):
         organization = self.cleaned_data['organization']
         if not organization:
