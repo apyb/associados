@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.core import serializers
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
@@ -160,6 +160,11 @@ def member_status(request):
         response = _search_member(params)
 
     return HttpResponse(json.dumps(response), content_type='application/json')
+
+@login_required
+def update_category(request):
+        request.user.member.change_category()
+        return redirect('members-dashboard')
 
 
 @login_required

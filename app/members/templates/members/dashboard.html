@@ -4,6 +4,7 @@
     <h1>{% trans "Dashboard" %}</h1>
     <section>
 
+
         <div class="row">
 
             <div class="span6">
@@ -50,6 +51,15 @@
                             </a>
                         </th>
                     </tr>
+                    {% endif %}
+                    {% if user.member.category.name == "Estudante" %}
+                      <tr>
+                          <th span="2">
+                              <a class="btn btn-success" href="{% url 'update-category' %}">
+                                  <i class="icon-shopping-cart icon-white"></i>Mudar categoria para efetivo
+                              </a>
+                          </th>
+                     </tr>
                     {% endif %}
                     </tbody>
                 </table>
