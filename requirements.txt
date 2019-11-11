@@ -3,7 +3,7 @@ django-extensions==1.7.4
 sorl-thumbnail==12.3
 django-gravatar2==1.4.0
 django-pipeline==1.6.9
-requests==2.11.1
+requests==2.20.0
 git+https://github.com/pythonbrasil/django-bootstrap-toolkit.git@v1-associados#egg=django_bootstrap_toolkit
 dj-database-url==0.3.0
 psycopg2-binary==2.7.7
