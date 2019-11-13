@@ -49,7 +49,6 @@ htmlcov/*
 # Database
 *.sqlite3
 associados.sqlite
-test.py
 
 # Estaticos
 static/*
@@ -57,3 +56,6 @@ static/*
 # Docker generated files
 src/
 docker/db/pgdata/
+
+
+settings.ini
