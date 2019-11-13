@@ -49,7 +49,6 @@ htmlcov/*
 # Database
 *.sqlite3
 associados.sqlite
-test.py
 
 # Estaticos
 static/*
