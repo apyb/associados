@@ -19,7 +19,7 @@ from split_settings.tools import include
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-if os.environ['DJANGO_SETTINGS_MODULE'] == 'associados.settings.production':
+if os.environ['DJANGO_SETTINGS_MODULE'] == 'associados.settings.test':
     # must bypass this block if another settings module was specified
     include("base.py", scope=locals())
 
@@ -40,6 +40,18 @@ DATABASES = {
         'NAME': '::memory::'
     }
 }
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 
 # Default Tests Settings
