@@ -22,3 +22,6 @@ services:
       - ".:/usr/src/app"
     environment:
       DATABASE_URL: postgresql://postgres@db/associados
+      DEBUG: 1
+      LOCAL_STATIC: 1
+      SECRET_KEY: super-secreto
