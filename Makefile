@@ -29,3 +29,6 @@ makemessages:
 
 compilemessages:
 	@python manage.py compilemessages
+
+run-with-docker:
+	docker-compose run --service-ports --rm web
