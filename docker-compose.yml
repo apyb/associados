@@ -3,8 +3,6 @@ services:
 
   db:
     image: postgres:9.4
-    ports:
-      - "5432:5432"
     volumes:
       - "./docker/db/pgdata:/var/lib/postgresql/data"
     environment:
