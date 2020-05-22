@@ -6,19 +6,19 @@ services:
     volumes:
       - "./docker/db/pgdata:/var/lib/postgresql/data"
     environment:
-      POSTGRES_PASSWORD: assocdev
-      POSTGRES_USER: associados
       POSTGRES_DB: associados
+      POSTGRES_HOST_AUTH_METHOD: trust
 
   web:
-    build: .
-    command: bash -c "python check_db.py --service-name Postgres --ip db --port 5432 &&
-                      python manage.py migrate --settings associados.settings_local &&
-                      python manage.py loaddata --settings associados.settings_local app/core/fixtures/site_init.json &&
-                      python manage.py runserver 0.0.0.0:8000 --settings associados.settings_local"
+    build: ./
+    command: bash -c "python manage.py migrate &&
+                      python manage.py loaddata app/core/fixtures/site_init.json &&
+                      python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
     depends_on:
       - db
     volumes:
       - ".:/usr/src/app"
+    environment:
+      DATABASE_URL: postgresql://postgres@db/associados
