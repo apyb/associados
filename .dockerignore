@@ -1,0 +1,12 @@
+*
+!app/
+!associados/
+!static/
+!cover.sh
+!example_settings.ini
+!lista_associados.py
+!manage.py
+!README.md
+!requirements_test_osx.txt
+!requirements_test.txt
+!requirements.txt
