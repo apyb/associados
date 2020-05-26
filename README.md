@@ -64,15 +64,15 @@ Ambiente com Docker
 
 Caso queira subir o ambiente com Docker, temos um `docker-compose.yml` com o PostgreSQL e o Django. No arquivo, também é possível alterar as informações de acesso do PostgreSQL.
 
-Instalar o [Docker/Docker-Compose](https://docs.docker.com/engine/installation/).
+Instalar o [Docker](https://docs.docker.com/engine/installation/) e o [Docker-Compose](https://docs.docker.com/compose/install/).
 
-Copiar o arquivo `associados/example_settings.ini` para `associados/settings.ini` e configurar as variáveis locais.
+Primeiramente vamos buildar nossos serviços `web` e `db` com o comando `docker-compose build`. Quando finalizar, estaremos prontos para rodar os primeiros comandos usando o `bin/run` como atalho.
 
-Copiar o arquivo `associados/settings_local.py` para `associados/settings_local_model.py` e configurar a variável do banco de dados.
+- Para rodar o `migrate`: `./bin/run python manage.py migrate`
+- Para carregar nossas fixtures com o `loaddata`: `./bin/run python manage.py loaddata app/core/fixtures/site_init.json`
+- E por fim para rodar o servidor de desenvolvimento Django, você só precisa deste comando: `make run-with-docker`. Esse comando vai levantar nosso servidor juntamente com as dependências de qualquer outro serviço (no nosso caso, `db`)
 
-Subir o ambiente com o comando `docker-compose.yml`.
-
-Caso queria realizar os testes, usar o comando `docker-compose run web python manage.py test --settings associados.settings_test --verbosity=2`.
+Caso queria realizar os testes, usar o comando `./bin/run python manage.py test --settings associados.settings_test --verbosity=2`.
 
 
 Como contribuir?
