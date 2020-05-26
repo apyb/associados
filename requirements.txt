@@ -1,4 +1,4 @@
-Django==1.10.1
+Django==1.11.28
 django-extensions==1.7.4
 sorl-thumbnail==12.3
 django-gravatar2==1.4.0
