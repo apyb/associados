@@ -105,7 +105,8 @@ def member_form(request):
 
     return render(
         request,
-        "members/member_form.html", {
+        "members/member_form.html",
+        {
             "member_form": member_form,
             'user_form': user_form
         }

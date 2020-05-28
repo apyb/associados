@@ -32,7 +32,7 @@ class MemberSignupView(TestCase):
         self.response = self.client.post(self.url, data=self.empty_data)
         self.assertContains(self.response, _(u'This field is required.'), count=3)
 
-    def test_post_with_correcly_data_should_redirect_to_dashboard(self):
+    def test_post_with_correct_data_should_redirect_to_dashboard(self):
         self.response = self.client.post(self.url, data=self.data)
         dashboard_url = reverse('members-form')
 
