@@ -3,7 +3,6 @@ from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from app.members.models import Member, Category, City, Organization
-from django_dynamic_fixture import G
 from django.utils.translation import ugettext_lazy as _
 
 

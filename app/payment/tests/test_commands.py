@@ -10,7 +10,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.utils import timezone
 
-from django_dynamic_fixture import G
+from model_bakery import baker
 
 from app.members.models import Member
 from app.payment.models import Payment, PaymentType, Transaction
@@ -19,17 +19,17 @@ from app.payment.models import Payment, PaymentType, Transaction
 class RenewalAlertTest(TestCase):
     def setUp(self):
         self.users = [
-            G(User),
-            G(User),
-            G(User),
-            G(User),
+            baker.make(User),
+            baker.make(User),
+            baker.make(User),
+            baker.make(User),
         ]
 
         self.members = [
-            G(Member, user=self.users[0]),
-            G(Member, user=self.users[1]),
-            G(Member, user=self.users[2]),
-            G(Member, user=self.users[3]),
+            baker.make(Member, user=self.users[0]),
+            baker.make(Member, user=self.users[1]),
+            baker.make(Member, user=self.users[2]),
+            baker.make(Member, user=self.users[3]),
         ]
 
         now = timezone.now()
@@ -85,11 +85,11 @@ class RenewalAlertTest(TestCase):
 
     def test_renewal_alert_not_send_email_when_already_renewed(self):
         self.users += [
-            G(User),
+            baker.make(User),
         ]
 
         self.members += [
-            G(Member, user=self.users[4]),
+            baker.make(Member, user=self.users[4]),
         ]
 
         post_expiration_date = timezone.now() + datetime.timedelta(days=1)
@@ -119,11 +119,11 @@ class RenewalAlertTest(TestCase):
                                    valid_until=post_expiration_date),
         ]
 
-        G(Transaction, payment=self.payments[-5], status='3')
-        G(Transaction, payment=self.payments[-4], status='3')
-        G(Transaction, payment=self.payments[-3], status='3')
-        G(Transaction, payment=self.payments[-2], status='3')
-        G(Transaction, payment=self.payments[-1], status='3')
+        baker.make(Transaction, payment=self.payments[-5], status='3')
+        baker.make(Transaction, payment=self.payments[-4], status='3')
+        baker.make(Transaction, payment=self.payments[-3], status='3')
+        baker.make(Transaction, payment=self.payments[-2], status='3')
+        baker.make(Transaction, payment=self.payments[-1], status='3')
 
         call_command('renewal_alert')
 
