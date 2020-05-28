@@ -159,5 +159,5 @@ def sending_email(sender, instance, created, **kwargs):
     if created:
         send_email(subject="Bem vindo a Assosiação PythonBrasil",
                    template_name='members/email.html',
-                   context=instance.user.first_name,
+                   context={},
                    recipient_list=[instance.user.email])
