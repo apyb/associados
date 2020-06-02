@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load i18n %}{% load bootstrap_toolkit %}
+{% load i18n %}
+{% load bootstrap3 %}
 
 {% block title %}{{ flatpage.title }}{% endblock %}
 
@@ -9,9 +10,11 @@
     <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
         <fieldset>
             {% csrf_token %}
-                {{ user_form|as_bootstrap:"horizontal" }}
+                {% bootstrap_form user_form layout='horizontal' %}
             <div class='form-actions'>
-                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                <button type="submit" class="btn btn-primary">
+                    {% trans "Submit" %}
+                </button>
             </div>
         </fieldset>
     </form>

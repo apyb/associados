@@ -28,7 +28,11 @@ class OrganizationInput(TextInput):
     def render(self, name, value, attrs=None):
         if value is None:
             value = ''
-        final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
+        other_attrs = {
+            'type': self.input_type,
+            'name': name,
+        }
+        final_attrs = self.build_attrs(attrs, other_attrs)
 
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
