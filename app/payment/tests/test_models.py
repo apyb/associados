@@ -6,7 +6,7 @@ from django.db import models
 from django.test import TestCase
 from django.utils import timezone
 
-from django_dynamic_fixture import G
+from model_bakery import baker
 from app.members.models import Member, Category
 from app.payment.models import Payment, Transaction, PaymentType
 
@@ -14,7 +14,7 @@ from app.payment.models import Payment, Transaction, PaymentType
 class MemberTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(username="Wolverine", first_name='Logan')
-        self.member = G(
+        self.member = baker.make(
             Member,
             user=self.user,
             category=Category.objects.get(id=1)

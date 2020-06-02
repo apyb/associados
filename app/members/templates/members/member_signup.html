@@ -1,7 +1,18 @@
 {% extends "base.html" %}
-{% load i18n %}{% load bootstrap_toolkit %}
-{% block title %}{{ flatpage.title }}{% endblock %}
-{% block navbar_signup %}<li class="active"><a href="{% url 'members-signup' %}">{% trans "Sign up" %}</a></li>{% endblock %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}
+    {{ flatpage.title }}
+{% endblock %}
+
+{% block navbar_signup %}
+    <li class="active">
+        <a href="{% url 'members-signup' %}">
+            {% trans "Sign up" %}
+        </a>
+    </li>
+{% endblock %}
 
 {% block content %}
     <h1>{% trans Signup %}</h1>
@@ -10,9 +21,11 @@
             {% csrf_token %}
             <div class="span6">
                 <fieldset>
-                    {{ form|as_bootstrap:"horizontal" }}
+                    {% bootstrap_form form layout='horizontal' %}
                     <div class='form-actions'>
-                        <button type="submit" class="btn btn-primary">{% trans "Signup" %}</button>
+                        <button type="submit" class="btn btn-primary">
+                            {% trans "Signup" %}
+                        </button>
                     </div>
                 </fieldset>
             </div>

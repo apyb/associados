@@ -47,6 +47,7 @@ class Command(BaseCommand):
 
         if settings.USE_I18N:
             translation.activate(settings.LANGUAGE_CODE)
+
         for payment in Payment.objects.filter(filter_arg):
             last_payment = payment.member.get_last_payment()
 
@@ -78,8 +79,13 @@ class Command(BaseCommand):
                 message = render_to_string('payment/valid_until_email.txt',
                                            context)
 
-            send_mail(subject, message, contact_email,
-                      [payment.member.user.email], fail_silently=False)
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=contact_email,
+                recipient_list=[payment.member.user.email],
+                fail_silently=False,
+            )
 
         if settings.USE_I18N:
             translation.deactivate()

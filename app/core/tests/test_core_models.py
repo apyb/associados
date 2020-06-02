@@ -2,13 +2,13 @@
 # encoding: utf-8
 from django.test import TestCase
 from app.core.models import TestDefaultFields
-from django_dynamic_fixture import G
+from model_bakery import baker
 
 
 class ManagerTest(TestCase):
 
     def setUp(self):
-        G(TestDefaultFields, n=4)
+        baker.make(TestDefaultFields, _quantity=4)
 
     def test_basic_addition_default(self):
         self.assertEqual(TestDefaultFields.objects.count(), 4)

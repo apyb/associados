@@ -205,7 +205,7 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
 
     # extra
-    'bootstrap_toolkit',
+    'bootstrap3',
     'pipeline',
     'django_extensions',
     'sorl.thumbnail',

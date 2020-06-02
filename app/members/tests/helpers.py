@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from app.members.models import Category, Member
-from django_dynamic_fixture import G
+from model_bakery import baker
 
 
 def create_user_with_member(first_name='test', last_name='test', email='test@test.com', password='pass', category=None):
@@ -17,5 +17,5 @@ def create_user_with_member(first_name='test', last_name='test', email='test@tes
     user.last_name = last_name
     user.save()
 
-    G(Member, user=user, category=category, github_user=None)
+    baker.make(Member, user=user, category=category, github_user=None)
     return user

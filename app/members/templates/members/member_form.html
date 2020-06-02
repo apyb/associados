@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load i18n %}{% load bootstrap_toolkit %}
+{% load i18n %}
+{% load bootstrap3 %}
 
 {% block css %}
 <style type="text/css">
@@ -13,24 +14,26 @@
 {% block content %}
     <h1>{% trans "Update member information" %}</h1>
 
-<div class="row">
-    <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
-        {% csrf_token %}
-        <fieldset>
-            {{ user_form|as_bootstrap:"horizontal" }}
-        </fieldset>
-        <hr>
-        <fieldset>
-            {{ member_form|as_bootstrap:"horizontal" }}
-            <div class='form-actions'>
-                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-            </div>
-        </fieldset>
-    </form>
-</div>
+    <div class="row">
+        <form action="" method="post" accept-charset="utf-8" class="form-horizontal">
+            {% csrf_token %}
+            <fieldset>
+                {% bootstrap_form user_form layout='horizontal' %}
+            </fieldset>
+            <hr>
+            <fieldset>
+                {% bootstrap_form member_form layout='horizontal' %}
+                <div class='form-actions'>
+                    <button type="submit" class="btn btn-primary">
+                        {% trans "Submit" %}
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </script>
 {% endblock %}
 {% block js %}
-<script src="/municipios_app/"></script>
-<script src="{{ STATIC_URL }}municipios/js/municipio.js"></script>
+    <script src="/municipios_app/"></script>
+    <script src="{{ STATIC_URL }}municipios/js/municipio.js"></script>
 {% endblock js %}

@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.utils import timezone
-from django_dynamic_fixture import G
+from model_bakery import baker
 from django.core import mail
 
 from app.members.models import Member, Category
@@ -20,8 +20,13 @@ from app.payment.views import PaymentView, NotificationView
 class MemberTestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create(username="Wolverine")
-        self.member = G(
+        self.user = User.objects.create(
+            username="Wolverine",
+            email='logan@xmen.org',
+            first_name='James',
+            last_name='Howlett',
+        )
+        self.member = baker.make(
             Member,
             user=self.user,
             category=Category.objects.get(id=1)
