@@ -286,9 +286,6 @@ PAYMENT_ENDPOINT_WEB_PRE_APPROVAL = decouple.config(
     default='https://pagseguro.uol.com.br/v2/pre-approval/request.html?code='
 )
 
-GITHUB_CLIENT_SECRET = decouple.config('GITHUB_CLIENT_SECRET', default='')
-GITHUB_CLIENT_ID = decouple.config('GITHUB_CLIENT_ID', default='')
-
 DSN = decouple.config("DJANGO_DSN", default='')
 if DSN:
     RAVEN_CONFIG = {'dsn': DSN}

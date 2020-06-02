@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import requests
-import slumber
 
 from django.db import models
 from django.conf import settings
@@ -15,9 +14,6 @@ from django.dispatch import receiver
 from app.core.models import DefaultFields
 from django_gravatar.helpers import get_gravatar_url
 from app.members.mail import send_email
-
-
-github_api = slumber.API("https://api.github.com/", append_slash=False)
 
 
 class Organization(DefaultFields):
@@ -121,27 +117,9 @@ class Member(models.Model):
         }
 
     @property
-    def github(self):
-        if not self.github_user:
-            return None
-        try:
-            return github_api.users(self.github_user).get(client_id=settings.GITHUB_CLIENT_ID,
-                                                          client_secret=settings.GITHUB_CLIENT_SECRET)
-        except slumber.exceptions.HttpClientError:
-            return None
-        except slumber.exceptions.HttpServerError:
-            return None
-        except requests.ConnectionError:
-            return None
-
-    @property
     def update_thumbnail(self):
         try:
-            g = self.github
-            if g:
-                self.thumb_image = g["avatar_url"]
-            else:
-                self.thumb_image = get_gravatar_url(self.user.email, size=150)
+            self.thumb_image = get_gravatar_url(self.user.email, size=150)
             self.save()
         except Exception as e:
             raise e

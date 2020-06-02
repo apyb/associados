@@ -10,7 +10,6 @@ psycopg2-binary==2.7.7
 gunicorn==19.6.0
 lxml==4.4.1
 git+https://github.com/pythonbrasil/django-s3-folder-storage.git@d7e8b7939b554e8fdc6815da5fa349bf7d5d8aaa#egg=django_s3_folder_storage
-slumber==0.7.1
 python-decouple==3.0
 boto==2.42.0
 django-storages==1.5.1
