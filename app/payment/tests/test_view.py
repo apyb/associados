@@ -20,7 +20,12 @@ from app.payment.views import PaymentView, NotificationView
 class MemberTestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create(username="Wolverine")
+        self.user = User.objects.create(
+            username="Wolverine",
+            email='logan@xmen.org',
+            first_name='James',
+            last_name='Howlett',
+        )
         self.member = baker.make(
             Member,
             user=self.user,

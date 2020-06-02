@@ -19,10 +19,30 @@ from app.payment.models import Payment, PaymentType, Transaction
 class RenewalAlertTest(TestCase):
     def setUp(self):
         self.users = [
-            baker.make(User),
-            baker.make(User),
-            baker.make(User),
-            baker.make(User),
+            baker.make(
+                User,
+                email='random0@org.com',
+                first_name='Python',
+                last_name='Brasil 1',
+            ),
+            baker.make(
+                User,
+                email='random0@org.com',
+                first_name='Python',
+                last_name='Brasil 2',
+            ),
+            baker.make(
+                User,
+                email='random0@org.com',
+                first_name='Python',
+                last_name='Brasil 3',
+            ),
+            baker.make(
+                User,
+                email='random0@org.com',
+                first_name='Python',
+                last_name='Brasil 4',
+            ),
         ]
 
         self.members = [
@@ -63,7 +83,6 @@ class RenewalAlertTest(TestCase):
 
     def test_renewal_alert_send_emails(self):
         call_command('renewal_alert')
-
         self.assertEqual(len(mail.outbox), 8)
 
 
@@ -85,7 +104,12 @@ class RenewalAlertTest(TestCase):
 
     def test_renewal_alert_not_send_email_when_already_renewed(self):
         self.users += [
-            baker.make(User),
+            baker.make(
+                User,
+                email='random0@org.com',
+                first_name='Python',
+                last_name='Brasil Dont send email',
+            )
         ]
 
         self.members += [
