@@ -6,6 +6,8 @@ import os
 import dj_database_url
 from django.core.urlresolvers import reverse_lazy
 import decouple
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 DEBUG = decouple.config("DEBUG", cast=bool, default=False)
 BASEDIR = os.path.realpath(os.path.join(os.path.dirname(__file__),
@@ -297,3 +299,12 @@ if DSN:
 PIPELINE = {
 
 }
+
+SENTRY_DSN = decouple.config("SENTRY_DSN", "")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        SENTRY_DSN,
+        traces_sample_rate=0.5,
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
+    )

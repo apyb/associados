@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from django import http
-from django.utils import simplejson as json
+import json
 
 
 class JSONResponseMixin(object):
