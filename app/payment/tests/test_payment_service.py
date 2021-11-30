@@ -1,5 +1,6 @@
 # coding: utf-8
-import mock
+from unittest import mock
+
 from django.test import TestCase
 
 from ..payment_service import PaymentService, PagSeguroCredentials
