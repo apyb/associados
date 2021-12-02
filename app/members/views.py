@@ -1,15 +1,14 @@
-# encoding: utf-8
 import json
-from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core import serializers
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
@@ -43,7 +42,7 @@ class MemberListView(ListView):
             queryset = queryset.filter(category__id=self.category)
 
         members_with_payments = Payment.objects \
-                                       .filter(valid_until__gt=datetime.now()) \
+                                       .filter(valid_until__gt=timezone.now()) \
                                        .values('member_id')
         members_with_payments_ids = set(
             row['member_id'] for row in members_with_payments
@@ -67,7 +66,7 @@ class MemberListView(ListView):
 class SignupView(FormView):
     template_name = 'members/member_signup.html'
     form_class = RegisterForm
-    success_url = reverse_lazy('members-form')
+    success_url = reverse_lazy('members:form')
 
     def form_valid(self, form):
         form.save()
@@ -97,7 +96,7 @@ def member_form(request):
             member_form.save(user=request.user)
             user_form.save()
             messages.add_message(request, messages.INFO, _('Your data was updated successfully'))
-            return HttpResponseRedirect(reverse('members-dashboard'))
+            return HttpResponseRedirect(reverse('members:dashboard'))
         else:
             messages.add_message(
                 request, messages.ERROR,
@@ -136,12 +135,12 @@ def _search_member(params):
     if member:
         days_to_next_payment = member[0].get_days_to_next_payment(member[0].get_last_payment())
         if days_to_next_payment > 0:
-            result = u'active'
+            result = 'active'
         else:
-            result = u'inactive'
+            result = 'inactive'
     else:
-        result = u'invalid'
-    return {u'status': result}
+        result = 'invalid'
+    return {'status': result}
 
 
 def member_status(request):
@@ -165,7 +164,7 @@ def member_status(request):
 @login_required
 def update_category(request):
         request.user.member.change_category()
-        return redirect('members-dashboard')
+        return redirect('members:dashboard')
 
 
 @login_required
@@ -176,7 +175,7 @@ def dashboard(request):
         data.update(payment_results)
     except Member.DoesNotExist:
         messages.add_message(request, messages.INFO, _('To access the dashboard, you need to complete your data'))
-        return HttpResponseRedirect(reverse('members-form'))
+        return HttpResponseRedirect(reverse('members:form'))
 
 
     return render(

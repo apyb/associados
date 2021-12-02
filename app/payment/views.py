@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 
 import requests
@@ -32,7 +31,7 @@ class PaymentView(View):
     def _create_payload(self, payment, payment_service):
         payment_service.set_price(payment.type.price)
         payment_service.set_description(
-            _(u'Brazilian Python Association registration payment')
+            _('Brazilian Python Association registration payment')
         )
         payment_service.set_reference(payment)
 
@@ -103,7 +102,7 @@ class NotificationView(View):
             try:
                 referencia = int(referencia)
             except ValueError:
-                logger.error(u"Incorrect reference: {}".format(referencia))
+                logger.error("Incorrect reference: {}".format(referencia))
 
             valor = float(dom.xpath("//grossamount")[0].text)
             return status_transacao, referencia, valor
@@ -125,9 +124,9 @@ class NotificationView(View):
     def _send_confirmation_email(self, payment):
         # Send an email confirming the subscription
         user = payment.member.user
-        message = (u'Olá %s! Seu registro na Associação Python Brasil '
-                   u'(APyB) já foi realizado!' % user.get_full_name())
-        user.email_user(u'Registro OK', message)
+        message = ('Olá %s! Seu registro na Associação Python Brasil '
+                   '(APyB) já foi realizado!' % user.get_full_name())
+        user.email_user('Registro OK', message)
 
     def transaction_done(self, payment_id):
         payment = Payment.objects.get(id=payment_id)

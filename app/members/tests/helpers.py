@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from app.members.models import Category, Member
 from model_bakery import baker

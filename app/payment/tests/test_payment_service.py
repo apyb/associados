@@ -1,6 +1,4 @@
-# coding: utf-8
 from unittest import mock
-
 from django.test import TestCase
 
 from ..payment_service import PaymentService, PagSeguroCredentials
@@ -28,7 +26,7 @@ class PaymentServiceTest(TestCase):
         )
 
     def test_set_description_updates_payload(self):
-        description = u'Associação Python Brasil'
+        description = 'Associação Python Brasil'
         self.payment_service.set_description(description)
         self.assertIn(
             self.payment_service.credentials.DESCRIPTION_PAYLOAD_ATTRIBUTE,

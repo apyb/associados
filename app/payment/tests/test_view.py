@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 from unittest import mock
-
 from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.urls import reverse, NoReverseMatch
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.utils import timezone
@@ -39,7 +37,7 @@ class PaymentViewTestCase(MemberTestCase):
     def setUp(self):
         super(PaymentViewTestCase, self).setUp()
 
-        self.url = reverse('payment', kwargs=dict(member_id=42))
+        self.url = reverse('payments:payment', kwargs=dict(member_id=42))
         self.request = RequestFactory().get("/", {})
         self.request.user = self.user
 
@@ -166,7 +164,7 @@ class NotificationViewTestCase(MemberTestCase):
 
     def test_name_url(self):
         try:
-            reverse('payment-notification')
+            reverse('payments:notification')
         except NoReverseMatch:
             self.fail("Reversal of url named 'notification' failed with NoReverseMatch")
 
@@ -236,8 +234,8 @@ class NotificationViewTestCase(MemberTestCase):
 
         #get the created member
         #set the strings to be verified
-        body = u'Olá %s! Seu registro na Associação Python Brasil (APyB) já foi realizado!' % self.member.user.get_full_name()
-        subject = u'Registro OK'
+        body = 'Olá %s! Seu registro na Associação Python Brasil (APyB) já foi realizado!' % self.member.user.get_full_name()
+        subject = 'Registro OK'
 
         #verify the outbox length
         self.assertEqual(len(mail.outbox), 1)

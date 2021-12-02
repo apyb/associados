@@ -1,4 +1,3 @@
-# coding: utf-8
 
 
 import datetime
@@ -8,7 +7,7 @@ from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone, translation
@@ -64,7 +63,7 @@ class Command(BaseCommand):
             context = {
                 'contact_email': contact_email,
                 'member': payment.member,
-                'url': '%s%s' % (Site.objects.get_current().domain, reverse('payment', args=[payment.member.pk])),
+                'url': '%s%s' % (Site.objects.get_current().domain, reverse('payments:payment', args=[payment.member.pk])),
             }
 
             if valid_until_date == today:

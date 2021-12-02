@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import requests
 
 from django.db import models
@@ -50,11 +48,11 @@ class Category(models.Model):
 
 
 class Member(models.Model):
-    user = models.OneToOneField(User)
-    category = models.ForeignKey(Category, verbose_name=_('Category'))
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name=_('Category'), on_delete=models.CASCADE)
     github_user = models.CharField(
         _('Github User'), max_length=50, null=True, blank=True)
-    organization = models.ForeignKey(Organization, null=True, blank=True)
+    organization = models.ForeignKey(Organization, null=True, blank=True, on_delete=models.CASCADE)
     cpf = models.CharField(_('CPF'), max_length=11, db_index=True, unique=True)
     phone = models.CharField(_('Phone'), max_length=50, null=True, blank=True)
     address = models.TextField(_('Address'), null=True, blank=True)
@@ -71,7 +69,9 @@ class Member(models.Model):
     municipio = models.ForeignKey('municipios.Municipio',
                                   verbose_name=u"Município",
                                   related_name="municipio_org_mun",
-                                  null=True, blank=True)
+                                  null=True,
+                                  blank=True,
+                                  on_delete=models.CASCADE)
 
     def change_category(self):
         self.category = Category.objects.get(name="Efetivo")
@@ -127,6 +127,10 @@ class Member(models.Model):
 
     def full_name(self):
         return self.user.get_full_name() or self.user.username
+
+    class Meta:
+        ordering = ('user__first_name', 'user__last_name')
+        verbose_name_plural = _('Members')
 
     def __str__(self):
         return self.full_name()

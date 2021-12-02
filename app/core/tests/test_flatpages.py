@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 from django.contrib.flatpages.models import FlatPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from lxml import html as lhtml
 from django.utils.translation import ugettext_lazy as _
@@ -37,9 +36,9 @@ class FlatpagesTest(TestCase):
         )
 
     def test_should_have_the_member_form_route(self):
-        url = reverse('members-signup')
+        url = reverse('members:signup')
         self.assertContains(self.response, url)
 
     def test_should_have_the_member_list_route(self):
-        url = reverse('members-list')
+        url = reverse('members:list')
         self.assertContains(self.response, url)

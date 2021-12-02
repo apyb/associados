@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+l% extends "base.html" %}
 {% load i18n tz %}
 {% block content %}
     <h1>{% trans "Dashboard" %}</h1>
@@ -46,7 +46,7 @@
                     {% if expired %}
                     <tr>
                         <th span="2">
-                            <a class="btn btn-success" href="{% url 'payment' user.member.pk %}">
+                            <a class="btn btn-success" href="{% url 'payments:payment' user.member.pk %}">
                                 <i class="icon-shopping-cart icon-white"></i>{% trans "pay the annuity" %}
                             </a>
                         </th>
@@ -55,7 +55,7 @@
                     {% if user.member.category.name == "Estudante" %}
                       <tr>
                           <th span="2">
-                              <a class="btn btn-success" href="{% url 'update-category' %}">
+                              <a class="btn btn-success" href="{% url 'payments:update-category' %}">
                                   <i class="icon-shopping-cart icon-white"></i>Mudar categoria para efetivo
                               </a>
                           </th>

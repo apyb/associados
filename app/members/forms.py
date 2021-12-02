@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-# encoding: utf-8
 from django import forms
 from django.contrib.auth.models import User
-from localflavor.br.forms import BRCPFField, BRPhoneNumberField
+from localflavor.br.forms import BRCPFField
 from municipios.widgets import SelectMunicipioWidget
 
 from django.forms import TextInput
@@ -11,7 +10,8 @@ from django.forms.utils import flatatt
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from .models import Organization, Member, Category
+from app.members.fields import BRPhoneNumberField
+from app.members.models import Organization, Member, Category
 
 
 class OrganizationInput(TextInput):
@@ -25,7 +25,7 @@ class OrganizationInput(TextInput):
             value = ''
         return value
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         if value is None:
             value = ''
         other_attrs = {
@@ -37,7 +37,7 @@ class OrganizationInput(TextInput):
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = self._format_value(value)
-        return mark_safe(u'<input%s />' % flatatt(final_attrs))
+        return mark_safe('<input%s />' % flatatt(final_attrs))
 
 
 class UserForm(forms.ModelForm):

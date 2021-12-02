@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: utf-8
 from django.test import TestCase
 from app.core.models import TestDefaultFields
 from model_bakery import baker

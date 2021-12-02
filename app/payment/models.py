@@ -1,4 +1,3 @@
-# coding: utf-8
 
 from django.conf import settings
 from django.db import models
@@ -13,32 +12,38 @@ AVALIABLE = '4'
 
 
 TRANSACTION_STATUS = (
-    ('1', u'Awaiting Payment'),
-    ('2', u'In analysis'),
-    (PAID, u'Paid'),
-    (AVALIABLE, u'Available'),
-    ('5', u'In dispute'),
-    ('6', u'Returned'),
-    ('7', u'Cancelled'),
+    ('1', 'Awaiting Payment'),
+    ('2', 'In analysis'),
+    (PAID, 'Paid'),
+    (AVALIABLE, 'Available'),
+    ('5', 'In dispute'),
+    ('6', 'Returned'),
+    ('7', 'Cancelled'),
 )
 
 
 class PaymentType(models.Model):
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     duration = models.IntegerField(help_text='In days', default=1)
 
     def __str__(self):
-        return u"{0} - {1} for {2} days".format(self.category.name, self.price, self.duration)
+        return "{0} - {1} for {2} days".format(self.category.name, self.price, self.duration)
 
 
 class Payment(models.Model):
-    member = models.ForeignKey(Member)
-    type = models.ForeignKey(PaymentType)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    type = models.ForeignKey(PaymentType, on_delete=models.CASCADE)
     date = models.DateTimeField(null=True, blank=True)
     code = models.CharField(max_length=50, null=True, blank=True)
     valid_until = models.DateTimeField(null=True, blank=True)
-    last_transaction = models.ForeignKey('Transaction', null=True, blank=True, related_name='last_transaction')
+    last_transaction = models.ForeignKey(
+        'Transaction',
+        null=True,
+        blank=True,
+        related_name='last_transaction',
+        on_delete=models.CASCADE
+    )
 
     def done(self):
         return self.transaction_set.filter(
@@ -46,11 +51,11 @@ class Payment(models.Model):
         ).exists()
 
     def __str__(self):
-        return u'payment from {0}'.format(self.member)
+        return 'payment from {0}'.format(self.member)
 
 
 class Transaction(models.Model):
-    payment = models.ForeignKey(Payment)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
     code = models.CharField(max_length=50)
     status = models.CharField(max_length=1, choices=TRANSACTION_STATUS)
@@ -61,10 +66,10 @@ class Transaction(models.Model):
 
     @property
     def status_display(self):
-        return dict(TRANSACTION_STATUS).get(self.status, u"Unknown")
+        return dict(TRANSACTION_STATUS).get(self.status, "Unknown")
 
     def __str__(self):
-        return u"{self.date} - {self.status_display} - {self.price:.2f}".format(self=self)
+        return "{self.date} - {self.status_display} - {self.price:.2f}".format(self=self)
 
 
 def update_payment_transaction(sender, instance, **kwargs):

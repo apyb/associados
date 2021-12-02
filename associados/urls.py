@@ -7,10 +7,10 @@ from app.payment import urls as payment_urls
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^members/', include('app.members.urls')),
+    url(r'^members/', include('app.members.urls', namespace='members')),
     url(r'^payment/', include(payment_urls)),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/doc/', include(('django.contrib.admindocs.urls', 'doc'), namespace='doc')),
+    url(r'^admin/', admin.site.urls),
     url(r'^municipios_app/', include('municipios.urls')),
     url(r'^', include('django.contrib.auth.urls')),
 ]
