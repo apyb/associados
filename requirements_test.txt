@@ -1,2 +1,5 @@
--r requirements_test_osx.txt
-mock==2.0.0
+-r requirements.txt
+coverage==4.2
+model_bakery==1.1.0
+ipdb==0.10.1
+ipython==5.1.0

@@ -9,7 +9,7 @@ if [[ $OSTYPE == 'linux-gnu' ]]; then
 elif [[ $OSTYPE == darwin* ]]; then
     echo 'OSX: Instalando dependencias...'
     sleep 3
-    pip install -r requirements_test_osx.txt
+    pip install -r requirements_test.txt
 fi
 
 FILE="./associados/settings_local.py"
