@@ -285,14 +285,6 @@ PAYMENT_ENDPOINT_WEB_PRE_APPROVAL = decouple.config(
     default='https://pagseguro.uol.com.br/v2/pre-approval/request.html?code='
 )
 
-DSN = decouple.config("DJANGO_DSN", default='')
-if DSN:
-    RAVEN_CONFIG = {'dsn': DSN}
-    INSTALLED_APPS = INSTALLED_APPS + (
-        'raven.contrib.django.raven_compat',
-    )
-
-
 PIPELINE = {
 
 }
