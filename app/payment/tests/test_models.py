@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.urls import reverse, NoReverseMatch
 from django.db import models
 from django.test import TestCase
 from django.utils import timezone
@@ -36,7 +35,7 @@ class PaymentModelTestCase(MemberTestCase):
     def test_name_url(self):
         try:
             reverse(
-                'payment',
+                'payments:payment',
                 kwargs={
                     'member_id': self.member.id
                 }

@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 import os
 import dj_database_url
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 import decouple
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -40,9 +36,9 @@ USE_L10N = True
 
 USE_THOUSAND_SEPARATOR = True
 LANGUAGES = [
-    ('pt-BR', 'Portuguese Brazil')
+    ('pt-br', 'Portuguese Brazil')
 ]
-LANGUAGE_CODE = 'pt-BR'
+LANGUAGE_CODE = 'pt-br'
 DEFAULT_LANGUAGE = 1
 
 USE_TZ = decouple.config('USE_TZ', cast=bool, default=True)
@@ -174,7 +170,7 @@ TEMPLATES = [
 ]
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -213,6 +209,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'django_gravatar',
     'municipios',
+    'phonenumber_field',
 
 )
 
@@ -308,3 +305,8 @@ if SENTRY_DSN:
         integrations=[DjangoIntegration()],
         send_default_pii=True,
     )
+
+
+# django-phonenumber-field
+PHONENUMBER_DEFAULT_REGION = 'BR'
+PHONENUMBER_DEFAULT_FORMAT = 'NATIONAL'

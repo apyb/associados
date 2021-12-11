@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
 from django.test import TestCase
 from app.members.forms import MemberForm, UserForm
 from app.members.models import Organization, User, Category, Member
@@ -23,7 +21,7 @@ class MemberFormTest(TestCase):
         'address': 'Rua XXX',
 
         'cpf': '94463643104',
-        'phone': '1199492911',
+        'phone': '11999492911',
         'location': 'Sao Paulo',
         'category': '1',
         'relationship': 'think',
@@ -97,7 +95,7 @@ class ValidMemberFormTest(MemberFormTest):
         self.assertEqual(self.member_instance.cpf, self.data.get('cpf'))
 
     def test_should_store_phone(self):
-        self.assertEqual(self.member_instance.phone, '11-9949-2911')
+        self.assertEqual(self.member_instance.phone, '(11) 99949-2911')
 
     def test_should_store_address(self):
         self.assertEqual(self.member_instance.address, self.data.get('address'))

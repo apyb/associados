@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.contrib import admin as django_admin
 from app.members.models import Member, Organization, City

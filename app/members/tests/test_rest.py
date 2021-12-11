@@ -1,10 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
 import json
 from datetime import timedelta
 from django.test import TestCase
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from app.members.tests.helpers import create_user_with_member
 from app.payment.models import Payment, PaymentType, Transaction
 from app.util import response_string
@@ -13,7 +11,7 @@ from app.util import response_string
 class REST(TestCase):
 
     def setUp(self):
-        self.url = reverse('members-status')
+        self.url = reverse('members:status')
 
         # Active member
         self.user_valid = create_user_with_member(
@@ -66,17 +64,17 @@ class REST(TestCase):
 
         request = self.client.get("%(url)s?cpf=%(cpf)s&email=%(email)s" % (params))
         response = json.loads(response_string(request))
-        expected = {u'status': u'active'}
+        expected = {'status': 'active'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?email=%(email)s" % (params))
         response = json.loads(response_string(request))
-        expected = {u'status': u'active'}
+        expected = {'status': 'active'}
         self.assertEqual(response, expected)
 
         request = self.client.get("%(url)s?cpf=%(cpf)s" % (params))
         response = json.loads(response_string(request))
-        expected = {u'status': u'active'}
+        expected = {'status': 'active'}
         self.assertEqual(response, expected)
 
     def test_should_find_inactive_user(self):

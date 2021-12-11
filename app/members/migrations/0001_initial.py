@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 from django.conf import settings
 
@@ -49,7 +46,7 @@ class Migration(migrations.Migration):
                 ('relation_with_community', models.TextField(null=True, verbose_name='Relation with community', blank=True)),
                 ('mailing', models.BooleanField(default=True, verbose_name='Mailing')),
                 ('partner', models.BooleanField(default=True, verbose_name='Partner')),
-                ('category', models.ForeignKey(verbose_name='Category', to='members.Category')),
+                ('category', models.ForeignKey(verbose_name='Category', to='members.Category', on_delete=models.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -69,11 +66,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='member',
             name='organization',
-            field=models.ForeignKey(blank=True, to='members.Organization', null=True),
+            field=models.ForeignKey(blank=True, to='members.Organization', null=True, on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='member',
             name='user',
-            field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
     ]

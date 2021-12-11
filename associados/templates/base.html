@@ -79,17 +79,17 @@
                                 class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'members-dashboard' %}">{% trans "dashboard" %}</a></li>
+                        <li><a href="{% url 'members:dashboard' %}">{% trans "dashboard" %}</a></li>
                         <li><a href="{% url 'password_change' %}">{% trans "change password" %}</a></li>
-                        <li><a href="{% url 'members-form' %}">{% trans "update my profile" %}</a></li>
+                        <li><a href="{% url 'members:form' %}">{% trans "update my profile" %}</a></li>
                         <li class="divider"></li>
                         <li><a href="{% url 'logout' %}">{% trans "logout" %}</a></li>
                     </ul>
                 </li>
             {% else %}
-                {% block navbar_members %}<li><a href="{% url 'members-list' %}">{% trans "Members" %}</a></li>{% endblock %}
+                {% block navbar_members %}<li><a href="{% url 'members:list' %}">{% trans "Members" %}</a></li>{% endblock %}
                 {% block navbar_login %}<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>{% endblock %}
-                {% block navbar_signup %}<li><a href="{% url 'members-signup' %}">{% trans "Sign up" %}</a></li>{% endblock %}
+                {% block navbar_signup %}<li><a href="{% url 'members:signup' %}">{% trans "Sign up" %}</a></li>{% endblock %}
             {% endif %}
           </ul>
         </div><!--/.nav-collapse -->

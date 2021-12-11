@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from app.members.tests.helpers import create_user_with_member
 
@@ -7,9 +6,9 @@ from app.members.tests.helpers import create_user_with_member
 class DashboardView(TestCase):
 
     def setUp(self):
-        self.url = reverse('members-dashboard')
+        self.url = reverse('members:dashboard')
         self.user = create_user_with_member(first_name='test', last_name='fake')
-        self.client.login(username='testfake', password='pass')
+        self.client.force_login(self.user)
         self.response = self.client.get(self.url)
 
     def test_should_have_a_route(self):
@@ -26,4 +25,4 @@ class DashboardView(TestCase):
     def test_should_redirect_if_user_has_no_member_instance(self):
         self.user.member.delete()
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('members-form'))
+        self.assertRedirects(response, reverse('members:form'))

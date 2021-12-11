@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from django.utils import timezone
 
@@ -42,7 +41,7 @@ class MemberListViewTest(TestCase):
                 valid_until=valid_until
             )
 
-        self.url = reverse('members-list')
+        self.url = reverse('members:list')
         self.response = self.client.get(self.url)
 
     def test_should_have_a_route(self):

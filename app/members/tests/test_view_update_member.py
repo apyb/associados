@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.urls import reverse, NoReverseMatch
 from django.test import TestCase
 from django.utils.translation import ugettext as _
 from app.members.models import Member, Category, Organization
@@ -10,9 +9,9 @@ from lxml import html as lhtml
 class MemberChangeView(TestCase):
 
     def setUp(self):
-        self.url = reverse('members-form')
+        self.url = reverse('members:form')
         self.user = create_user_with_member(first_name='test', last_name='fake')
-        self.client.login(username='testfake', password='pass')
+        self.client.force_login(self.user)
         self.response = self.client.get(self.url)
         self.dom = lhtml.fromstring(self.response.content)
 
@@ -21,7 +20,7 @@ class MemberChangeView(TestCase):
             'location': 'editou',
             'organization': 'editou',
             'relation_with_community': 'editou',
-            'phone': '12-1212-1212',
+            'phone': '12-5212-1212',
             'cpf': '71763224490',
             'state': 'editou',
             'address': 'address',
@@ -34,9 +33,9 @@ class MemberChangeView(TestCase):
 
     def test_should_have_a_route(self):
         try:
-            reverse('members-form')
+            reverse('members:form')
         except NoReverseMatch:
-            self.fail("Reversal of url named 'members-form' failed with NoReverseMatch")
+            self.fail("Reversal of url named 'members:form' failed with NoReverseMatch")
 
     def test_route_must_be_protected(self):
         self.client.logout()
@@ -77,18 +76,18 @@ class MemberChangeView(TestCase):
         self.assertEqual(member.category, Category.objects.get(id=1))
         self.assertEqual(member.location, 'editou')
         self.assertEqual(member.organization, Organization.objects.get(name='editou'))
-        self.assertEqual(member.relation_with_community, u'editou')
-        self.assertEqual(member.phone, u'12-1212-1212')
-        self.assertEqual(member.cpf, u'71763224490')
-        self.assertEqual(member.address, u'address')
+        self.assertEqual(member.relation_with_community, 'editou')
+        self.assertEqual(member.phone, '(12) 5212-1212')
+        self.assertEqual(member.cpf, '71763224490')
+        self.assertEqual(member.address, 'address')
         self.assertEqual(member.partner, False)
         self.assertEqual(member.mailing, False)
-        self.assertEqual(member.user.email, u'john@doe.com')
-        self.assertEqual(member.user.first_name, u'editou')
-        self.assertEqual(member.user.last_name, u'editou')
+        self.assertEqual(member.user.email, 'john@doe.com')
+        self.assertEqual(member.user.first_name, 'editou')
+        self.assertEqual(member.user.last_name, 'editou')
 
     def test_post_with_nine_digits_phone_should_update_a_member(self):
-        phone_nine_digits = u'11-98765-4321'
+        phone_nine_digits = '(11) 98765-4321'
         self.data.update(phone=phone_nine_digits)
 
         response = self.client.post(self.url, self.data)
@@ -100,10 +99,10 @@ class MemberChangeView(TestCase):
 class MemberChangeWithErrorView(TestCase):
 
     def setUp(self):
-        self.url = reverse('members-form')
+        self.url = reverse('members:form')
         self.user = create_user_with_member(first_name='test',
                                             last_name='fake')
-        self.client.login(username='testfake', password='pass')
+        self.client.force_login(self.user)
         self.response = self.client.get(self.url)
         self.dom = lhtml.fromstring(self.response.content)
 
