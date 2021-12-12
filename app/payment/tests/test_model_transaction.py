@@ -1,3 +1,4 @@
+import pytest
 from django.conf import settings
 from django.db import models
 from unittest.case import TestCase
@@ -28,7 +29,7 @@ class TransacitonModelTestCase(TestCase):
     def assert_field_in(self, field_name, model):
         self.assertIn(field_name, get_all_field_names(model))
 
-
+@pytest.mark.django_db
 class TransactionTestCase(TestCase):
 
     def test_should_upgrade_last_payment(self):
