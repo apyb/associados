@@ -82,7 +82,7 @@ class RenewalAlertTest(TestCase):
 
     def test_renewal_alert_send_emails(self):
         call_command('renewal_alert')
-        self.assertEqual(len(mail.outbox), 8)
+        self.assertEqual(len(mail.outbox), 4)
 
 
     ## TODO: doc the behavior before uncommenting please...
