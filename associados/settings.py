@@ -122,7 +122,7 @@ SECRET_KEY = decouple.config(
 
 LOGIN_URL = '/'
 LOGIN_URL = reverse_lazy('login')
-LOGIN_REDIRECT_URL = reverse_lazy('members-dashboard')
+LOGIN_REDIRECT_URL = reverse_lazy('members:dashboard')
 AUTHENTICATION_BACKENDS = (
     'app.authemail.backends.EmailBackend',
 )
