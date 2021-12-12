@@ -15,7 +15,7 @@ jobs:
       run: docker-compose build web
 
     - name: Build image for db service
-      run: docker-compose build db
+      run: docker-compose pull db
 
     - name: Run tests
       run: ./bin/run python manage.py test
