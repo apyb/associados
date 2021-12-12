@@ -15,4 +15,4 @@ jobs:
       run: docker-compose build
 
     - name: Run tests
-      run: docker compose run --rm web python manage.py test
+      run: docker-compose run --rm web python manage.py test
