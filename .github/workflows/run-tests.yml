@@ -11,8 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build image
-      run: docker-compose build
+    - name: Build image for web service
+      run: docker-compose build web
+
+    - name: Build image for db service
+      run: docker-compose build db
 
     - name: Run tests
-      run: docker-compose run --rm web python manage.py test
+      run: ./bin/run python manage.py test
