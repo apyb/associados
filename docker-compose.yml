@@ -1,13 +1,18 @@
-version: '2'
+version: '3.9'
+
 services:
 
   db:
-    image: postgres:9.4-alpine
+    image: postgres:12-alpine
     volumes:
       - "./docker/db/pgdata:/var/lib/postgresql/data"
     environment:
       POSTGRES_DB: associados
       POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: pg_isready -Upostgres
+      interval: 1s
+      timeout: 30s
 
   web:
     build: ./
@@ -15,7 +20,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db: {condition: service_healthy}
     volumes:
       - ".:/usr/src/app"
     environment:

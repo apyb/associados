@@ -1,0 +1,21 @@
+name: Run tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build image for web service
+      run: docker-compose build web
+
+    - name: Build image for db service
+      run: docker-compose pull db
+
+    - name: Run tests
+      run: ./bin/run pytest

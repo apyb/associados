@@ -122,7 +122,7 @@ SECRET_KEY = decouple.config(
 
 LOGIN_URL = '/'
 LOGIN_URL = reverse_lazy('login')
-LOGIN_REDIRECT_URL = reverse_lazy('members-dashboard')
+LOGIN_REDIRECT_URL = reverse_lazy('members:dashboard')
 AUTHENTICATION_BACKENDS = (
     'app.authemail.backends.EmailBackend',
 )
@@ -284,14 +284,6 @@ PAYMENT_ENDPOINT_WEB_PRE_APPROVAL = decouple.config(
     'PAYMENT_ENDPOINT_WEB_PRE_APPROVAL',
     default='https://pagseguro.uol.com.br/v2/pre-approval/request.html?code='
 )
-
-DSN = decouple.config("DJANGO_DSN", default='')
-if DSN:
-    RAVEN_CONFIG = {'dsn': DSN}
-    INSTALLED_APPS = INSTALLED_APPS + (
-        'raven.contrib.django.raven_compat',
-    )
-
 
 PIPELINE = {
 
