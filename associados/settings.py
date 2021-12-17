@@ -258,6 +258,14 @@ DEFAULT_FROM_EMAIL = decouple.config('DEFAULT_FROM_EMAIL',
                                      default="contato@python.org.br")
 EMAIL_CONTACT_ADDRESS = DEFAULT_FROM_EMAIL
 
+EMAIL_SUBJECT_PREFIX = "[Associação Python Brasil]"
+
+SEND_EMAIL_DEFAULTS = {
+    "subject": "",
+    "from_email": DEFAULT_FROM_EMAIL,
+    "fail_silently": False,
+}
+
 # 3rd party applications
 
 PAYMENT_SYSTEM = decouple.config('PAYMENT_SYSTEM', default="PAGSEGURO")
