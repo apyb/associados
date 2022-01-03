@@ -1,4 +1,4 @@
-FROM python:3.6.9
+FROM python:3.7.12
 
 # Unbuffer Python logs
 ENV PYTHONUNBUFFERED=1
