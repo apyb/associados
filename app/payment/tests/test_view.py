@@ -12,7 +12,7 @@ from django.core import mail
 
 from app.members.models import Member, Category
 from app.payment import views
-from app.payment.models import Payment, Transaction, PaymentType
+from app.payment.models import Payment, Transaction, PaymentType, AVALIABLE
 from app.payment.views import PaymentView, NotificationView
 
 
@@ -248,6 +248,22 @@ class NotificationViewTestCase(MemberTestCase):
         payment, transaction = self._make_transaction(status=1, code="xpto", price='123.45')
         notification_view = NotificationView()
         notification_view.transaction = (lambda code: (3, payment.id, transaction.price))
+        request = RequestFactory().post("/", {"notificationCode": "xpto"})
+
+        response = notification_view.post(request)
+
+        transaction = Transaction.objects.get(id=transaction.id)
+
+    def test_post_with_status_available_should_return_payment_done(self):
+        payment, transaction = self._make_transaction(
+            status=1,
+            code="xpto",
+            price='123.45',
+        )
+        notification_view = NotificationView()
+        notification_view.transaction = (
+            lambda code: (AVALIABLE, payment.id, transaction.price)
+        )
         request = RequestFactory().post("/", {"notificationCode": "xpto"})
 
         response = notification_view.post(request)

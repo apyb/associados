@@ -17,7 +17,12 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from app.members.models import Member
-from app.payment.models import Payment, Transaction
+from app.payment.models import (
+    AVALIABLE,
+    PAID,
+    Payment,
+    Transaction,
+)
 
 from .payment_service import PaymentService
 
@@ -154,7 +159,7 @@ class NotificationView(View):
             if status is None or payment_id is None or price is None:
                 return HttpResponseBadRequest("Error processing transaction")
 
-            if status == 3:
+            if status in [AVALIABLE, PAID]:
                 self.transaction_done(payment_id)
             self.create_transaction(payment_id, status, price,
                                     self.transaction_code)
