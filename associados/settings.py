@@ -17,7 +17,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-DATABASE_URL = decouple.config('DATABASE_URL', default='sqlite://:memory:')
+DATABASE_URL = decouple.config('DATABASE_URL', default='sqlite:///db.sqlite3')
 DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL),
 }
