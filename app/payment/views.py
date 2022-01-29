@@ -18,7 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from app.members.models import Member
 from app.payment.models import (
-    AVALIABLE,
+    AVAILABLE,
     PAID,
     Payment,
     Transaction,
@@ -101,7 +101,7 @@ class NotificationView(View):
             response = requests.get(url_notificacao)
         if response.ok:
             dom = lhtml.fromstring(response.content)
-            status_transacao = int(dom.xpath("//status")[0].text)
+            status_transacao = dom.xpath("//status")[0].text
 
             referencia = dom.xpath("//reference")[0].text
             try:
@@ -159,7 +159,7 @@ class NotificationView(View):
             if status is None or payment_id is None or price is None:
                 return HttpResponseBadRequest("Error processing transaction")
 
-            if status in [AVALIABLE, PAID]:
+            if status in [AVAILABLE, PAID]:
                 self.transaction_done(payment_id)
             self.create_transaction(payment_id, status, price,
                                     self.transaction_code)

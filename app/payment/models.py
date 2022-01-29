@@ -8,14 +8,14 @@ from app.members.models import Member, Category
 
 
 PAID = '3'
-AVALIABLE = '4'
+AVAILABLE = '4'
 
 
 TRANSACTION_STATUS = (
     ('1', 'Awaiting Payment'),
     ('2', 'In analysis'),
     (PAID, 'Paid'),
-    (AVALIABLE, 'Available'),
+    (AVAILABLE, 'Available'),
     ('5', 'In dispute'),
     ('6', 'Returned'),
     ('7', 'Cancelled'),
@@ -47,7 +47,7 @@ class Payment(models.Model):
 
     def done(self):
         return self.transaction_set.filter(
-            status__in=[PAID, AVALIABLE]
+            status__in=[PAID, AVAILABLE]
         ).exists()
 
     def __str__(self):
