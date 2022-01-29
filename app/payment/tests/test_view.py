@@ -12,7 +12,7 @@ from django.core import mail
 
 from app.members.models import Member, Category
 from app.payment import views
-from app.payment.models import Payment, Transaction, PaymentType, AVALIABLE
+from app.payment.models import Payment, Transaction, PaymentType, AVAILABLE
 from app.payment.views import PaymentView, NotificationView
 
 
@@ -170,7 +170,7 @@ class NotificationViewTestCase(MemberTestCase):
 
     def test_transaction_should_get_info_about_transaction(self):
         status, ref, price = NotificationView().transaction("code")
-        self.assertEqual(3, status)
+        self.assertEqual("3", status)
         self.assertEqual(3, ref)
         self.assertEqual(1.00, price)
 
@@ -262,7 +262,7 @@ class NotificationViewTestCase(MemberTestCase):
         )
         notification_view = NotificationView()
         notification_view.transaction = (
-            lambda code: (AVALIABLE, payment.id, transaction.price)
+            lambda code: (AVAILABLE, payment.id, transaction.price)
         )
         request = RequestFactory().post("/", {"notificationCode": "xpto"})
 
