@@ -17,8 +17,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-DATABASE_URL = decouple.config('DATABASE_URL', default='postgres://localhost')
-
+DATABASE_URL = decouple.config('DATABASE_URL', default='sqlite:///db.sqlite3')
 DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL),
 }
@@ -61,16 +60,6 @@ STATICFILES_STORAGE = decouple.config(
 STATIC_S3_PATH = "static"
 DEFAULT_S3_PATH = "media"
 
-PIPELINE_LESS_BINARY = decouple.config('PIPELINE_LESS_BINARY',
-                                       cast=decouple.Csv(),
-                                       default='')
-PIPELINE_COMPILERS = decouple.config(
-    'PIPELINE_COMPILERS',
-    cast=decouple.Csv(),
-    default='pipeline.compilers.less.LessCompiler, '
-    'pipeline.compilers.stylus.StylusCompiler',
-)
-
 # You've installed lessc, right?
 if decouple.config('USE_PRECOMPILERS', cast=bool, default=False):
     COMPRESS_PRECOMPILERS = (
@@ -78,7 +67,7 @@ if decouple.config('USE_PRECOMPILERS', cast=bool, default=False):
          '/opt/local/lib/node_modules/less/bin/lessc {infile} {outfile}'),
     )
 
-COMPRESS_OUTPUT_DIR = decouple.config('COMPRESS_OUTPUT_DIR', default='CACHE')
+COMPRESS_OUTPUT_DIR = decouple.config('COMPRESS_OUTPUT_DIR', default='.cache')
 
 AWS_ACCESS_KEY_ID = decouple.config('BUCKET_ACCESS_KEY', default='')
 AWS_SECRET_ACCESS_KEY = decouple.config('BUCKET_SECRET_KEY', default='')
@@ -91,7 +80,6 @@ MEDIA_URL = decouple.config(
     default='//%s.%s.amazonaws.com/media/' % (AWS_STORAGE_BUCKET_NAME,
                                               AWS_REGION_BUCKET_NAME)
 )
-
 if decouple.config('LOCAL_MEDIA', cast=bool, default=False):
     MEDIA_ROOT = os.path.join(BASEDIR, 'media')
     MEDIA_URL = '/media/'
@@ -179,7 +167,6 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.gzip.GZipMiddleware',
-    'pipeline.middleware.MinifyHTMLMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
@@ -204,7 +191,6 @@ INSTALLED_APPS = (
 
     # extra
     'bootstrap3',
-    'pipeline',
     'django_extensions',
     'sorl.thumbnail',
     'django_gravatar',
@@ -284,10 +270,6 @@ PAYMENT_ENDPOINT_WEB_PRE_APPROVAL = decouple.config(
     'PAYMENT_ENDPOINT_WEB_PRE_APPROVAL',
     default='https://pagseguro.uol.com.br/v2/pre-approval/request.html?code='
 )
-
-PIPELINE = {
-
-}
 
 SENTRY_DSN = decouple.config("SENTRY_DSN", "")
 if SENTRY_DSN:

@@ -42,7 +42,7 @@ node_modules
 # Virtualenvs
 env*
 
-settings_local.py
+settings.ini
 associados/static/docs/*
 htmlcov/*
 

@@ -2,18 +2,15 @@
 
 if [[ $OSTYPE == 'linux-gnu' ]]; then
     echo 'Linux: Instalando dependencias...'
-    sleep 3
     [ $(which apt-get) ] && sudo apt-get install -y libpq-dev python-lxml libxml2-dev libxslt1-dev
     pip install -r requirements_test.txt
 
 elif [[ $OSTYPE == darwin* ]]; then
-    echo 'OSX: Instalando dependencias...'
-    sleep 3
+    echo 'macOS: Instalando dependencias...'
     pip install -r requirements_test.txt
 fi
 
-FILE="./associados/settings_local.py"
-
+FILE="settings.ini"
 if [ ! -f $FILE ]; then
-   cp "./associados/settings_local_model.py" $FILE
+   cp "example_settings.ini" $FILE
 fi

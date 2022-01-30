@@ -72,7 +72,7 @@ Primeiramente vamos buildar nossos serviços `web` e `db` com o comando `docker-
 - Para carregar nossas fixtures com o `loaddata`: `./bin/run python manage.py loaddata app/core/fixtures/site_init.json`
 - E por fim para rodar o servidor de desenvolvimento Django, você só precisa deste comando: `make run-with-docker`. Esse comando vai levantar nosso servidor juntamente com as dependências de qualquer outro serviço (no nosso caso, `db`)
 
-Caso queria realizar os testes, usar o comando `./bin/run python manage.py test --settings associados.settings_test --verbosity=2`.
+Caso queria realizar os testes, usar o comando `./bin/run python manage.py test`.
 
 
 Como contribuir?
