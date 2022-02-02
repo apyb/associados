@@ -8,7 +8,9 @@ from django.utils import timezone
 from model_bakery import baker
 
 from app.members.models import Member
-from app.payment.management.commands.renewal_alert import ALERT_DAYS
+from app.payment.management.commands.renewal_alert import (
+    DAYS_BEFORE_EXPIRATION_TO_ALERT,
+)
 from app.payment.models import PAID, Payment, PaymentType, Transaction
 
 
@@ -34,7 +36,7 @@ class RenewalAlertTest(TestCase):
             mail.outbox = []
             self.payment.valid_until = self.now + timedelta(days=days)
             self.payment.save()
-            expected = 1 if days in ALERT_DAYS else 0
+            expected = 1 if days in DAYS_BEFORE_EXPIRATION_TO_ALERT else 0
 
             call_command("renewal_alert")
             with self.subTest():

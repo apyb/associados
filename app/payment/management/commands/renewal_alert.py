@@ -15,7 +15,7 @@ from django.utils import timezone, translation
 from app.payment.models import Payment
 
 TIME_ZONE = pytz.timezone(settings.TIME_ZONE)
-ALERT_DAYS = (60, 30, 15, 7, 1)
+DAYS_BEFORE_EXPIRATION_TO_ALERT = (60, 30, 15, 7, 1)
 
 
 @contextmanager
@@ -58,7 +58,7 @@ class Command(BaseCommand):
         self.alert_dates = tuple(self._alert_dates())
 
     def _alert_dates(self):
-        for days in ALERT_DAYS:
+        for days in DAYS_BEFORE_EXPIRATION_TO_ALERT:
             when = self.now + timedelta(days)
             yield TIME_ZONE.normalize(when).date()
 
