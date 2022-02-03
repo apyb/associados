@@ -64,6 +64,10 @@ class Command(BaseCommand):
 
     @property
     def payments(self):
+        # This subquery gets member whose subscription expires in MORE than 60
+        # days (or the maximum listed in DAYS_BEFORE_EXPIRATION_TO_ALERT); i.e.
+        # members who we are NOT emailing (even if they happen to have another
+        # payment expiring in the next 60 days).
         active_members = Subquery(
             Payment.objects.annotate(expires_on=Max("valid_until"))
             .filter(expires_on__date__gt=max(self.alert_dates))
