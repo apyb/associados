@@ -101,6 +101,8 @@ class Command(BaseCommand):
                     subject = "Aviso de renovação"
                     template = "payment/valid_until_email.txt"
 
+                user = payment.member.user.get_full_name()
+                self.stdout.write(f"Emailing {user}: {subject}")
                 send_apyb_mail(
                     subject=subject,
                     template=template,
