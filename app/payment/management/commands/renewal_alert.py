@@ -1,90 +1,111 @@
+from contextlib import contextmanager
+from datetime import timedelta
 
-
-import datetime
-
+import pytz
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
-from django.urls import reverse
-from django.db.models import Q
+from django.db.models import Max, Q, Subquery
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone, translation
 
 from app.payment.models import Payment
 
+TIME_ZONE = pytz.timezone(settings.TIME_ZONE)
+DAYS_BEFORE_EXPIRATION_TO_ALERT = (60, 30, 15, 7, 1)
+
+
+@contextmanager
+def translate():
+    if settings.USE_I18N:
+        translation.activate(settings.LANGUAGE_CODE)
+
+    yield
+
+    if settings.USE_I18N:
+        translation.deactivate()
+
+
+def send_apyb_mail(**kwargs):
+    for key, default in settings.SEND_EMAIL_DEFAULTS.items():
+        kwargs[key] = kwargs.get(key, default)
+
+    if not kwargs["subject"].startswith(settings.EMAIL_SUBJECT_PREFIX):
+        kwargs["subject"] = f"[Associação Python Brasil] {kwargs['subject']}"
+
+    if "message" not in kwargs:
+        template = kwargs.pop("template")
+        context = kwargs.pop("context")
+        kwargs["message"] = render_to_string(template, context)
+
+    return send_mail(**kwargs)
+
 
 class Command(BaseCommand):
-    def _make_date_lookup_arg(self, value):
-        value = timezone.datetime.combine(value, datetime.time.min)
-        if settings.USE_TZ:
-            value = timezone.make_aware(value, timezone.get_current_timezone())
-        return value
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    def handle(self, *args, **options):
-        contact_email = getattr(settings, 'EMAIL_CONTACT_ADDRESS', None)
+        self.contact_email = settings.EMAIL_CONTACT_ADDRESS
+        if not self.contact_email:
+            raise ImproperlyConfigured("EMAIL_CONTACT_ADDRESS not configured")
 
-        if contact_email is None:
-            raise ImproperlyConfigured('EMAIL_CONTACT_ADDRESS must be configured')
+        self.now = timezone.now()
+        self.today = TIME_ZONE.normalize(self.now).date()
+        self.tomorrow = TIME_ZONE.normalize(self.now + timedelta(days=1)).date()
+        self.alert_dates = tuple(self._alert_dates())
 
-        today = timezone.now().date()
+    def _alert_dates(self):
+        for days in DAYS_BEFORE_EXPIRATION_TO_ALERT:
+            when = self.now + timedelta(days)
+            yield TIME_ZONE.normalize(when).date()
 
-        expiration_days = (60, 30, 15, 7)
-        expiration_dates = [today - timezone.timedelta(days=d) for d in expiration_days]
-        expiration_dates += [today]
+    @property
+    def payments(self):
+        # This subquery gets member whose subscription expires in MORE than 60
+        # days (or the maximum listed in DAYS_BEFORE_EXPIRATION_TO_ALERT); i.e.
+        # members who we are NOT emailing (even if they happen to have another
+        # payment expiring in the next 60 days).
+        active_members = Subquery(
+            Payment.objects.annotate(expires_on=Max("valid_until"))
+            .filter(expires_on__date__gt=max(self.alert_dates))
+            .values("member_id")
+        )
+        return (
+            Payment.objects.exclude(member__in=active_members)
+            .filter(valid_until__date__in=self.alert_dates)
+            .select_related("member")
+        )
 
-        filter_arg = None
-        for d in expiration_dates:
-            since = self._make_date_lookup_arg(d)
-            until = self._make_date_lookup_arg(d + timezone.timedelta(days=1))
+    def context_for(self, payment):
+        domain = Site.objects.get_current().domain
+        path = reverse("payments:payment", args=[payment.member.pk])
+        return {
+            "contact_email": self.contact_email,
+            "member": payment.member,
+            "url": f"{domain}{path}",
+            "date": self.today,
+            "days": (payment.valid_until.date() - self.today).days,
+        }
 
-            if filter_arg is None:
-                filter_arg = Q(valid_until__gte=since, valid_until__lt=until)
-            else:
-                filter_arg |= Q(valid_until__gte=since, valid_until__lt=until)
+    def handle(self, *_args, **options):
+        with translate():
+            for payment in self.payments:
+                valid_until = TIME_ZONE.normalize(payment.valid_until).date()
+                if valid_until == self.tomorrow:
+                    subject = "Anuidade vencida"
+                    template = "payment/valid_until_today_email.txt"
+                else:
+                    subject = "Aviso de renovação"
+                    template = "payment/valid_until_email.txt"
 
-        if settings.USE_I18N:
-            translation.activate(settings.LANGUAGE_CODE)
-
-        for payment in Payment.objects.filter(filter_arg):
-            last_payment = payment.member.get_last_payment()
-
-            if last_payment:
-                last_payment_date = last_payment.valid_until.date()
-                status = [last_payment_date > d for d in expiration_dates]
-                already_renewed = all(status)
-
-                # skip to send notification if already renewed
-                if already_renewed:
-                    continue
-
-            valid_until_date = payment.valid_until.date()
-            context = {
-                'contact_email': contact_email,
-                'member': payment.member,
-                'url': '%s%s' % (Site.objects.get_current().domain, reverse('payments:payment', args=[payment.member.pk])),
-            }
-
-            if valid_until_date == today:
-                context['date'] = today
-                subject = '[Associação Python Brasil] Anuidade vencida'
-                message = render_to_string('payment/valid_until_today_email.txt',
-                                           context)
-            else:
-                date_diff = today - valid_until_date
-                context['days'] = date_diff.days
-                subject = '[Associação Python Brasil] Aviso de renovação'
-                message = render_to_string('payment/valid_until_email.txt',
-                                           context)
-
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=contact_email,
-                recipient_list=[payment.member.user.email],
-                fail_silently=False,
-            )
-
-        if settings.USE_I18N:
-            translation.deactivate()
+                user = payment.member.user.get_full_name()
+                self.stdout.write(f"Emailing {user}: {subject}")
+                send_apyb_mail(
+                    subject=subject,
+                    template=template,
+                    context=self.context_for(payment),
+                    recipient_list=[payment.member.user.email],
+                )

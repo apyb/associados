@@ -1,157 +1,84 @@
-
-
-import datetime
+from datetime import timedelta
 
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.core import mail
 from django.core.management import call_command
 from django.test import TestCase
 from django.utils import timezone
-
 from model_bakery import baker
 
 from app.members.models import Member
-from app.payment.models import Payment, PaymentType, Transaction
+from app.payment.management.commands.renewal_alert import (
+    DAYS_BEFORE_EXPIRATION_TO_ALERT,
+)
+from app.payment.models import PAID, Payment, PaymentType, Transaction
 
 
 class RenewalAlertTest(TestCase):
     def setUp(self):
-        self.users = [
-            baker.make(
-                User,
-                email='random0@org.com',
-                first_name='Python',
-                last_name='Brasil 1',
-            ),
-            baker.make(
-                User,
-                email='random0@org.com',
-                first_name='Python',
-                last_name='Brasil 2',
-            ),
-            baker.make(
-                User,
-                email='random0@org.com',
-                first_name='Python',
-                last_name='Brasil 3',
-            ),
-            baker.make(
-                User,
-                email='random0@org.com',
-                first_name='Python',
-                last_name='Brasil 4',
-            ),
-        ]
+        self.now = timezone.now()
+        self.user = baker.make(User, email="naomi@pythonbrasil.org.br")
+        self.member = baker.make(Member, user=self.user)
+        self.type = baker.make(
+            PaymentType, category=self.member.category, price=42.0, duration=365
+        )
+        self.payment = baker.make(
+            Payment,
+            member=self.member,
+            type=self.type,
+            valid_until=self.now,
+        )
+        mail.outbox = []
 
-        self.members = [
-            baker.make(Member, user=self.users[0]),
-            baker.make(Member, user=self.users[1]),
-            baker.make(Member, user=self.users[2]),
-            baker.make(Member, user=self.users[3]),
-        ]
+    def test_renewal_alert_sends_emails(self):
+        test_cases = (75, 60, 45, 30, 15, 10, 7, 1, 0)
+        for days in test_cases:
+            mail.outbox = []
+            self.payment.valid_until = self.now + timedelta(days=days)
+            self.payment.save()
+            expected = 1 if days in DAYS_BEFORE_EXPIRATION_TO_ALERT else 0
 
-        now = timezone.now()
-        expiration_days = (30, 15, 7)
-        self.expiration_dates = [now - datetime.timedelta(days=d, hours=-1)
-                            for d in expiration_days]
-        self.expiration_dates += [now + datetime.timedelta(hours=1)]
+            call_command("renewal_alert")
+            with self.subTest():
+                self.assertEqual(len(mail.outbox), expected)
+                if not expected:
+                    continue
 
-        self.payment_type = PaymentType.objects.create(
-            category=self.members[0].category,
-            price=50.0,
-            duration=10
+                self.assertEqual(mail.outbox[0].to, [self.user.email])
+                self.assertIn(self.user.get_full_name(), mail.outbox[0].body)
+
+    def test_renewal_alert_sends_email_alerts_before_membership_expires(self):
+        test_cases = (60, 30, 15, 7)
+        for days in test_cases:
+            mail.outbox = []
+            self.payment.valid_until = self.now + timedelta(days=days)
+            self.payment.save()
+            call_command("renewal_alert")
+
+            with self.subTest():
+                self.assertEqual(
+                    mail.outbox[0].subject,
+                    "[Associação Python Brasil] Aviso de renovação",
+                )
+
+    def test_renewal_alert_sends_email_alerts_when_membership_expires(self):
+        self.payment.valid_until = self.now + timedelta(days=1)
+        self.payment.save()
+        call_command("renewal_alert")
+        self.assertEqual(
+            mail.outbox[0].subject, "[Associação Python Brasil] Anuidade vencida"
         )
 
-        self.payments = [
-            Payment.objects.create(member=self.members[0],
-                                   type=self.payment_type,
-                                   valid_until=self.expiration_dates[0]),
-            Payment.objects.create(member=self.members[1],
-                                   type=self.payment_type,
-                                   valid_until=self.expiration_dates[1]),
-            Payment.objects.create(member=self.members[2],
-                                   type=self.payment_type,
-                                   valid_until=self.expiration_dates[2]),
-            Payment.objects.create(member=self.members[3],
-                                   type=self.payment_type,
-                                   valid_until=self.expiration_dates[3]),
-        ]
-
-        settings.EMAIL_CONTACT_ADDRESS = 'email@fake.com'
-
-#    TODO: This test has histoically been flaky so I'm disabling it
-#    def test_renewal_alert_send_emails(self):
-#        call_command('renewal_alert')
-#        self.assertEqual(len(mail.outbox), 4)
-
-
-    ## TODO: doc the behavior before uncommenting please...
-    #def test_renewal_alert_send_today_email(self):
-    #    call_command('renewal_alert')
-    #
-    #    self.assertEqual(mail.outbox[3].subject, '[Associação Python Brasil] Anuidade vencida')
-    #    self.assertIn(self.users[3].email, mail.outbox[3].to)
-    #    self.assertTrue(mail.outbox[3].body.find(self.users[3].get_full_name()) != -1)
-
-    def test_renewal_alert_send_other_days_email(self):
-        call_command('renewal_alert')
-
-        for index, email in enumerate(mail.outbox[4:7]):
-            self.assertEqual(email.subject, '[Associação Python Brasil] Aviso de renovação')
-            self.assertIn(self.users[index].email, email.to)
-            self.assertTrue(email.body.find(self.users[index].get_full_name()) != -1)
-
-    def test_renewal_alert_not_send_email_when_already_renewed(self):
-        self.users += [
-            baker.make(
-                User,
-                email='random0@org.com',
-                first_name='Python',
-                last_name='Brasil Dont send email',
-            )
-        ]
-
-        self.members += [
-            baker.make(Member, user=self.users[4]),
-        ]
-
-        post_expiration_date = timezone.now() + datetime.timedelta(days=1)
-        delta = datetime.timedelta(days=self.payment_type.duration)
-        dates = [d - delta for d in self.expiration_dates + [post_expiration_date]]
-
-        self.payments += [
-            Payment.objects.create(member=self.members[4],
-                                   type=self.payment_type,
-                                   date=dates[0],
-                                   valid_until=self.expiration_dates[0]),
-            Payment.objects.create(member=self.members[4],
-                                   type=self.payment_type,
-                                   date=dates[1],
-                                   valid_until=self.expiration_dates[1]),
-            Payment.objects.create(member=self.members[4],
-                                   type=self.payment_type,
-                                   date=dates[2],
-                                   valid_until=self.expiration_dates[2]),
-            Payment.objects.create(member=self.members[4],
-                                   type=self.payment_type,
-                                   date=dates[3],
-                                   valid_until=self.expiration_dates[3]),
-            Payment.objects.create(member=self.members[4],
-                                   type=self.payment_type,
-                                   date=dates[4],
-                                   valid_until=post_expiration_date),
-        ]
-
-        baker.make(Transaction, payment=self.payments[-5], status='3')
-        baker.make(Transaction, payment=self.payments[-4], status='3')
-        baker.make(Transaction, payment=self.payments[-3], status='3')
-        baker.make(Transaction, payment=self.payments[-2], status='3')
-        baker.make(Transaction, payment=self.payments[-1], status='3')
-
-        call_command('renewal_alert')
-
-        for email in mail.outbox:
-            # TODO get proper info about this check
-            # self.assertNotIn(self.users[4].email, email.to)
-            self.assertFalse(email.body.find(self.users[4].get_full_name()) != -1)
+    def test_renewal_alert_does_not_send_email_when_already_renewed(self):
+        baker.make(
+            Transaction,
+            payment=baker.make(
+                Payment,
+                member=self.member,
+                type=self.type,
+                valid_until=self.now + timedelta(days=2),
+            ),
+            status=PAID,
+        )
+        call_command("renewal_alert")
+        self.assertFalse(mail.outbox)
