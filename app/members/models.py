@@ -139,7 +139,7 @@ class Member(models.Model):
 @receiver(post_save, sender=Member)
 def sending_email(sender, instance, created, **kwargs):
     if created:
-        send_email(subject="Bem vindo a Assosiação PythonBrasil",
+        send_email(subject="Bem vindo a Associação PythonBrasil",
                    template_name='members/email.html',
                    context={},
                    recipient_list=[instance.user.email])
