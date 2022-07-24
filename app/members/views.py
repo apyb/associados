@@ -102,12 +102,14 @@ def member_form(request):
                 request, messages.ERROR,
                 _('An error occurred while trying to save your data. check the form below. '))
 
+    show_consent_form = member.id == None
     return render(
         request,
         "members/member_form.html",
         {
             "member_form": member_form,
-            'user_form': user_form
+            "user_form": user_form,
+            "show_consent_form": show_consent_form,
         }
     )
 

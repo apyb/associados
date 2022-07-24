@@ -23,6 +23,19 @@
             <hr>
             <fieldset>
                 {% bootstrap_form member_form layout='horizontal' %}
+                {% if show_consent_form %}
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Termo de Consentimento</label>
+                    <div class="col-md-9">
+                        <p>O <a href="https://docs.google.com/document/d/e/2PACX-1vTpHHJLlnCKBxHfMmZGXtJYnEvnAzAq-FfXEmMJvU8NtWdusRpqR1yUguQYxTDYPg85Q5Vd4kEuQRsd/pub">Termo de Ciência e Consentimento - Transferências para Associados e Divulgação de Anuidades</a> tem a finalidade de regulamentar os requisitos para a realização, por qualquer motivo, de: a) transferências de recursos financeiros pela Associação Python Brasil (APyB) para pessoas físicas que sejam formalmente associadas à entidade; b) pagamento de anuidades por associados.</p>
+                        <div class="checkbox">
+                            <label for="id_termo">
+                                <input type="checkbox" id="id_termo" checked="" required> Li e concordo com o termo.</label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
                 <div class='form-actions'>
                     <button type="submit" class="btn btn-primary">
                         {% trans "Submit" %}
