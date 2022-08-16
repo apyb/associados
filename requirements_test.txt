@@ -2,7 +2,7 @@
 coverage==4.2
 model_bakery==1.1.0
 ipdb==0.10.1
-ipython==5.1.0
+ipython==7.16.3
 pytest==6.2.5
 pytest-django==4.5.2
 pytest-spec==3.2.0
