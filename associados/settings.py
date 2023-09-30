@@ -59,6 +59,8 @@ STATICFILES_STORAGE = decouple.config(
 
 STATIC_S3_PATH = "static"
 DEFAULT_S3_PATH = "media"
+# Usado pelo comando sync_s3 do django-extenstions
+SYNC_S3_PREFIX = STATIC_S3_PATH
 
 # You've installed lessc, right?
 if decouple.config('USE_PRECOMPILERS', cast=bool, default=False):
@@ -71,13 +73,13 @@ COMPRESS_OUTPUT_DIR = decouple.config('COMPRESS_OUTPUT_DIR', default='.cache')
 
 AWS_ACCESS_KEY_ID = decouple.config('BUCKET_ACCESS_KEY', default='')
 AWS_SECRET_ACCESS_KEY = decouple.config('BUCKET_SECRET_KEY', default='')
-AWS_STORAGE_BUCKET_NAME = decouple.config('BUCKET_NAME', default='')
+AWS_BUCKET_NAME = decouple.config('BUCKET_NAME', default='')
 AWS_REGION_BUCKET_NAME = decouple.config("BUCKET_REGION", default='')
 
 MEDIA_ROOT = decouple.config('MEDIA_ROOT', default='/%s/' % DEFAULT_S3_PATH)
 MEDIA_URL = decouple.config(
     'MEDIA_URL',
-    default='//%s.%s.amazonaws.com/media/' % (AWS_STORAGE_BUCKET_NAME,
+    default='//%s.%s.amazonaws.com/media/' % (AWS_BUCKET_NAME,
                                               AWS_REGION_BUCKET_NAME)
 )
 if decouple.config('LOCAL_MEDIA', cast=bool, default=False):
@@ -87,7 +89,7 @@ if decouple.config('LOCAL_MEDIA', cast=bool, default=False):
 STATIC_ROOT = decouple.config('STATIC_ROOT', default="/%s/" % STATIC_S3_PATH)
 STATIC_URL = decouple.config(
     'STATIC_URL', default='//%s.%s.amazonaws.com/static/' %
-    (AWS_STORAGE_BUCKET_NAME, AWS_REGION_BUCKET_NAME)
+    (AWS_BUCKET_NAME, AWS_REGION_BUCKET_NAME)
 )
 
 if decouple.config('LOCAL_STATIC', cast=bool, default=False):
