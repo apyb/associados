@@ -46,19 +46,25 @@
                     {% if expired %}
                     <tr>
                         <th span="2">
-                            <a class="btn btn-success" href="{% url 'payments:payment' user.member.pk %}">
+                            <p>Renove a sua anuidade no <a href="https://apyb.python.org.br/associados/associe-se">novo site</a>!</p> 
+                            <p>Lembrando que o novo sistema ainda não tem integração com esse site, dessa forma, a sua renovação de assinatura não será refletida aqui e recomendamos que você comece a acompanhar a situação no novo sistema.</p>
+                            <p>Qualquer dúvida, entre em contato com a diretória pelos nossos <a href=\"https://apyb.python.org.br/a-associacao/comunicacao/\">canais oficiais</a> de comunicação.</p>
+                            <!-- <a class="btn btn-success" href="{% url 'payments:payment' user.member.pk %}">
                                 <i class="icon-shopping-cart icon-white"></i>{% trans "pay the annuity" %}
-                            </a>
+                            </a> -->
                         </th>
                     </tr>
                     {% endif %}
                     {% if user.member.category.name == "Estudante" %}
-                      <tr>
-                          <th span="2">
+                    <tr>
+                          <p>Mude a sua categoria para efetivo, acesse o <a href="https://apyb.python.org.br/associados/associe-se">novo site</a> para realizar a alteração!</p> 
+                          <p>Lembrando que o novo sistema ainda não tem integração com esse site, dessa forma, a sua renovação de assinatura não será refletida aqui e recomendamos que você comece a acompanhar a situação no novo sistema.</p>
+                          <p>Qualquer dúvida, entre em contato com a diretória pelos nossos <a href=\"https://apyb.python.org.br/a-associacao/comunicacao/\">canais oficiais</a> de comunicação.</p>
+                          <!-- <th span="2">
                               <a class="btn btn-success" href="{% url 'members:update-category' %}">
                                   <i class="icon-shopping-cart icon-white"></i>Mudar categoria para efetivo
                               </a>
-                          </th>
+                          </th> -->
                      </tr>
                     {% endif %}
                     </tbody>
