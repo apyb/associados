@@ -80,12 +80,10 @@ class Command(BaseCommand):
         )
 
     def context_for(self, payment):
-        domain = Site.objects.get_current().domain
-        path = reverse("payments:payment", args=[payment.member.pk])
         return {
             "contact_email": self.contact_email,
             "member": payment.member,
-            "url": f"{domain}{path}",
+            "url": "https://apyb.python.org.br/associados/associe-se/",
             "date": self.today,
             "days": (payment.valid_until.date() - self.today).days,
         }
