@@ -86,6 +86,7 @@ class Command(BaseCommand):
             "url": "https://apyb.python.org.br/associados/associe-se/",
             "date": self.today,
             "days": (payment.valid_until.date() - self.today).days,
+            "discussions": "https://github.com/apyb/comunidade/discussions",
         }
 
     def handle(self, *_args, **options):
