@@ -14,4 +14,4 @@ Caso tenha alguma dúvida é só entrar em contato conosco através do e-mail {{
 Obrigado,
 Equipe da Associação Python Brasil
 
-PS. O sistema de controle de associados está em fase de migração. Por causa disso, você pode acabar recebendo esse e-mail outras vezes mesmo já tendo feito a renovação. Pedimos desculpas por qualquer incômodo causado. 
+PS. O sistema de controle de associados está em fase de migração. Por causa disso, você pode acabar recebendo esse e-mail outras vezes mesmo já tendo feito a renovação. Saiba mais em: https://github.com/apyb/comunidade/discussions/139
