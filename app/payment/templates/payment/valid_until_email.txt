@@ -9,7 +9,7 @@ Para efetuar a sua renovação é só seguir o link abaixo:
 
 Vale lembrar que apenas os membros em dia com sua anuidade podem participar das assembleias da Associação Python Brasil bem como outros direitos garantidos a todos os membros.
 
-Caso tenha alguma dúvida é só entrar em contato conosco através do e-mail: {{ contact_email }} ou no {{ discussions }}.
+Caso tenha alguma dúvida é só entrar em contato conosco através do e-mail {{ contact_email }} ou pela comunidade no Github {{ discussions }}.
 
 Obrigado,
 Equipe da Associação Python Brasil
