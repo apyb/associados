@@ -1,4 +1,4 @@
-FROM python:3.9.19
+FROM python:3.9.20
 
 # Unbuffer Python logs
 ENV PYTHONUNBUFFERED=1
