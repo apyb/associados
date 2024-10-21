@@ -48,7 +48,7 @@ class RenewalAlertTest(TestCase):
                 self.assertIn(self.user.get_full_name(), mail.outbox[0].body)
 
     def test_renewal_alert_sends_email_alerts_before_membership_expires(self):
-        test_cases = (60, 30, 15, 7)
+        test_cases = (30, 15, 7)
         for days in test_cases:
             mail.outbox = []
             self.payment.valid_until = self.now + timedelta(days=days)

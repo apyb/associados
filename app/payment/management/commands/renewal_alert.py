@@ -15,7 +15,7 @@ from django.utils import timezone, translation
 from app.payment.models import Payment
 
 TIME_ZONE = pytz.timezone(settings.TIME_ZONE)
-DAYS_BEFORE_EXPIRATION_TO_ALERT = (60, 30, 15, 7, 1)
+DAYS_BEFORE_EXPIRATION_TO_ALERT = (30, 15, 7, 1)
 
 
 @contextmanager
@@ -86,6 +86,7 @@ class Command(BaseCommand):
             "url": "https://apyb.python.org.br/associados/associe-se/",
             "date": self.today,
             "days": (payment.valid_until.date() - self.today).days,
+            "discussions": "https://github.com/apyb/comunidade/discussions",
         }
 
     def handle(self, *_args, **options):
