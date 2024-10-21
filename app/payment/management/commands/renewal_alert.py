@@ -15,7 +15,7 @@ from django.utils import timezone, translation
 from app.payment.models import Payment
 
 TIME_ZONE = pytz.timezone(settings.TIME_ZONE)
-DAYS_BEFORE_EXPIRATION_TO_ALERT = (60, 30, 15, 7, 1)
+DAYS_BEFORE_EXPIRATION_TO_ALERT = (30, 15, 7, 1)
 
 
 @contextmanager
