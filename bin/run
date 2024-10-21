@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose run --rm $([ $# -eq 0 ] && echo --service-ports) web $@
+docker compose run --rm $([ $# -eq 0 ] && echo --service-ports) web $@
