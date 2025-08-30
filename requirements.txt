@@ -6,7 +6,7 @@ requests==2.32.4
 django-bootstrap3==14.2.0
 dj-database-url==0.3.0
 psycopg2-binary==2.8.6
-gunicorn==22.0.0
+gunicorn==23.0.0
 lxml==4.9.1
 python-decouple==3.0
 boto==2.42.0
